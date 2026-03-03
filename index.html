@@ -12,36 +12,36 @@
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
     <h1>AEROKIOSK</h1>
-    <p class="subtitle">Gestion de l'affichage club</p>
+    <p class="subtitle" data-i18n="login.subtitle">Gestion de l'affichage club</p>
     <form id="loginForm">
       <div class="field">
-        <label for="licenseKey">Clé de licence</label>
-        <input type="text" id="licenseKey" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off" required>
+        <label for="licenseKey" data-i18n="login.licenseKey">Clé de licence</label>
+        <input type="text" id="licenseKey" placeholder="AERO-XXXX-XXXX-XXXX" data-i18n-placeholder="login.licensePlaceholder" autocomplete="off" required>
       </div>
       <div class="field">
-        <label for="password">Mot de passe admin</label>
-        <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password">
+        <label for="password" data-i18n="login.password">Mot de passe admin</label>
+        <input type="password" id="password" placeholder="Mot de passe" data-i18n-placeholder="login.passwordPlaceholder" autocomplete="current-password">
       </div>
-      <button type="submit" class="login-btn" id="loginBtn">Connexion</button>
+      <button type="submit" class="login-btn" id="loginBtn" data-i18n="login.submit">Connexion</button>
       <div class="login-error" id="loginError"></div>
       <div class="forgot-link">
-        <a href="#" id="forgotPasswordLink">Mot de passe oublié ?</a>
+        <a href="#" id="forgotPasswordLink" data-i18n="login.forgotPassword">Mot de passe oublié ?</a>
       </div>
     </form>
     <!-- Vue reset mot de passe -->
     <div id="resetView" style="display:none;">
       <h1>AEROKIOSK</h1>
-      <p class="subtitle">Réinitialisation du mot de passe</p>
-      <p class="reset-instructions">Entrez votre clé de licence pour supprimer le mot de passe admin. Vous pourrez ensuite en définir un nouveau dans les paramètres du kiosque.</p>
+      <p class="subtitle" data-i18n="reset.subtitle">Réinitialisation du mot de passe</p>
+      <p class="reset-instructions" data-i18n="reset.instructions">Entrez votre clé de licence pour supprimer le mot de passe admin. Vous pourrez ensuite en définir un nouveau dans les paramètres du kiosque.</p>
       <div class="field">
-        <label for="resetLicenseKey">Clé de licence</label>
-        <input type="text" id="resetLicenseKey" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase;letter-spacing:1px;">
+        <label for="resetLicenseKey" data-i18n="login.licenseKey">Clé de licence</label>
+        <input type="text" id="resetLicenseKey" placeholder="AERO-XXXX-XXXX-XXXX" data-i18n-placeholder="login.licensePlaceholder" autocomplete="off" style="text-transform:uppercase;letter-spacing:1px;">
       </div>
-      <button type="button" class="login-btn" id="resetBtn">Réinitialiser</button>
+      <button type="button" class="login-btn" id="resetBtn" data-i18n="reset.button">Réinitialiser</button>
       <div class="login-error" id="resetError"></div>
       <div class="login-success" id="resetSuccess" style="display:none;"></div>
       <div class="forgot-link">
-        <a href="#" id="resetBackLink">← Retour à la connexion</a>
+        <a href="#" id="resetBackLink" data-i18n="reset.back">← Retour à la connexion</a>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
     </div>
     <div class="top-bar-right">
       <span class="mode-badge" id="modeIndicator"></span>
-      <button class="btn-logout" id="logoutBtn">Déconnexion</button>
+      <button class="btn-logout" id="logoutBtn" data-i18n="dashboard.logout">Déconnexion</button>
     </div>
   </div>
 
@@ -64,13 +64,13 @@
     <!-- Boutons d'ajout -->
     <div class="add-bar">
       <button class="btn-add" onclick="openModal('slide')">
-        <span class="icon">+</span> Slide
+        <span class="icon">+</span> <span data-i18n="slides.addSlide">Slide</span>
       </button>
       <button class="btn-add" onclick="openModal('flash-info')">
-        <span class="icon">ℹ</span> Flash info
+        <span class="icon">ℹ</span> <span data-i18n="slides.addFlashInfo">Flash info</span>
       </button>
       <button class="btn-add" onclick="openModal('flash-urgent')">
-        <span class="icon">⚠</span> Flash urgent
+        <span class="icon">⚠</span> <span data-i18n="slides.addFlashUrgent">Flash urgent</span>
       </button>
     </div>
 
@@ -78,7 +78,7 @@
     <div class="slides-list" id="slidesList">
       <div class="empty-state">
         <div class="icon">📋</div>
-        <p>Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
+        <p data-i18n-html="slides.emptyText">Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
       </div>
     </div>
   </div>
@@ -87,38 +87,38 @@
 <!-- ── MODAL AJOUT ── -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3 id="modalTitle">Ajouter</h3>
+    <h3 id="modalTitle" data-i18n="modal.addFallback">Ajouter</h3>
     <form id="addForm">
       <input type="hidden" id="addMode" value="slide">
 
       <div class="form-row">
         <div class="form-group">
-          <label for="addLabel">Nom / Titre</label>
-          <input type="text" id="addLabel" placeholder="ex: Photo du club">
+          <label for="addLabel" data-i18n="modal.labelField">Nom / Titre</label>
+          <input type="text" id="addLabel" placeholder="ex : Photo du club" data-i18n-placeholder="modal.labelPlaceholder">
         </div>
         <div class="form-group">
-          <label for="addFormat">Format</label>
+          <label for="addFormat" data-i18n="modal.formatField">Format</label>
           <select id="addFormat">
-            <option value="text">Texte</option>
-            <option value="image">Image</option>
+            <option value="text" data-i18n="modal.formatText">Texte</option>
+            <option value="image" data-i18n="modal.formatImage">Image</option>
           </select>
         </div>
       </div>
 
       <!-- Texte -->
       <div class="form-group" id="textGroup">
-        <label for="addContent">Contenu</label>
-        <textarea id="addContent" rows="4" placeholder="Votre message..."></textarea>
+        <label for="addContent" data-i18n="modal.contentField">Contenu</label>
+        <textarea id="addContent" rows="4" placeholder="Votre message..." data-i18n-placeholder="modal.contentPlaceholder"></textarea>
       </div>
 
       <!-- Image -->
       <div class="form-group" id="imageGroup" style="display:none;">
-        <label>Image (JPG, PNG, SVG)</label>
+        <label data-i18n="modal.imageLabel">Image (JPG, PNG, SVG)</label>
         <div class="file-upload">
           <input type="file" id="addFile" accept=".jpg,.jpeg,.png,.svg">
           <div class="file-upload-label">
             <span class="icon">📁</span>
-            Cliquez ou glissez une image
+            <span data-i18n="modal.imageUpload">Cliquez ou glissez une image</span>
           </div>
         </div>
         <div class="file-upload-preview" id="filePreview"></div>
@@ -126,18 +126,18 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label for="addDuration">Durée (secondes)</label>
+          <label for="addDuration" data-i18n="modal.duration">Durée (secondes)</label>
           <input type="number" id="addDuration" value="15" min="5" max="120">
         </div>
         <div class="form-group">
-          <label for="addExpires">Expiration (optionnel)</label>
+          <label for="addExpires" data-i18n="modal.expires">Expiration (optionnel)</label>
           <input type="datetime-local" id="addExpires">
         </div>
       </div>
 
       <div class="modal-actions">
-        <button type="button" class="btn-cancel" onclick="closeModal()">Annuler</button>
-        <button type="submit" class="btn-submit">Publier</button>
+        <button type="button" class="btn-cancel" onclick="closeModal()" data-i18n="modal.cancel">Annuler</button>
+        <button type="submit" class="btn-submit" data-i18n="modal.publish">Publier</button>
       </div>
     </form>
   </div>
