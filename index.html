@@ -74,28 +74,409 @@
     </div>
   </div>
 
-  <div class="content">
-    <!-- Boutons d'ajout -->
-    <div class="add-bar">
-      <button class="btn-add" onclick="openModal('slide')">
-        <span class="icon">+</span> <span data-i18n="slides.addSlide">Slide</span>
-      </button>
-      <button class="btn-add" onclick="openModal('flash-info')">
-        <span class="icon">ℹ</span> <span data-i18n="slides.addFlashInfo">Flash info</span>
-      </button>
-      <button class="btn-add" onclick="openModal('flash-urgent')">
-        <span class="icon">⚠</span> <span data-i18n="slides.addFlashUrgent">Flash urgent</span>
-      </button>
-    </div>
+  <!-- Navigation Contenu / Configuration -->
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-view="content" onclick="switchView('content')">
+      <span class="nav-icon">📋</span> <span data-i18n="nav.content">Contenu</span>
+    </button>
+    <button class="nav-tab" data-view="config" onclick="switchView('config')">
+      <span class="nav-icon">⚙</span> <span data-i18n="nav.config">Configuration</span>
+    </button>
+  </div>
 
-    <!-- Liste des slides -->
-    <div class="slides-list" id="slidesList">
-      <div class="empty-state">
-        <div class="icon">📋</div>
-        <p data-i18n-html="slides.emptyText">Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
+  <!-- ── VUE CONTENU (slides) ── -->
+  <div id="viewContent">
+    <div class="content">
+      <div class="add-bar">
+        <button class="btn-add" onclick="openModal('slide')">
+          <span class="icon">+</span> <span data-i18n="slides.addSlide">Slide</span>
+        </button>
+        <button class="btn-add" onclick="openModal('flash-info')">
+          <span class="icon">ℹ</span> <span data-i18n="slides.addFlashInfo">Flash info</span>
+        </button>
+        <button class="btn-add" onclick="openModal('flash-urgent')">
+          <span class="icon">⚠</span> <span data-i18n="slides.addFlashUrgent">Flash urgent</span>
+        </button>
+      </div>
+      <div class="slides-list" id="slidesList">
+        <div class="empty-state">
+          <div class="icon">📋</div>
+          <p data-i18n-html="slides.emptyText">Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ── VUE CONFIGURATION ── -->
+  <div id="viewConfig" style="display:none;">
+    <div class="content">
+
+      <!-- Sous-onglets config -->
+      <div class="config-tabs" id="configTabs">
+        <button class="config-tab active" data-ctab="aerodrome" onclick="switchConfigTab('aerodrome')" data-i18n="cfg.tabAerodrome">Aérodrome</button>
+        <button class="config-tab" data-ctab="thresholds" onclick="switchConfigTab('thresholds')" data-i18n="cfg.tabThresholds">Seuils</button>
+        <button class="config-tab" data-ctab="maps" onclick="switchConfigTab('maps')" data-i18n="cfg.tabMaps">Carte</button>
+        <button class="config-tab" data-ctab="traffic" onclick="switchConfigTab('traffic')" data-i18n="cfg.tabTraffic">Trafic</button>
+        <button class="config-tab" data-ctab="sections" onclick="switchConfigTab('sections')" data-i18n="cfg.tabSections">Sections</button>
+        <button class="config-tab" data-ctab="appearance" onclick="switchConfigTab('appearance')" data-i18n="cfg.tabAppearance">Apparence</button>
+        <button class="config-tab" data-ctab="clubdisplay" onclick="switchConfigTab('clubdisplay')" data-i18n="cfg.tabClubDisplay">Contenu club</button>
+      </div>
+
+      <!-- ======== PANNEAU : Aérodrome ======== -->
+      <div class="config-panel active" data-cpanel="aerodrome" id="cfgAerodrome">
+        <div class="form-group">
+          <label data-i18n="cfg.station.icaoLabel">Code OACI ou nom</label>
+          <div class="cfg-search-wrapper">
+            <input type="text" class="form-input" id="cfgStationSearch" data-i18n-placeholder="cfg.station.searchPlaceholder" placeholder="Rechercher un aérodrome..." autocomplete="off" spellcheck="false">
+            <div class="cfg-search-results" id="cfgStationResults"></div>
+          </div>
+          <div class="cfg-hint" id="cfgSearchCloudHint" style="display:none;" data-i18n="cfg.station.searchUnavailableCloud">La recherche n'est disponible qu'en mode WiFi local. Saisissez les informations manuellement.</div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.station.displayName">Nom affiché</label>
+          <input type="text" class="form-input" id="cfgDisplayName">
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.station.latitude">Latitude</label>
+            <input type="number" class="form-input" id="cfgLat" step="0.0001">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.station.longitude">Longitude</label>
+            <input type="number" class="form-input" id="cfgLon" step="0.0001">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.station.fir">FIR</label>
+            <input type="text" class="form-input" id="cfgFir" data-i18n-placeholder="cfg.station.firPlaceholder" placeholder="ex: LFRR">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.station.firName">Nom FIR</label>
+            <input type="text" class="form-input" id="cfgFirName" data-i18n-placeholder="cfg.station.firNamePlaceholder" placeholder="ex: FIR Brest">
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.station.sigmetRegion">Région SIGMET</label>
+          <select class="form-select" id="cfgSigmetRegion">
+            <option value="eur" data-i18n="cfg.station.regionEur">Europe</option>
+            <option value="nam" data-i18n="cfg.station.regionNam">Amérique du Nord</option>
+            <option value="intl" data-i18n="cfg.station.regionIntl">International</option>
+          </select>
+        </div>
+        <div class="section-title" data-i18n="cfg.runways.title">Pistes</div>
+        <div id="cfgRunwayList"></div>
+        <div class="form-row" style="margin-top:12px; align-items:flex-end;">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.runways.name">Nom</label>
+            <input type="text" class="form-input" id="cfgNewRwyName" data-i18n-placeholder="cfg.runways.namePlaceholder" placeholder="ex: 09" maxlength="4">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.runways.heading">Cap (°)</label>
+            <input type="number" class="form-input" id="cfgNewRwyHeading" data-i18n-placeholder="cfg.runways.headingPlaceholder" placeholder="090" min="0" max="360">
+          </div>
+          <button class="btn-submit" style="height:38px; white-space:nowrap;" onclick="cfgAddRunway()" data-i18n="cfg.runways.add">+ Ajouter</button>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Seuils ======== -->
+      <div class="config-panel" data-cpanel="thresholds" id="cfgThresholds">
+        <div class="form-group">
+          <label data-i18n="cfg.thresholds.profile">Profil</label>
+          <div class="form-row" style="gap:16px;">
+            <label class="cfg-radio-label"><input type="radio" name="cfgThresholdProfile" value="dgac" checked> <span data-i18n="cfg.thresholds.standard">Standard</span></label>
+            <label class="cfg-radio-label"><input type="radio" name="cfgThresholdProfile" value="custom"> <span data-i18n="cfg.thresholds.custom">Personnalisé</span></label>
+          </div>
+        </div>
+        <div id="cfgThresholdFields">
+          <div class="section-title" data-i18n="cfg.thresholds.vfr">VFR</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minVisibility">Visibilité min (m)</label><input type="number" class="form-input cfg-thr" id="cfgThrVfrVis"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minCeiling">Plafond min (ft)</label><input type="number" class="form-input cfg-thr" id="cfgThrVfrCeil"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.vfrSpecial">VFR Spécial</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minVisibility">Visibilité min (m)</label><input type="number" class="form-input cfg-thr" id="cfgThrSpecVis"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minCeiling">Plafond min (ft)</label><input type="number" class="form-input cfg-thr" id="cfgThrSpecCeil"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.greenThreshold">Seuil vert (conditions optimales)</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minVisibility">Visibilité min (m)</label><input type="number" class="form-input cfg-thr" id="cfgThrGreenVis"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.minCeiling">Plafond min (ft)</label><input type="number" class="form-input cfg-thr" id="cfgThrGreenCeil"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.runwayWind">Vent piste</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.crossDanger">Travers danger (kt)</label><input type="number" class="form-input cfg-thr" id="cfgThrXwindDgr"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.crossWarning">Travers alerte (kt)</label><input type="number" class="form-input cfg-thr" id="cfgThrXwindWrn"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.tailDanger">Arrière danger (kt)</label><input type="number" class="form-input cfg-thr" id="cfgThrTailDgr"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.tailWarning">Arrière alerte (kt)</label><input type="number" class="form-input cfg-thr" id="cfgThrTailWrn"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.fogTitle">Brouillard (écart T°/Rosée)</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.fogDanger">Danger (°C)</label><input type="number" class="form-input cfg-thr" id="cfgThrFogDgr"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.fogWarning">Alerte (°C)</label><input type="number" class="form-input cfg-thr" id="cfgThrFogWrn"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.fogWatch">Vigilance (°C)</label><input type="number" class="form-input cfg-thr" id="cfgThrFogWatch"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.metarAge">Âge METAR</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.metarDanger">Danger (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrMetarDgr"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.metarWarning">Alerte (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrMetarWrn"></div>
+          </div>
+          <div class="section-title" data-i18n="cfg.thresholds.sunsetAlert">Alerte nuit aéronautique</div>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.sunsetOrange">Alerte orange (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrSunsetShow"></div>
+            <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.sunsetRed">Alerte rouge (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrSunsetCrit"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Carte ======== -->
+      <div class="config-panel" data-cpanel="maps" id="cfgMaps">
+        <div class="form-group">
+          <label data-i18n="cfg.maps.basemap">Fond de carte</label>
+          <select class="form-select" id="cfgMapBasemap">
+            <option value="dark" data-i18n="cfg.maps.basemapDark">Sombre minimal</option>
+            <option value="darkdetail" data-i18n="cfg.maps.basemapDarkDetail">Sombre détaillé</option>
+            <option value="voyager" data-i18n="cfg.maps.basemapVoyager">Clair (routes et villes)</option>
+            <option value="osm" data-i18n="cfg.maps.basemapOsm">Standard OpenStreetMap</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="cfg-radio-label"><input type="checkbox" id="cfgMapBasemapAuto" style="margin-right:8px;"><span data-i18n="cfg.maps.basemapAuto">Fond auto jour/nuit</span></label>
+        </div>
+        <div id="cfgBasemapAutoGroup" style="display:none;">
+          <div class="form-row">
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="cfg.maps.basemapDay">Fond de jour</label>
+              <select class="form-select" id="cfgMapBasemapDay">
+                <option value="voyager" data-i18n="cfg.maps.basemapVoyager">Clair</option>
+                <option value="osm" data-i18n="cfg.maps.basemapOsm">OSM</option>
+                <option value="dark" data-i18n="cfg.maps.basemapDark">Sombre</option>
+                <option value="darkdetail" data-i18n="cfg.maps.basemapDarkDetail">Sombre détaillé</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label data-i18n="cfg.maps.basemapNight">Fond de nuit</label>
+              <select class="form-select" id="cfgMapBasemapNight">
+                <option value="dark" data-i18n="cfg.maps.basemapDark">Sombre</option>
+                <option value="darkdetail" data-i18n="cfg.maps.basemapDarkDetail">Sombre détaillé</option>
+                <option value="voyager" data-i18n="cfg.maps.basemapVoyager">Clair</option>
+                <option value="osm" data-i18n="cfg.maps.basemapOsm">OSM</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.maps.airportsOnMap">Terrains sur la carte</label>
+          <select class="form-select" id="cfgMapAirports">
+            <option value="none" data-i18n="cfg.maps.airportsNone">Masqués</option>
+            <option value="icao" data-i18n="cfg.maps.airportsIcao">Aéroports uniquement</option>
+            <option value="ulm" data-i18n="cfg.maps.airportsUlm">Bases ULM uniquement</option>
+            <option value="all" data-i18n="cfg.maps.airportsAll">Aéroports + Bases ULM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="cfg.maps.zoom">Zoom</span> <span class="cfg-slider-value" id="cfgMapZoomVal">7</span></label>
+          <input type="range" class="cfg-range" id="cfgMapZoom" min="3" max="12" step="0.5" value="7">
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="cfg.maps.offsetNS">Décalage N/S</span> <span class="cfg-slider-value" id="cfgMapOffLatVal">0</span>°</label>
+            <input type="range" class="cfg-range" id="cfgMapOffLat" min="-5" max="5" step="0.1" value="0">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="cfg.maps.offsetEW">Décalage E/O</span> <span class="cfg-slider-value" id="cfgMapOffLonVal">0</span>°</label>
+            <input type="range" class="cfg-range" id="cfgMapOffLon" min="-5" max="5" step="0.1" value="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="cfg.maps.layerDuration">Durée par couche (s)</span> <span class="cfg-slider-value" id="cfgRotationVal">20</span></label>
+          <input type="range" class="cfg-range" id="cfgRotation" min="5" max="60" step="1" value="20">
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.maps.enabledLayers">Couches activées</label>
+          <div id="cfgMapLayers"></div>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Trafic ======== -->
+      <div class="config-panel" data-cpanel="traffic" id="cfgTraffic">
+        <div class="section-title" data-i18n="cfg.traffic.title">Trafic aérien</div>
+        <div class="form-group">
+          <label class="cfg-radio-label"><input type="checkbox" id="cfgTrafficEnabled" style="margin-right:8px;"><span data-i18n="cfg.traffic.enabled">Afficher le trafic aérien en temps réel</span></label>
+        </div>
+        <div id="cfgTrafficGroup">
+          <div class="form-group">
+            <label data-i18n="cfg.traffic.detail">Niveau de détail</label>
+            <select class="form-select" id="cfgTrafficDetail">
+              <option value="icon" data-i18n="cfg.traffic.icon">Icône seule</option>
+              <option value="callsign" data-i18n="cfg.traffic.callsign">Icône + indicatif</option>
+              <option value="full" data-i18n="cfg.traffic.full">Icône + indicatif + altitude</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><span data-i18n="cfg.traffic.refresh">Rafraîchissement (s)</span> <span class="cfg-slider-value" id="cfgTrafficRefreshVal">10</span></label>
+            <input type="range" class="cfg-range" id="cfgTrafficRefresh" min="5" max="60" step="5" value="10">
+          </div>
+          <div class="form-group">
+            <label><span data-i18n="cfg.traffic.radius">Rayon (NM)</span> <span class="cfg-slider-value" id="cfgTrafficRadiusVal">135</span></label>
+            <input type="range" class="cfg-range" id="cfgTrafficRadius" min="50" max="250" step="5" value="135">
+          </div>
+          <div class="form-group">
+            <label><span data-i18n="cfg.traffic.alt">Altitude max (ft)</span> <span class="cfg-slider-value" id="cfgTrafficAltVal">10000</span> <small style="color:var(--text-dim);" data-i18n="cfg.traffic.altUnlimited">(0 = illimité)</small></label>
+            <input type="range" class="cfg-range" id="cfgTrafficAlt" min="0" max="45000" step="500" value="10000">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.traffic.watchlist">Mes avions (indicatifs, virgules)</label>
+            <input type="text" class="form-input" id="cfgTrafficWatchlist" placeholder="F-GXYZ, F-HABC, ...">
+          </div>
+          <div class="form-group" id="cfgWatchModeGroup" style="display:none;">
+            <label data-i18n="cfg.traffic.watchMode">Mode d'affichage</label>
+            <select class="form-select" id="cfgTrafficWatchMode">
+              <option value="highlight" data-i18n="cfg.traffic.watchHighlight">Mes avions surlignés</option>
+              <option value="only" data-i18n="cfg.traffic.watchOnly">Mes avions uniquement</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.traffic.flarmTitle">Trafic FLARM</div>
+        <div class="form-group">
+          <label class="cfg-radio-label"><input type="checkbox" id="cfgOgnEnabled" style="margin-right:8px;"><span data-i18n="cfg.traffic.flarmEnabled">Afficher le trafic FLARM</span></label>
+        </div>
+        <div id="cfgOgnGroup">
+          <div class="form-group">
+            <label><span data-i18n="cfg.traffic.flarmRadius">Rayon FLARM (km)</span> <span class="cfg-slider-value" id="cfgOgnRadiusVal">250</span></label>
+            <input type="range" class="cfg-range" id="cfgOgnRadius" min="50" max="500" step="25" value="250">
+          </div>
+          <div class="cfg-hint" data-i18n="cfg.traffic.flarmHint">Les aéronefs FLARM apparaissent en triangles verts. Les filtres altitude et watchlist s'appliquent aussi au FLARM.</div>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Sections ======== -->
+      <div class="config-panel" data-cpanel="sections" id="cfgSections">
+        <div id="cfgSectionToggles"></div>
+        <div class="form-group" style="margin-top:20px;">
+          <label data-i18n="cfg.sections.tafDisplay">Affichage TAF</label>
+          <select class="form-select" id="cfgTafDisplay">
+            <option value="raw" data-i18n="cfg.sections.tafRaw">Brut uniquement</option>
+            <option value="decoded" data-i18n="cfg.sections.tafDecoded">Décodé uniquement</option>
+            <option value="both" data-i18n="cfg.sections.tafBoth">Brut + Décodé</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label data-i18n="cfg.sections.sidebarPosition">Position du panneau météo</label>
+          <select class="form-select" id="cfgSidebarPosition">
+            <option value="right" data-i18n="cfg.sections.sidebarRight">À droite</option>
+            <option value="left" data-i18n="cfg.sections.sidebarLeft">À gauche</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Apparence ======== -->
+      <div class="config-panel" data-cpanel="appearance" id="cfgAppearance">
+        <div class="section-title" data-i18n="cfg.appearance.themeSection">Thème</div>
+        <div class="form-group">
+          <label data-i18n="cfg.appearance.mode">Mode</label>
+          <div class="form-row" style="gap:16px;">
+            <label class="cfg-radio-label"><input type="radio" name="cfgThemeMode" value="auto" checked> <span data-i18n="cfg.appearance.auto">Auto (jour/nuit)</span></label>
+            <label class="cfg-radio-label"><input type="radio" name="cfgThemeMode" value="fixed"> <span data-i18n="cfg.appearance.fixed">Thème fixe</span></label>
+          </div>
+        </div>
+        <div id="cfgThemeAutoConfig">
+          <div class="form-group">
+            <label data-i18n="cfg.appearance.dayTheme">Thème jour</label>
+            <div class="cfg-theme-grid" id="cfgThemeDayGrid"></div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.appearance.nightTheme">Thème nuit</label>
+            <div class="cfg-theme-grid" id="cfgThemeNightGrid"></div>
+          </div>
+        </div>
+        <div id="cfgThemeFixedConfig" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="cfg.appearance.themeLabel">Thème</label>
+            <div class="cfg-theme-grid" id="cfgThemeFixedGrid"></div>
+          </div>
+        </div>
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.appearance.brandingSection">Identité visuelle</div>
+        <div class="form-group">
+          <label data-i18n="cfg.appearance.displayTitle">Titre affiché</label>
+          <input type="text" class="form-input" id="cfgAppTitle" data-i18n-placeholder="cfg.appearance.displayTitlePlaceholder" placeholder="ex: IROISE">
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.appearance.clubName">Nom du club</label>
+          <input type="text" class="form-input" id="cfgClubName" data-i18n-placeholder="cfg.appearance.clubNamePlaceholder" placeholder="ex: Aéroclub Iroise">
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.appearance.logoDay">Logo jour</label>
+          <div class="cfg-logo-row">
+            <div class="cfg-logo-preview" id="cfgLogoDayPreview"></div>
+            <label class="btn-submit" style="cursor:pointer; font-size:12px; padding:6px 14px;">
+              <span data-i18n="cfg.appearance.chooseLogo">Choisir...</span>
+              <input type="file" id="cfgLogoDayFile" accept=".jpg,.jpeg,.png,.svg" style="display:none;">
+            </label>
+            <span class="cfg-hint" id="cfgLogoDayName">—</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="cfg.appearance.logoNight">Logo nuit</label>
+          <div class="cfg-logo-row">
+            <div class="cfg-logo-preview" id="cfgLogoNightPreview"></div>
+            <label class="btn-submit" style="cursor:pointer; font-size:12px; padding:6px 14px;">
+              <span data-i18n="cfg.appearance.chooseLogo">Choisir...</span>
+              <input type="file" id="cfgLogoNightFile" accept=".jpg,.jpeg,.png,.svg" style="display:none;">
+            </label>
+            <span class="cfg-hint" id="cfgLogoNightName">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Contenu club ======== -->
+      <div class="config-panel" data-cpanel="clubdisplay" id="cfgClubDisplay">
+        <div class="section-title" data-i18n="cfg.clubDisplay.title">Affichage club</div>
+        <div class="cfg-toggle-row">
+          <span class="cfg-toggle-label" data-i18n="cfg.clubDisplay.enabled">Activer l'affichage club</span>
+          <label class="toggle-switch"><input type="checkbox" id="cfgClubEnabled"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
+        </div>
+        <div class="cfg-hint" data-i18n="cfg.clubDisplay.enabledHint">Afficher du contenu personnalisé sur le kiosque en rotation avec la météo.</div>
+        <div id="cfgClubDisplayGroup" style="margin-top:16px;">
+          <div class="cfg-toggle-row">
+            <span class="cfg-toggle-label" data-i18n="cfg.clubDisplay.serverEnabled">Serveur local</span>
+            <label class="toggle-switch"><input type="checkbox" id="cfgClubServerEnabled"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
+          </div>
+          <div class="cfg-hint" data-i18n="cfg.clubDisplay.serverHint">Accéder à l'admin depuis le WiFi, sans internet.</div>
+          <div class="form-group" style="margin-top:12px;">
+            <label data-i18n="cfg.clubDisplay.serverPort">Port</label>
+            <input type="number" class="form-input" id="cfgClubServerPort" value="3000" min="1024" max="65535" style="width:120px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.clubDisplay.placement">Mode de rotation</label>
+            <select class="form-select" id="cfgClubPlacement">
+              <option value="after" data-i18n="cfg.clubDisplay.placementAfter">Slides club après la météo</option>
+              <option value="interleaved" data-i18n="cfg.clubDisplay.placementInterleaved">Intercalé avec la météo</option>
+              <option value="only" data-i18n="cfg.clubDisplay.placementOnly">Contenu club uniquement</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><span data-i18n="cfg.clubDisplay.defaultDuration">Durée par défaut (s)</span> <span class="cfg-slider-value" id="cfgClubDurationVal">15</span></label>
+            <input type="range" class="cfg-range" id="cfgClubDuration" min="5" max="60" step="1" value="15">
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Enregistrer / Annuler -->
+      <div class="config-footer" id="configFooter">
+        <div class="config-status" id="configStatus"></div>
+        <div class="config-actions">
+          <button class="btn-cancel" onclick="cancelConfig()" data-i18n="cfg.cancel">Annuler</button>
+          <button class="btn-submit" id="btnSaveConfig" onclick="saveConfig()" data-i18n="cfg.save">Enregistrer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- ── MODAL AJOUT ── -->

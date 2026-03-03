@@ -454,7 +454,211 @@ body {
 .empty-state .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
 .empty-state p { font-size: 14px; }
 
+/* ── NAV TABS (Contenu / Configuration) ── */
+.nav-tabs {
+  display: flex; gap: 0;
+  padding: 0 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.nav-tab {
+  padding: 12px 20px;
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav-icon { font-size: 15px; }
+
+/* ── CONFIG SUB-TABS ── */
+.config-tabs {
+  display: flex; gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.config-tabs::-webkit-scrollbar { display: none; }
+.config-tab {
+  padding: 10px 14px;
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.2s;
+}
+.config-tab:hover { color: var(--text); }
+.config-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── CONFIG PANELS ── */
+.config-panel { display: none; }
+.config-panel.active { display: block; animation: cfgFadeIn 0.2s ease; }
+@keyframes cfgFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CONFIG FOOTER ── */
+.config-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 24px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.config-actions { display: flex; gap: 10px; }
+.config-status { font-size: 12px; color: var(--text-dim); }
+.config-status.success { color: var(--success); }
+.config-status.error { color: var(--danger); }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--accent);
+  margin: 20px 0 10px 0; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.section-title:first-child { margin-top: 0; }
+
+/* ── FORM SELECT (config panels) ── */
+.form-select {
+  width: 100%; padding: 9px 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text);
+  font-size: 14px; font-family: inherit;
+  outline: none; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.form-select:focus { border-color: var(--accent); }
+.form-select option { background: var(--bg); color: var(--text); }
+
+/* ── FORM INPUT (config panels) ── */
+.form-input {
+  width: 100%; padding: 9px 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text);
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--accent); }
+.form-input::placeholder { color: var(--text-dim); opacity: 0.6; }
+
+/* ── TOGGLE ROW ── */
+.cfg-toggle-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.cfg-toggle-row:last-child { border-bottom: none; }
+.cfg-toggle-label { font-size: 14px; }
+
+/* ── RANGE SLIDERS ── */
+.cfg-range {
+  width: 100%;
+  -webkit-appearance: none; appearance: none;
+  height: 4px; background: var(--border);
+  border-radius: 2px; outline: none; margin-top: 4px;
+}
+.cfg-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--panel);
+}
+.cfg-range::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--panel);
+}
+.cfg-slider-value { color: var(--accent); font-weight: 600; font-family: monospace; }
+
+/* ── RADIO LABELS ── */
+.cfg-radio-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; cursor: pointer;
+}
+.cfg-radio-label input[type="radio"],
+.cfg-radio-label input[type="checkbox"] { accent-color: var(--accent); }
+
+/* ── AIRPORT SEARCH ── */
+.cfg-search-wrapper { position: relative; }
+.cfg-search-results {
+  position: absolute; top: 100%; left: 0; right: 0;
+  max-height: 200px; overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--border);
+  border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 50; display: none;
+}
+.cfg-search-results.open { display: block; }
+.cfg-search-item {
+  padding: 10px 14px; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.cfg-search-item:hover { background: rgba(0,212,255,0.1); }
+.cfg-search-name { font-size: 14px; font-weight: 600; }
+.cfg-search-detail { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+/* ── RUNWAY LIST ── */
+.cfg-runway-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 6px;
+}
+.cfg-runway-item .rwy-name { font-weight: 700; font-size: 16px; min-width: 50px; }
+.cfg-runway-item .rwy-heading { font-size: 13px; color: var(--text-dim); }
+.cfg-rwy-delete {
+  margin-left: auto; background: none; border: none;
+  color: var(--text-dim); cursor: pointer; font-size: 16px;
+  opacity: 0.6; transition: opacity 0.2s;
+}
+.cfg-rwy-delete:hover { opacity: 1; color: var(--danger); }
+
+/* ── THEME GRID ── */
+.cfg-theme-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; margin-bottom: 12px;
+}
+.cfg-theme-card {
+  padding: 10px; border: 2px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  text-align: center; transition: border-color 0.2s;
+}
+.cfg-theme-card.selected { border-color: var(--accent); }
+.cfg-theme-card:hover { border-color: var(--accent); opacity: 0.9; }
+.cfg-theme-preview {
+  width: 100%; height: 32px; border-radius: 4px; margin-bottom: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+.cfg-theme-preview .swatch {
+  width: 14px; height: 14px; border-radius: 3px;
+}
+.cfg-theme-name { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── LOGO UPLOAD ── */
+.cfg-logo-row { display: flex; gap: 10px; align-items: center; }
+.cfg-logo-preview {
+  width: 48px; height: 48px; border-radius: 4px;
+  background: var(--bg); border: 1px solid var(--border);
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cfg-logo-preview img { max-width: 100%; max-height: 100%; }
+
+/* ── HINT ── */
+.cfg-hint { font-size: 11px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+
 /* ── RESPONSIVE ── */
+@media (min-width: 601px) {
+  .cfg-theme-grid { grid-template-columns: repeat(4, 1fr); }
+}
 @media (max-width: 600px) {
   .top-bar { padding: 12px 14px; }
   .content { padding: 12px; }
@@ -462,4 +666,7 @@ body {
   .slide-preview { width: 60px; height: 42px; }
   .form-row { flex-direction: column; gap: 0; }
   .modal { padding: 18px; }
+  .nav-tabs { padding: 0 12px; }
+  .nav-tab { padding: 10px 14px; font-size: 12px; }
+  .config-footer { flex-direction: column; gap: 10px; }
 }

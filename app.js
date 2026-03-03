@@ -63,7 +63,159 @@ const TRANSLATIONS = {
     'error.loadSlides': 'Erreur chargement slides',
     'error.createSlide': 'Erreur création slide',
     'error.updateSlide': 'Erreur mise à jour',
-    'error.sessionExpired': 'Session expirée'
+    'error.sessionExpired': 'Session expirée',
+    // ── Navigation ──
+    'nav.content': 'Contenu',
+    'nav.config': 'Configuration',
+    // ── Config general ──
+    'cfg.loading': 'Chargement...',
+    'cfg.saving': 'Enregistrement...',
+    'cfg.saveSuccess': 'Configuration enregistrée',
+    'cfg.saveError': 'Erreur lors de l\'enregistrement',
+    'cfg.loadError': 'Erreur de chargement',
+    'cfg.noConfig': 'Aucune configuration trouvée',
+    'cfg.cancel': 'Annuler',
+    'cfg.save': 'Enregistrer',
+    // ── Config tabs ──
+    'cfg.tabAerodrome': 'Aérodrome',
+    'cfg.tabThresholds': 'Seuils',
+    'cfg.tabMaps': 'Carte',
+    'cfg.tabTraffic': 'Trafic',
+    'cfg.tabSections': 'Sections',
+    'cfg.tabAppearance': 'Apparence',
+    'cfg.tabClubDisplay': 'Contenu club',
+    // ── Aérodrome ──
+    'cfg.station.icaoLabel': 'Code OACI ou nom',
+    'cfg.station.searchPlaceholder': 'Rechercher un aérodrome...',
+    'cfg.station.displayName': 'Nom affiché',
+    'cfg.station.latitude': 'Latitude',
+    'cfg.station.longitude': 'Longitude',
+    'cfg.station.fir': 'FIR',
+    'cfg.station.firName': 'Nom FIR',
+    'cfg.station.firPlaceholder': 'ex: LFRR',
+    'cfg.station.firNamePlaceholder': 'ex: FIR Brest',
+    'cfg.station.sigmetRegion': 'Région SIGMET',
+    'cfg.station.regionEur': 'Europe',
+    'cfg.station.regionNam': 'Amérique du Nord',
+    'cfg.station.regionIntl': 'International',
+    'cfg.station.noResult': 'Aucun résultat',
+    'cfg.station.searchUnavailableCloud': 'La recherche n\'est disponible qu\'en mode WiFi local. Saisissez les informations manuellement.',
+    'cfg.runways.title': 'Pistes',
+    'cfg.runways.name': 'Nom',
+    'cfg.runways.heading': 'Cap (°)',
+    'cfg.runways.add': '+ Ajouter',
+    'cfg.runways.noRunway': 'Aucune piste configurée',
+    'cfg.runways.namePlaceholder': 'ex: 09',
+    'cfg.runways.headingPlaceholder': '090',
+    // ── Seuils ──
+    'cfg.thresholds.profile': 'Profil',
+    'cfg.thresholds.standard': 'Standard',
+    'cfg.thresholds.custom': 'Personnalisé',
+    'cfg.thresholds.vfr': 'VFR',
+    'cfg.thresholds.vfrSpecial': 'VFR Spécial',
+    'cfg.thresholds.greenThreshold': 'Seuil vert (conditions optimales)',
+    'cfg.thresholds.minVisibility': 'Visibilité min (m)',
+    'cfg.thresholds.minCeiling': 'Plafond min (ft)',
+    'cfg.thresholds.runwayWind': 'Vent piste',
+    'cfg.thresholds.crossDanger': 'Travers danger (kt)',
+    'cfg.thresholds.crossWarning': 'Travers alerte (kt)',
+    'cfg.thresholds.tailDanger': 'Arrière danger (kt)',
+    'cfg.thresholds.tailWarning': 'Arrière alerte (kt)',
+    'cfg.thresholds.fogTitle': 'Brouillard (écart T°/Rosée)',
+    'cfg.thresholds.fogDanger': 'Danger (°C)',
+    'cfg.thresholds.fogWarning': 'Alerte (°C)',
+    'cfg.thresholds.fogWatch': 'Vigilance (°C)',
+    'cfg.thresholds.metarAge': 'Âge METAR',
+    'cfg.thresholds.metarDanger': 'Danger (min)',
+    'cfg.thresholds.metarWarning': 'Alerte (min)',
+    'cfg.thresholds.sunsetAlert': 'Alerte nuit aéronautique',
+    'cfg.thresholds.sunsetOrange': 'Alerte orange (min)',
+    'cfg.thresholds.sunsetRed': 'Alerte rouge (min)',
+    // ── Carte ──
+    'cfg.maps.basemap': 'Fond de carte',
+    'cfg.maps.basemapDark': 'Sombre minimal',
+    'cfg.maps.basemapDarkDetail': 'Sombre détaillé',
+    'cfg.maps.basemapVoyager': 'Clair (routes et villes)',
+    'cfg.maps.basemapOsm': 'Standard OpenStreetMap',
+    'cfg.maps.basemapAuto': 'Fond auto jour/nuit',
+    'cfg.maps.basemapDay': 'Fond de jour',
+    'cfg.maps.basemapNight': 'Fond de nuit',
+    'cfg.maps.airportsOnMap': 'Terrains sur la carte',
+    'cfg.maps.airportsNone': 'Masqués',
+    'cfg.maps.airportsIcao': 'Aéroports uniquement',
+    'cfg.maps.airportsUlm': 'Bases ULM uniquement',
+    'cfg.maps.airportsAll': 'Aéroports + Bases ULM',
+    'cfg.maps.zoom': 'Zoom',
+    'cfg.maps.offsetNS': 'Décalage N/S',
+    'cfg.maps.offsetEW': 'Décalage E/O',
+    'cfg.maps.layerDuration': 'Durée par couche (s)',
+    'cfg.maps.enabledLayers': 'Couches activées',
+    // ── Trafic ──
+    'cfg.traffic.title': 'Trafic aérien',
+    'cfg.traffic.enabled': 'Afficher le trafic aérien en temps réel',
+    'cfg.traffic.detail': 'Niveau de détail',
+    'cfg.traffic.icon': 'Icône seule',
+    'cfg.traffic.callsign': 'Icône + indicatif',
+    'cfg.traffic.full': 'Icône + indicatif + altitude',
+    'cfg.traffic.refresh': 'Rafraîchissement (s)',
+    'cfg.traffic.radius': 'Rayon (NM)',
+    'cfg.traffic.alt': 'Altitude max (ft)',
+    'cfg.traffic.altUnlimited': '(0 = illimité)',
+    'cfg.traffic.watchlist': 'Mes avions (indicatifs, virgules)',
+    'cfg.traffic.watchMode': 'Mode d\'affichage',
+    'cfg.traffic.watchHighlight': 'Mes avions surlignés',
+    'cfg.traffic.watchOnly': 'Mes avions uniquement',
+    'cfg.traffic.flarmTitle': 'Trafic FLARM',
+    'cfg.traffic.flarmEnabled': 'Afficher le trafic FLARM',
+    'cfg.traffic.flarmRadius': 'Rayon FLARM (km)',
+    'cfg.traffic.flarmHint': 'Les aéronefs FLARM apparaissent en triangles verts. Les filtres altitude et watchlist s\'appliquent aussi au FLARM.',
+    // ── Sections ──
+    'cfg.sections.sunTimes': 'Éphémérides',
+    'cfg.sections.conditions': 'Conditions actuelles',
+    'cfg.sections.fogAlert': 'Alerte brouillard',
+    'cfg.sections.runwayComponents': 'Composantes de vent',
+    'cfg.sections.preferredRunway': 'Piste préférentielle',
+    'cfg.sections.metar': 'METAR',
+    'cfg.sections.taf': 'TAF',
+    'cfg.sections.tafBar': 'Barre visuelle TAF',
+    'cfg.sections.sigmet': 'SIGMET',
+    'cfg.sections.flightCategory': 'Catégorie de vol',
+    'cfg.sections.sunsetWarning': 'Alerte coucher de soleil',
+    'cfg.sections.tafDisplay': 'Affichage TAF',
+    'cfg.sections.tafRaw': 'Brut uniquement',
+    'cfg.sections.tafDecoded': 'Décodé uniquement',
+    'cfg.sections.tafBoth': 'Brut + Décodé',
+    'cfg.sections.sidebarPosition': 'Position du panneau météo',
+    'cfg.sections.sidebarRight': 'À droite',
+    'cfg.sections.sidebarLeft': 'À gauche',
+    // ── Apparence ──
+    'cfg.appearance.themeSection': 'Thème',
+    'cfg.appearance.mode': 'Mode',
+    'cfg.appearance.auto': 'Auto (jour/nuit)',
+    'cfg.appearance.fixed': 'Thème fixe',
+    'cfg.appearance.dayTheme': 'Thème jour',
+    'cfg.appearance.nightTheme': 'Thème nuit',
+    'cfg.appearance.themeLabel': 'Thème',
+    'cfg.appearance.brandingSection': 'Identité visuelle',
+    'cfg.appearance.displayTitle': 'Titre affiché',
+    'cfg.appearance.displayTitlePlaceholder': 'ex: IROISE',
+    'cfg.appearance.clubName': 'Nom du club',
+    'cfg.appearance.clubNamePlaceholder': 'ex: Aéroclub Iroise',
+    'cfg.appearance.logoDay': 'Logo jour',
+    'cfg.appearance.logoNight': 'Logo nuit',
+    'cfg.appearance.chooseLogo': 'Choisir...',
+    // ── Contenu club ──
+    'cfg.clubDisplay.title': 'Affichage club',
+    'cfg.clubDisplay.enabled': 'Activer l\'affichage club',
+    'cfg.clubDisplay.enabledHint': 'Afficher du contenu personnalisé sur le kiosque en rotation avec la météo.',
+    'cfg.clubDisplay.serverEnabled': 'Serveur local',
+    'cfg.clubDisplay.serverHint': 'Accéder à l\'admin depuis le WiFi, sans internet.',
+    'cfg.clubDisplay.serverPort': 'Port',
+    'cfg.clubDisplay.placement': 'Mode de rotation',
+    'cfg.clubDisplay.placementAfter': 'Slides club après la météo',
+    'cfg.clubDisplay.placementInterleaved': 'Intercalé avec la météo',
+    'cfg.clubDisplay.placementOnly': 'Contenu club uniquement',
+    'cfg.clubDisplay.defaultDuration': 'Durée par défaut (s)'
   },
 
   de: {
@@ -119,7 +271,149 @@ const TRANSLATIONS = {
     'error.loadSlides': 'Fehler beim Laden der Folien',
     'error.createSlide': 'Fehler beim Erstellen der Folie',
     'error.updateSlide': 'Fehler beim Aktualisieren',
-    'error.sessionExpired': 'Sitzung abgelaufen'
+    'error.sessionExpired': 'Sitzung abgelaufen',
+    'nav.content': 'Inhalt',
+    'nav.config': 'Konfiguration',
+    'cfg.loading': 'Laden...',
+    'cfg.saving': 'Speichern...',
+    'cfg.saveSuccess': 'Konfiguration gespeichert',
+    'cfg.saveError': 'Fehler beim Speichern',
+    'cfg.loadError': 'Fehler beim Laden',
+    'cfg.noConfig': 'Keine Konfiguration gefunden',
+    'cfg.cancel': 'Abbrechen',
+    'cfg.save': 'Speichern',
+    'cfg.tabAerodrome': 'Flugplatz',
+    'cfg.tabThresholds': 'Schwellenwerte',
+    'cfg.tabMaps': 'Karte',
+    'cfg.tabTraffic': 'Verkehr',
+    'cfg.tabSections': 'Bereiche',
+    'cfg.tabAppearance': 'Aussehen',
+    'cfg.tabClubDisplay': 'Club-Inhalte',
+    'cfg.station.icaoLabel': 'ICAO-Code oder Name',
+    'cfg.station.searchPlaceholder': 'Flugplatz suchen...',
+    'cfg.station.displayName': 'Anzeigename',
+    'cfg.station.latitude': 'Breitengrad',
+    'cfg.station.longitude': 'Längengrad',
+    'cfg.station.fir': 'FIR',
+    'cfg.station.firName': 'FIR-Name',
+    'cfg.station.firPlaceholder': 'z.B.: LFRR',
+    'cfg.station.firNamePlaceholder': 'z.B.: FIR Brest',
+    'cfg.station.sigmetRegion': 'SIGMET-Region',
+    'cfg.station.regionEur': 'Europa',
+    'cfg.station.regionNam': 'Nordamerika',
+    'cfg.station.regionIntl': 'International',
+    'cfg.station.noResult': 'Keine Ergebnisse',
+    'cfg.station.searchUnavailableCloud': 'Suche nur im lokalen WLAN verfügbar. Geben Sie die Daten manuell ein.',
+    'cfg.runways.title': 'Pisten',
+    'cfg.runways.name': 'Name',
+    'cfg.runways.heading': 'Kurs (°)',
+    'cfg.runways.add': '+ Hinzufügen',
+    'cfg.runways.noRunway': 'Keine Pisten konfiguriert',
+    'cfg.runways.namePlaceholder': 'z.B.: 09',
+    'cfg.runways.headingPlaceholder': '090',
+    'cfg.thresholds.profile': 'Profil',
+    'cfg.thresholds.standard': 'Standard',
+    'cfg.thresholds.custom': 'Benutzerdefiniert',
+    'cfg.thresholds.vfr': 'VFR',
+    'cfg.thresholds.vfrSpecial': 'VFR Spezial',
+    'cfg.thresholds.greenThreshold': 'Grüner Schwellenwert (optimale Bedingungen)',
+    'cfg.thresholds.minVisibility': 'Min. Sicht (m)',
+    'cfg.thresholds.minCeiling': 'Min. Untergrenze (ft)',
+    'cfg.thresholds.runwayWind': 'Pistenwind',
+    'cfg.thresholds.crossDanger': 'Seitenwind Gefahr (kt)',
+    'cfg.thresholds.crossWarning': 'Seitenwind Warnung (kt)',
+    'cfg.thresholds.tailDanger': 'Rückenwind Gefahr (kt)',
+    'cfg.thresholds.tailWarning': 'Rückenwind Warnung (kt)',
+    'cfg.thresholds.fogTitle': 'Nebel (Abw. Temp/Taupunkt)',
+    'cfg.thresholds.fogDanger': 'Gefahr (°C)',
+    'cfg.thresholds.fogWarning': 'Warnung (°C)',
+    'cfg.thresholds.fogWatch': 'Wachsamkeit (°C)',
+    'cfg.thresholds.metarAge': 'METAR-Alter',
+    'cfg.thresholds.metarDanger': 'Gefahr (min)',
+    'cfg.thresholds.metarWarning': 'Warnung (min)',
+    'cfg.thresholds.sunsetAlert': 'Nachtflugwarnung',
+    'cfg.thresholds.sunsetOrange': 'Orange Warnung (min)',
+    'cfg.thresholds.sunsetRed': 'Rote Warnung (min)',
+    'cfg.maps.basemap': 'Grundkarte',
+    'cfg.maps.basemapDark': 'Dunkel minimal',
+    'cfg.maps.basemapDarkDetail': 'Dunkel detailliert',
+    'cfg.maps.basemapVoyager': 'Hell (Straßen und Städte)',
+    'cfg.maps.basemapOsm': 'Standard OpenStreetMap',
+    'cfg.maps.basemapAuto': 'Auto Tag/Nacht',
+    'cfg.maps.basemapDay': 'Tagkarte',
+    'cfg.maps.basemapNight': 'Nachtkarte',
+    'cfg.maps.airportsOnMap': 'Flugplätze auf der Karte',
+    'cfg.maps.airportsNone': 'Ausgeblendet',
+    'cfg.maps.airportsIcao': 'Nur Flughäfen',
+    'cfg.maps.airportsUlm': 'Nur UL-Plätze',
+    'cfg.maps.airportsAll': 'Flughäfen + UL-Plätze',
+    'cfg.maps.zoom': 'Zoom',
+    'cfg.maps.offsetNS': 'Versatz N/S',
+    'cfg.maps.offsetEW': 'Versatz O/W',
+    'cfg.maps.layerDuration': 'Dauer pro Ebene (s)',
+    'cfg.maps.enabledLayers': 'Aktive Ebenen',
+    'cfg.traffic.title': 'Flugverkehr',
+    'cfg.traffic.enabled': 'Flugverkehr in Echtzeit anzeigen',
+    'cfg.traffic.detail': 'Detailstufe',
+    'cfg.traffic.icon': 'Nur Symbol',
+    'cfg.traffic.callsign': 'Symbol + Rufzeichen',
+    'cfg.traffic.full': 'Symbol + Rufzeichen + Höhe',
+    'cfg.traffic.refresh': 'Aktualisierung (s)',
+    'cfg.traffic.radius': 'Radius (NM)',
+    'cfg.traffic.alt': 'Max. Höhe (ft)',
+    'cfg.traffic.altUnlimited': '(0 = unbegrenzt)',
+    'cfg.traffic.watchlist': 'Meine Flugzeuge (Rufzeichen, Kommas)',
+    'cfg.traffic.watchMode': 'Anzeigemodus',
+    'cfg.traffic.watchHighlight': 'Meine Flugzeuge hervorgehoben',
+    'cfg.traffic.watchOnly': 'Nur meine Flugzeuge',
+    'cfg.traffic.flarmTitle': 'FLARM-Verkehr',
+    'cfg.traffic.flarmEnabled': 'FLARM-Verkehr anzeigen',
+    'cfg.traffic.flarmRadius': 'FLARM-Radius (km)',
+    'cfg.traffic.flarmHint': 'FLARM-Luftfahrzeuge erscheinen als grüne Dreiecke. Höhenfilter und Watchlist gelten auch für FLARM.',
+    'cfg.sections.sunTimes': 'Sonnenzeiten',
+    'cfg.sections.conditions': 'Aktuelle Bedingungen',
+    'cfg.sections.fogAlert': 'Nebelwarnung',
+    'cfg.sections.runwayComponents': 'Windkomponenten',
+    'cfg.sections.preferredRunway': 'Bevorzugte Piste',
+    'cfg.sections.metar': 'METAR',
+    'cfg.sections.taf': 'TAF',
+    'cfg.sections.tafBar': 'Visuelle TAF-Leiste',
+    'cfg.sections.sigmet': 'SIGMET',
+    'cfg.sections.flightCategory': 'Flugkategorie',
+    'cfg.sections.sunsetWarning': 'Sonnenuntergangswarnung',
+    'cfg.sections.tafDisplay': 'TAF-Anzeige',
+    'cfg.sections.tafRaw': 'Nur Rohtext',
+    'cfg.sections.tafDecoded': 'Nur dekodiert',
+    'cfg.sections.tafBoth': 'Roh + Dekodiert',
+    'cfg.sections.sidebarPosition': 'Position Wetterpanel',
+    'cfg.sections.sidebarRight': 'Rechts',
+    'cfg.sections.sidebarLeft': 'Links',
+    'cfg.appearance.themeSection': 'Thema',
+    'cfg.appearance.mode': 'Modus',
+    'cfg.appearance.auto': 'Auto (Tag/Nacht)',
+    'cfg.appearance.fixed': 'Festes Thema',
+    'cfg.appearance.dayTheme': 'Tagesthema',
+    'cfg.appearance.nightTheme': 'Nachtthema',
+    'cfg.appearance.themeLabel': 'Thema',
+    'cfg.appearance.brandingSection': 'Markenidentität',
+    'cfg.appearance.displayTitle': 'Angezeigter Titel',
+    'cfg.appearance.displayTitlePlaceholder': 'z.B.: IROISE',
+    'cfg.appearance.clubName': 'Vereinsname',
+    'cfg.appearance.clubNamePlaceholder': 'z.B.: Aeroclub Iroise',
+    'cfg.appearance.logoDay': 'Logo Tag',
+    'cfg.appearance.logoNight': 'Logo Nacht',
+    'cfg.appearance.chooseLogo': 'Auswählen...',
+    'cfg.clubDisplay.title': 'Club-Anzeige',
+    'cfg.clubDisplay.enabled': 'Club-Anzeige aktivieren',
+    'cfg.clubDisplay.enabledHint': 'Eigene Inhalte im Wechsel mit Wetter auf dem Kiosk anzeigen.',
+    'cfg.clubDisplay.serverEnabled': 'Lokaler Server',
+    'cfg.clubDisplay.serverHint': 'Admin-Zugriff über WLAN, ohne Internet.',
+    'cfg.clubDisplay.serverPort': 'Port',
+    'cfg.clubDisplay.placement': 'Rotationsmodus',
+    'cfg.clubDisplay.placementAfter': 'Club-Folien nach Wetter',
+    'cfg.clubDisplay.placementInterleaved': 'Abwechselnd mit Wetter',
+    'cfg.clubDisplay.placementOnly': 'Nur Club-Inhalte',
+    'cfg.clubDisplay.defaultDuration': 'Standarddauer (s)'
   },
 
   it: {
@@ -175,7 +469,149 @@ const TRANSLATIONS = {
     'error.loadSlides': 'Errore caricamento slide',
     'error.createSlide': 'Errore creazione slide',
     'error.updateSlide': 'Errore aggiornamento',
-    'error.sessionExpired': 'Sessione scaduta'
+    'error.sessionExpired': 'Sessione scaduta',
+    'nav.content': 'Contenuto',
+    'nav.config': 'Configurazione',
+    'cfg.loading': 'Caricamento...',
+    'cfg.saving': 'Salvataggio...',
+    'cfg.saveSuccess': 'Configurazione salvata',
+    'cfg.saveError': 'Errore durante il salvataggio',
+    'cfg.loadError': 'Errore di caricamento',
+    'cfg.noConfig': 'Nessuna configurazione trovata',
+    'cfg.cancel': 'Annulla',
+    'cfg.save': 'Salva',
+    'cfg.tabAerodrome': 'Aeroporto',
+    'cfg.tabThresholds': 'Soglie',
+    'cfg.tabMaps': 'Mappa',
+    'cfg.tabTraffic': 'Traffico',
+    'cfg.tabSections': 'Sezioni',
+    'cfg.tabAppearance': 'Aspetto',
+    'cfg.tabClubDisplay': 'Contenuto club',
+    'cfg.station.icaoLabel': 'Codice ICAO o nome',
+    'cfg.station.searchPlaceholder': 'Cerca un aeroporto...',
+    'cfg.station.displayName': 'Nome visualizzato',
+    'cfg.station.latitude': 'Latitudine',
+    'cfg.station.longitude': 'Longitudine',
+    'cfg.station.fir': 'FIR',
+    'cfg.station.firName': 'Nome FIR',
+    'cfg.station.firPlaceholder': 'es: LFRR',
+    'cfg.station.firNamePlaceholder': 'es: FIR Brest',
+    'cfg.station.sigmetRegion': 'Regione SIGMET',
+    'cfg.station.regionEur': 'Europa',
+    'cfg.station.regionNam': 'Nord America',
+    'cfg.station.regionIntl': 'Internazionale',
+    'cfg.station.noResult': 'Nessun risultato',
+    'cfg.station.searchUnavailableCloud': 'La ricerca è disponibile solo in modalità WiFi locale. Inserisci i dati manualmente.',
+    'cfg.runways.title': 'Piste',
+    'cfg.runways.name': 'Nome',
+    'cfg.runways.heading': 'Prua (°)',
+    'cfg.runways.add': '+ Aggiungi',
+    'cfg.runways.noRunway': 'Nessuna pista configurata',
+    'cfg.runways.namePlaceholder': 'es: 09',
+    'cfg.runways.headingPlaceholder': '090',
+    'cfg.thresholds.profile': 'Profilo',
+    'cfg.thresholds.standard': 'Standard',
+    'cfg.thresholds.custom': 'Personalizzato',
+    'cfg.thresholds.vfr': 'VFR',
+    'cfg.thresholds.vfrSpecial': 'VFR Speciale',
+    'cfg.thresholds.greenThreshold': 'Soglia verde (condizioni ottimali)',
+    'cfg.thresholds.minVisibility': 'Visibilità min (m)',
+    'cfg.thresholds.minCeiling': 'Soffitto min (ft)',
+    'cfg.thresholds.runwayWind': 'Vento in pista',
+    'cfg.thresholds.crossDanger': 'Traverso pericolo (kt)',
+    'cfg.thresholds.crossWarning': 'Traverso allarme (kt)',
+    'cfg.thresholds.tailDanger': 'Coda pericolo (kt)',
+    'cfg.thresholds.tailWarning': 'Coda allarme (kt)',
+    'cfg.thresholds.fogTitle': 'Nebbia (diff. Temp/Rugiada)',
+    'cfg.thresholds.fogDanger': 'Pericolo (°C)',
+    'cfg.thresholds.fogWarning': 'Allarme (°C)',
+    'cfg.thresholds.fogWatch': 'Vigilanza (°C)',
+    'cfg.thresholds.metarAge': 'Età METAR',
+    'cfg.thresholds.metarDanger': 'Pericolo (min)',
+    'cfg.thresholds.metarWarning': 'Allarme (min)',
+    'cfg.thresholds.sunsetAlert': 'Allarme notte aeronautica',
+    'cfg.thresholds.sunsetOrange': 'Allarme arancione (min)',
+    'cfg.thresholds.sunsetRed': 'Allarme rosso (min)',
+    'cfg.maps.basemap': 'Mappa base',
+    'cfg.maps.basemapDark': 'Scuro minimale',
+    'cfg.maps.basemapDarkDetail': 'Scuro dettagliato',
+    'cfg.maps.basemapVoyager': 'Chiaro (strade e città)',
+    'cfg.maps.basemapOsm': 'Standard OpenStreetMap',
+    'cfg.maps.basemapAuto': 'Auto giorno/notte',
+    'cfg.maps.basemapDay': 'Mappa diurna',
+    'cfg.maps.basemapNight': 'Mappa notturna',
+    'cfg.maps.airportsOnMap': 'Aeroporti sulla mappa',
+    'cfg.maps.airportsNone': 'Nascosti',
+    'cfg.maps.airportsIcao': 'Solo aeroporti',
+    'cfg.maps.airportsUlm': 'Solo basi ULM',
+    'cfg.maps.airportsAll': 'Aeroporti + Basi ULM',
+    'cfg.maps.zoom': 'Zoom',
+    'cfg.maps.offsetNS': 'Spostamento N/S',
+    'cfg.maps.offsetEW': 'Spostamento E/O',
+    'cfg.maps.layerDuration': 'Durata per livello (s)',
+    'cfg.maps.enabledLayers': 'Livelli attivi',
+    'cfg.traffic.title': 'Traffico aereo',
+    'cfg.traffic.enabled': 'Mostra traffico aereo in tempo reale',
+    'cfg.traffic.detail': 'Livello di dettaglio',
+    'cfg.traffic.icon': 'Solo icona',
+    'cfg.traffic.callsign': 'Icona + nominativo',
+    'cfg.traffic.full': 'Icona + nominativo + quota',
+    'cfg.traffic.refresh': 'Aggiornamento (s)',
+    'cfg.traffic.radius': 'Raggio (NM)',
+    'cfg.traffic.alt': 'Quota max (ft)',
+    'cfg.traffic.altUnlimited': '(0 = illimitato)',
+    'cfg.traffic.watchlist': 'I miei aerei (nominativi, virgole)',
+    'cfg.traffic.watchMode': 'Modalità di visualizzazione',
+    'cfg.traffic.watchHighlight': 'I miei aerei evidenziati',
+    'cfg.traffic.watchOnly': 'Solo i miei aerei',
+    'cfg.traffic.flarmTitle': 'Traffico FLARM',
+    'cfg.traffic.flarmEnabled': 'Mostra traffico FLARM',
+    'cfg.traffic.flarmRadius': 'Raggio FLARM (km)',
+    'cfg.traffic.flarmHint': 'Gli aeromobili FLARM appaiono come triangoli verdi. Filtri quota e watchlist si applicano anche al FLARM.',
+    'cfg.sections.sunTimes': 'Effemeridi',
+    'cfg.sections.conditions': 'Condizioni attuali',
+    'cfg.sections.fogAlert': 'Allarme nebbia',
+    'cfg.sections.runwayComponents': 'Componenti vento',
+    'cfg.sections.preferredRunway': 'Pista preferita',
+    'cfg.sections.metar': 'METAR',
+    'cfg.sections.taf': 'TAF',
+    'cfg.sections.tafBar': 'Barra visiva TAF',
+    'cfg.sections.sigmet': 'SIGMET',
+    'cfg.sections.flightCategory': 'Categoria di volo',
+    'cfg.sections.sunsetWarning': 'Allarme tramonto',
+    'cfg.sections.tafDisplay': 'Visualizzazione TAF',
+    'cfg.sections.tafRaw': 'Solo grezzo',
+    'cfg.sections.tafDecoded': 'Solo decodificato',
+    'cfg.sections.tafBoth': 'Grezzo + Decodificato',
+    'cfg.sections.sidebarPosition': 'Posizione pannello meteo',
+    'cfg.sections.sidebarRight': 'A destra',
+    'cfg.sections.sidebarLeft': 'A sinistra',
+    'cfg.appearance.themeSection': 'Tema',
+    'cfg.appearance.mode': 'Modalità',
+    'cfg.appearance.auto': 'Auto (giorno/notte)',
+    'cfg.appearance.fixed': 'Tema fisso',
+    'cfg.appearance.dayTheme': 'Tema diurno',
+    'cfg.appearance.nightTheme': 'Tema notturno',
+    'cfg.appearance.themeLabel': 'Tema',
+    'cfg.appearance.brandingSection': 'Identità visiva',
+    'cfg.appearance.displayTitle': 'Titolo visualizzato',
+    'cfg.appearance.displayTitlePlaceholder': 'es: IROISE',
+    'cfg.appearance.clubName': 'Nome del club',
+    'cfg.appearance.clubNamePlaceholder': 'es: Aeroclub Iroise',
+    'cfg.appearance.logoDay': 'Logo giorno',
+    'cfg.appearance.logoNight': 'Logo notte',
+    'cfg.appearance.chooseLogo': 'Scegli...',
+    'cfg.clubDisplay.title': 'Display club',
+    'cfg.clubDisplay.enabled': 'Attiva display club',
+    'cfg.clubDisplay.enabledHint': 'Mostra contenuti personalizzati sul chiosco in rotazione con il meteo.',
+    'cfg.clubDisplay.serverEnabled': 'Server locale',
+    'cfg.clubDisplay.serverHint': 'Accesso admin via WiFi, senza internet.',
+    'cfg.clubDisplay.serverPort': 'Porta',
+    'cfg.clubDisplay.placement': 'Modalità rotazione',
+    'cfg.clubDisplay.placementAfter': 'Slide club dopo il meteo',
+    'cfg.clubDisplay.placementInterleaved': 'Alternato con il meteo',
+    'cfg.clubDisplay.placementOnly': 'Solo contenuto club',
+    'cfg.clubDisplay.defaultDuration': 'Durata predefinita (s)'
   },
 
   es: {
@@ -231,7 +667,149 @@ const TRANSLATIONS = {
     'error.loadSlides': 'Error al cargar diapositivas',
     'error.createSlide': 'Error al crear diapositiva',
     'error.updateSlide': 'Error al actualizar',
-    'error.sessionExpired': 'Sesión expirada'
+    'error.sessionExpired': 'Sesión expirada',
+    'nav.content': 'Contenido',
+    'nav.config': 'Configuración',
+    'cfg.loading': 'Cargando...',
+    'cfg.saving': 'Guardando...',
+    'cfg.saveSuccess': 'Configuración guardada',
+    'cfg.saveError': 'Error al guardar',
+    'cfg.loadError': 'Error de carga',
+    'cfg.noConfig': 'No se encontró configuración',
+    'cfg.cancel': 'Cancelar',
+    'cfg.save': 'Guardar',
+    'cfg.tabAerodrome': 'Aeródromo',
+    'cfg.tabThresholds': 'Umbrales',
+    'cfg.tabMaps': 'Mapa',
+    'cfg.tabTraffic': 'Tráfico',
+    'cfg.tabSections': 'Secciones',
+    'cfg.tabAppearance': 'Apariencia',
+    'cfg.tabClubDisplay': 'Contenido club',
+    'cfg.station.icaoLabel': 'Código OACI o nombre',
+    'cfg.station.searchPlaceholder': 'Buscar un aeródromo...',
+    'cfg.station.displayName': 'Nombre mostrado',
+    'cfg.station.latitude': 'Latitud',
+    'cfg.station.longitude': 'Longitud',
+    'cfg.station.fir': 'FIR',
+    'cfg.station.firName': 'Nombre FIR',
+    'cfg.station.firPlaceholder': 'ej: LFRR',
+    'cfg.station.firNamePlaceholder': 'ej: FIR Brest',
+    'cfg.station.sigmetRegion': 'Región SIGMET',
+    'cfg.station.regionEur': 'Europa',
+    'cfg.station.regionNam': 'Norteamérica',
+    'cfg.station.regionIntl': 'Internacional',
+    'cfg.station.noResult': 'Sin resultados',
+    'cfg.station.searchUnavailableCloud': 'La búsqueda solo está disponible en modo WiFi local. Introduzca los datos manualmente.',
+    'cfg.runways.title': 'Pistas',
+    'cfg.runways.name': 'Nombre',
+    'cfg.runways.heading': 'Rumbo (°)',
+    'cfg.runways.add': '+ Añadir',
+    'cfg.runways.noRunway': 'Sin pistas configuradas',
+    'cfg.runways.namePlaceholder': 'ej: 09',
+    'cfg.runways.headingPlaceholder': '090',
+    'cfg.thresholds.profile': 'Perfil',
+    'cfg.thresholds.standard': 'Estándar',
+    'cfg.thresholds.custom': 'Personalizado',
+    'cfg.thresholds.vfr': 'VFR',
+    'cfg.thresholds.vfrSpecial': 'VFR Especial',
+    'cfg.thresholds.greenThreshold': 'Umbral verde (condiciones óptimas)',
+    'cfg.thresholds.minVisibility': 'Visibilidad mín (m)',
+    'cfg.thresholds.minCeiling': 'Techo mín (ft)',
+    'cfg.thresholds.runwayWind': 'Viento en pista',
+    'cfg.thresholds.crossDanger': 'Cruzado peligro (kt)',
+    'cfg.thresholds.crossWarning': 'Cruzado alerta (kt)',
+    'cfg.thresholds.tailDanger': 'Cola peligro (kt)',
+    'cfg.thresholds.tailWarning': 'Cola alerta (kt)',
+    'cfg.thresholds.fogTitle': 'Niebla (dif. Temp/Rocío)',
+    'cfg.thresholds.fogDanger': 'Peligro (°C)',
+    'cfg.thresholds.fogWarning': 'Alerta (°C)',
+    'cfg.thresholds.fogWatch': 'Vigilancia (°C)',
+    'cfg.thresholds.metarAge': 'Antigüedad METAR',
+    'cfg.thresholds.metarDanger': 'Peligro (min)',
+    'cfg.thresholds.metarWarning': 'Alerta (min)',
+    'cfg.thresholds.sunsetAlert': 'Alerta noche aeronáutica',
+    'cfg.thresholds.sunsetOrange': 'Alerta naranja (min)',
+    'cfg.thresholds.sunsetRed': 'Alerta roja (min)',
+    'cfg.maps.basemap': 'Mapa base',
+    'cfg.maps.basemapDark': 'Oscuro mínimo',
+    'cfg.maps.basemapDarkDetail': 'Oscuro detallado',
+    'cfg.maps.basemapVoyager': 'Claro (calles y ciudades)',
+    'cfg.maps.basemapOsm': 'Estándar OpenStreetMap',
+    'cfg.maps.basemapAuto': 'Auto día/noche',
+    'cfg.maps.basemapDay': 'Mapa diurno',
+    'cfg.maps.basemapNight': 'Mapa nocturno',
+    'cfg.maps.airportsOnMap': 'Aeródromos en el mapa',
+    'cfg.maps.airportsNone': 'Ocultos',
+    'cfg.maps.airportsIcao': 'Solo aeropuertos',
+    'cfg.maps.airportsUlm': 'Solo bases ULM',
+    'cfg.maps.airportsAll': 'Aeropuertos + Bases ULM',
+    'cfg.maps.zoom': 'Zoom',
+    'cfg.maps.offsetNS': 'Desplazamiento N/S',
+    'cfg.maps.offsetEW': 'Desplazamiento E/O',
+    'cfg.maps.layerDuration': 'Duración por capa (s)',
+    'cfg.maps.enabledLayers': 'Capas activas',
+    'cfg.traffic.title': 'Tráfico aéreo',
+    'cfg.traffic.enabled': 'Mostrar tráfico aéreo en tiempo real',
+    'cfg.traffic.detail': 'Nivel de detalle',
+    'cfg.traffic.icon': 'Solo icono',
+    'cfg.traffic.callsign': 'Icono + indicativo',
+    'cfg.traffic.full': 'Icono + indicativo + altitud',
+    'cfg.traffic.refresh': 'Actualización (s)',
+    'cfg.traffic.radius': 'Radio (NM)',
+    'cfg.traffic.alt': 'Altitud máx (ft)',
+    'cfg.traffic.altUnlimited': '(0 = ilimitado)',
+    'cfg.traffic.watchlist': 'Mis aviones (indicativos, comas)',
+    'cfg.traffic.watchMode': 'Modo de visualización',
+    'cfg.traffic.watchHighlight': 'Mis aviones resaltados',
+    'cfg.traffic.watchOnly': 'Solo mis aviones',
+    'cfg.traffic.flarmTitle': 'Tráfico FLARM',
+    'cfg.traffic.flarmEnabled': 'Mostrar tráfico FLARM',
+    'cfg.traffic.flarmRadius': 'Radio FLARM (km)',
+    'cfg.traffic.flarmHint': 'Las aeronaves FLARM aparecen como triángulos verdes. Los filtros de altitud y watchlist también se aplican al FLARM.',
+    'cfg.sections.sunTimes': 'Efemérides',
+    'cfg.sections.conditions': 'Condiciones actuales',
+    'cfg.sections.fogAlert': 'Alerta de niebla',
+    'cfg.sections.runwayComponents': 'Componentes de viento',
+    'cfg.sections.preferredRunway': 'Pista preferida',
+    'cfg.sections.metar': 'METAR',
+    'cfg.sections.taf': 'TAF',
+    'cfg.sections.tafBar': 'Barra visual TAF',
+    'cfg.sections.sigmet': 'SIGMET',
+    'cfg.sections.flightCategory': 'Categoría de vuelo',
+    'cfg.sections.sunsetWarning': 'Alerta atardecer',
+    'cfg.sections.tafDisplay': 'Visualización TAF',
+    'cfg.sections.tafRaw': 'Solo bruto',
+    'cfg.sections.tafDecoded': 'Solo decodificado',
+    'cfg.sections.tafBoth': 'Bruto + Decodificado',
+    'cfg.sections.sidebarPosition': 'Posición panel meteorológico',
+    'cfg.sections.sidebarRight': 'A la derecha',
+    'cfg.sections.sidebarLeft': 'A la izquierda',
+    'cfg.appearance.themeSection': 'Tema',
+    'cfg.appearance.mode': 'Modo',
+    'cfg.appearance.auto': 'Auto (día/noche)',
+    'cfg.appearance.fixed': 'Tema fijo',
+    'cfg.appearance.dayTheme': 'Tema diurno',
+    'cfg.appearance.nightTheme': 'Tema nocturno',
+    'cfg.appearance.themeLabel': 'Tema',
+    'cfg.appearance.brandingSection': 'Identidad visual',
+    'cfg.appearance.displayTitle': 'Título mostrado',
+    'cfg.appearance.displayTitlePlaceholder': 'ej: IROISE',
+    'cfg.appearance.clubName': 'Nombre del club',
+    'cfg.appearance.clubNamePlaceholder': 'ej: Aeroclub Iroise',
+    'cfg.appearance.logoDay': 'Logo día',
+    'cfg.appearance.logoNight': 'Logo noche',
+    'cfg.appearance.chooseLogo': 'Elegir...',
+    'cfg.clubDisplay.title': 'Pantalla del club',
+    'cfg.clubDisplay.enabled': 'Activar pantalla del club',
+    'cfg.clubDisplay.enabledHint': 'Mostrar contenido personalizado en el quiosco en rotación con el tiempo.',
+    'cfg.clubDisplay.serverEnabled': 'Servidor local',
+    'cfg.clubDisplay.serverHint': 'Acceso admin por WiFi, sin internet.',
+    'cfg.clubDisplay.serverPort': 'Puerto',
+    'cfg.clubDisplay.placement': 'Modo de rotación',
+    'cfg.clubDisplay.placementAfter': 'Diapositivas club después del tiempo',
+    'cfg.clubDisplay.placementInterleaved': 'Alternado con el tiempo',
+    'cfg.clubDisplay.placementOnly': 'Solo contenido club',
+    'cfg.clubDisplay.defaultDuration': 'Duración predeterminada (s)'
   },
 
   en: {
@@ -287,7 +865,149 @@ const TRANSLATIONS = {
     'error.loadSlides': 'Error loading slides',
     'error.createSlide': 'Error creating slide',
     'error.updateSlide': 'Error updating',
-    'error.sessionExpired': 'Session expired'
+    'error.sessionExpired': 'Session expired',
+    'nav.content': 'Content',
+    'nav.config': 'Configuration',
+    'cfg.loading': 'Loading...',
+    'cfg.saving': 'Saving...',
+    'cfg.saveSuccess': 'Configuration saved',
+    'cfg.saveError': 'Error saving configuration',
+    'cfg.loadError': 'Error loading configuration',
+    'cfg.noConfig': 'No configuration found',
+    'cfg.cancel': 'Cancel',
+    'cfg.save': 'Save',
+    'cfg.tabAerodrome': 'Aerodrome',
+    'cfg.tabThresholds': 'Thresholds',
+    'cfg.tabMaps': 'Map',
+    'cfg.tabTraffic': 'Traffic',
+    'cfg.tabSections': 'Sections',
+    'cfg.tabAppearance': 'Appearance',
+    'cfg.tabClubDisplay': 'Club content',
+    'cfg.station.icaoLabel': 'ICAO code or name',
+    'cfg.station.searchPlaceholder': 'Search an aerodrome...',
+    'cfg.station.displayName': 'Display name',
+    'cfg.station.latitude': 'Latitude',
+    'cfg.station.longitude': 'Longitude',
+    'cfg.station.fir': 'FIR',
+    'cfg.station.firName': 'FIR name',
+    'cfg.station.firPlaceholder': 'e.g.: LFRR',
+    'cfg.station.firNamePlaceholder': 'e.g.: FIR Brest',
+    'cfg.station.sigmetRegion': 'SIGMET region',
+    'cfg.station.regionEur': 'Europe',
+    'cfg.station.regionNam': 'North America',
+    'cfg.station.regionIntl': 'International',
+    'cfg.station.noResult': 'No results',
+    'cfg.station.searchUnavailableCloud': 'Search is only available in local WiFi mode. Enter the information manually.',
+    'cfg.runways.title': 'Runways',
+    'cfg.runways.name': 'Name',
+    'cfg.runways.heading': 'Heading (°)',
+    'cfg.runways.add': '+ Add',
+    'cfg.runways.noRunway': 'No runways configured',
+    'cfg.runways.namePlaceholder': 'e.g.: 09',
+    'cfg.runways.headingPlaceholder': '090',
+    'cfg.thresholds.profile': 'Profile',
+    'cfg.thresholds.standard': 'Standard',
+    'cfg.thresholds.custom': 'Custom',
+    'cfg.thresholds.vfr': 'VFR',
+    'cfg.thresholds.vfrSpecial': 'Special VFR',
+    'cfg.thresholds.greenThreshold': 'Green threshold (optimal conditions)',
+    'cfg.thresholds.minVisibility': 'Min visibility (m)',
+    'cfg.thresholds.minCeiling': 'Min ceiling (ft)',
+    'cfg.thresholds.runwayWind': 'Runway wind',
+    'cfg.thresholds.crossDanger': 'Crosswind danger (kt)',
+    'cfg.thresholds.crossWarning': 'Crosswind warning (kt)',
+    'cfg.thresholds.tailDanger': 'Tailwind danger (kt)',
+    'cfg.thresholds.tailWarning': 'Tailwind warning (kt)',
+    'cfg.thresholds.fogTitle': 'Fog (Temp/Dew spread)',
+    'cfg.thresholds.fogDanger': 'Danger (°C)',
+    'cfg.thresholds.fogWarning': 'Warning (°C)',
+    'cfg.thresholds.fogWatch': 'Watch (°C)',
+    'cfg.thresholds.metarAge': 'METAR age',
+    'cfg.thresholds.metarDanger': 'Danger (min)',
+    'cfg.thresholds.metarWarning': 'Warning (min)',
+    'cfg.thresholds.sunsetAlert': 'Aeronautical night alert',
+    'cfg.thresholds.sunsetOrange': 'Orange alert (min)',
+    'cfg.thresholds.sunsetRed': 'Red alert (min)',
+    'cfg.maps.basemap': 'Base map',
+    'cfg.maps.basemapDark': 'Dark minimal',
+    'cfg.maps.basemapDarkDetail': 'Dark detailed',
+    'cfg.maps.basemapVoyager': 'Light (roads and cities)',
+    'cfg.maps.basemapOsm': 'Standard OpenStreetMap',
+    'cfg.maps.basemapAuto': 'Auto day/night',
+    'cfg.maps.basemapDay': 'Day map',
+    'cfg.maps.basemapNight': 'Night map',
+    'cfg.maps.airportsOnMap': 'Airports on map',
+    'cfg.maps.airportsNone': 'Hidden',
+    'cfg.maps.airportsIcao': 'Airports only',
+    'cfg.maps.airportsUlm': 'ULM bases only',
+    'cfg.maps.airportsAll': 'Airports + ULM bases',
+    'cfg.maps.zoom': 'Zoom',
+    'cfg.maps.offsetNS': 'Offset N/S',
+    'cfg.maps.offsetEW': 'Offset E/W',
+    'cfg.maps.layerDuration': 'Duration per layer (s)',
+    'cfg.maps.enabledLayers': 'Enabled layers',
+    'cfg.traffic.title': 'Air traffic',
+    'cfg.traffic.enabled': 'Show real-time air traffic',
+    'cfg.traffic.detail': 'Detail level',
+    'cfg.traffic.icon': 'Icon only',
+    'cfg.traffic.callsign': 'Icon + callsign',
+    'cfg.traffic.full': 'Icon + callsign + altitude',
+    'cfg.traffic.refresh': 'Refresh (s)',
+    'cfg.traffic.radius': 'Radius (NM)',
+    'cfg.traffic.alt': 'Max altitude (ft)',
+    'cfg.traffic.altUnlimited': '(0 = unlimited)',
+    'cfg.traffic.watchlist': 'My aircraft (callsigns, commas)',
+    'cfg.traffic.watchMode': 'Display mode',
+    'cfg.traffic.watchHighlight': 'My aircraft highlighted',
+    'cfg.traffic.watchOnly': 'My aircraft only',
+    'cfg.traffic.flarmTitle': 'FLARM traffic',
+    'cfg.traffic.flarmEnabled': 'Show FLARM traffic',
+    'cfg.traffic.flarmRadius': 'FLARM radius (km)',
+    'cfg.traffic.flarmHint': 'FLARM aircraft appear as green triangles. Altitude filters and watchlist also apply to FLARM.',
+    'cfg.sections.sunTimes': 'Sun times',
+    'cfg.sections.conditions': 'Current conditions',
+    'cfg.sections.fogAlert': 'Fog alert',
+    'cfg.sections.runwayComponents': 'Wind components',
+    'cfg.sections.preferredRunway': 'Preferred runway',
+    'cfg.sections.metar': 'METAR',
+    'cfg.sections.taf': 'TAF',
+    'cfg.sections.tafBar': 'Visual TAF bar',
+    'cfg.sections.sigmet': 'SIGMET',
+    'cfg.sections.flightCategory': 'Flight category',
+    'cfg.sections.sunsetWarning': 'Sunset warning',
+    'cfg.sections.tafDisplay': 'TAF display',
+    'cfg.sections.tafRaw': 'Raw only',
+    'cfg.sections.tafDecoded': 'Decoded only',
+    'cfg.sections.tafBoth': 'Raw + Decoded',
+    'cfg.sections.sidebarPosition': 'Weather panel position',
+    'cfg.sections.sidebarRight': 'Right',
+    'cfg.sections.sidebarLeft': 'Left',
+    'cfg.appearance.themeSection': 'Theme',
+    'cfg.appearance.mode': 'Mode',
+    'cfg.appearance.auto': 'Auto (day/night)',
+    'cfg.appearance.fixed': 'Fixed theme',
+    'cfg.appearance.dayTheme': 'Day theme',
+    'cfg.appearance.nightTheme': 'Night theme',
+    'cfg.appearance.themeLabel': 'Theme',
+    'cfg.appearance.brandingSection': 'Branding',
+    'cfg.appearance.displayTitle': 'Display title',
+    'cfg.appearance.displayTitlePlaceholder': 'e.g.: IROISE',
+    'cfg.appearance.clubName': 'Club name',
+    'cfg.appearance.clubNamePlaceholder': 'e.g.: Iroise Flying Club',
+    'cfg.appearance.logoDay': 'Day logo',
+    'cfg.appearance.logoNight': 'Night logo',
+    'cfg.appearance.chooseLogo': 'Choose...',
+    'cfg.clubDisplay.title': 'Club display',
+    'cfg.clubDisplay.enabled': 'Enable club display',
+    'cfg.clubDisplay.enabledHint': 'Show custom content on the kiosk rotating with weather.',
+    'cfg.clubDisplay.serverEnabled': 'Local server',
+    'cfg.clubDisplay.serverHint': 'Admin access over WiFi, no internet needed.',
+    'cfg.clubDisplay.serverPort': 'Port',
+    'cfg.clubDisplay.placement': 'Rotation mode',
+    'cfg.clubDisplay.placementAfter': 'Club slides after weather',
+    'cfg.clubDisplay.placementInterleaved': 'Interleaved with weather',
+    'cfg.clubDisplay.placementOnly': 'Club content only',
+    'cfg.clubDisplay.defaultDuration': 'Default duration (s)'
   }
 };
 
@@ -354,6 +1074,11 @@ function setLang(lang) {
       modeIndicator.textContent = api.mode === 'local' ? t('dashboard.modeLocal') : t('dashboard.modeCloud');
     }
     renderSlides();
+    // Re-render config if loaded
+    if (currentView === 'config' && fullConfig) {
+      cfgRenderSectionToggles();
+      cfgRenderThemeGrids();
+    }
   }
 }
 
@@ -658,6 +1383,106 @@ class ApiClient {
     }
   }
 
+  // ── GET FULL CONFIG ──
+
+  async getFullConfig() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/full-config');
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_config?license_key=eq.' + encodeURIComponent(this.licenseKey)
+          + '&select=config,updated_at',
+        { headers: supabaseHeaders() }
+      );
+      if (!resp.ok) throw new Error('Failed to load config');
+      const rows = await resp.json();
+      return rows.length > 0 ? rows[0].config : null;
+    }
+  }
+
+  // ── SAVE FULL CONFIG ──
+
+  async saveFullConfig(config) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/full-config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/club_config', {
+        method: 'POST',
+        headers: supabaseHeaders({ 'Prefer': 'resolution=merge-duplicates' }),
+        body: JSON.stringify({
+          license_key: this.licenseKey,
+          config,
+          updated_at: new Date().toISOString()
+        })
+      });
+      if (!resp.ok) throw new Error('Failed to save config');
+      return { success: true };
+    }
+  }
+
+  // ── SEARCH AIRPORTS ──
+
+  async searchAirports(query) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/airports/search?q=' + encodeURIComponent(query));
+      return resp.json();
+    } else {
+      return [];
+    }
+  }
+
+  // ── GET AIRPORT DETAILS ──
+
+  async getAirport(id) {
+    if (this.mode === 'local') {
+      try {
+        const resp = await this._fetchLocal('/api/airports/' + encodeURIComponent(id));
+        if (!resp.ok) return null;
+        return resp.json();
+      } catch (e) { return null; }
+    } else {
+      return null;
+    }
+  }
+
+  // ── UPLOAD LOGO ──
+
+  async uploadLogo(file) {
+    if (this.mode === 'local') {
+      const formData = new FormData();
+      formData.append('image', file);
+      const resp = await this._fetchLocal('/api/upload-logo', {
+        method: 'POST',
+        body: formData
+      });
+      return resp.json();
+    } else {
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const storagePath = this.licenseKey + '/logos/' + Date.now() + '-' + safeName;
+      const resp = await fetch(
+        SUPABASE_URL + '/storage/v1/object/' + STORAGE_BUCKET + '/' + storagePath,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': file.type,
+            'x-upsert': 'true'
+          },
+          body: file
+        }
+      );
+      if (!resp.ok) throw new Error('Upload failed');
+      return { fileName: storagePath, isCloudPath: true };
+    }
+  }
+
   // ── IMAGE URL HELPER ──
 
   getImageUrl(slide) {
@@ -722,6 +1547,11 @@ function showDashboard() {
     modeIndicator.textContent = api.mode === 'local' ? t('dashboard.modeLocal') : t('dashboard.modeCloud');
     modeIndicator.className = 'mode-badge mode-' + api.mode;
   }
+
+  // Reset to content view, clear config cache
+  fullConfig = null;
+  originalFullConfig = null;
+  switchView('content');
 
   refreshSlides();
 }
@@ -1015,6 +1845,585 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
+// ── CONFIG STATE ──
+let currentView = 'content';
+let currentConfigTab = 'aerodrome';
+let fullConfig = null;
+let originalFullConfig = null;
+let cfgSearchTimeout = null;
+
+// ── VIEW / TAB SWITCHING ──
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.nav-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.view === view));
+  document.getElementById('viewContent').style.display = view === 'content' ? '' : 'none';
+  document.getElementById('viewConfig').style.display = view === 'config' ? '' : 'none';
+  if (view === 'config' && !fullConfig) loadFullConfig();
+}
+
+function switchConfigTab(tab) {
+  currentConfigTab = tab;
+  document.querySelectorAll('.config-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.ctab === tab));
+  document.querySelectorAll('.config-panel').forEach(p =>
+    p.classList.toggle('active', p.dataset.cpanel === tab));
+}
+
+// ── LOAD CONFIG ──
+async function loadFullConfig() {
+  const statusEl = document.getElementById('configStatus');
+  statusEl.textContent = t('cfg.loading');
+  statusEl.className = 'config-status';
+  try {
+    const config = await api.getFullConfig();
+    if (!config) {
+      statusEl.textContent = t('cfg.noConfig');
+      return;
+    }
+    fullConfig = JSON.parse(JSON.stringify(config));
+    originalFullConfig = JSON.parse(JSON.stringify(config));
+    populateConfigTabs();
+    statusEl.textContent = '';
+  } catch (err) {
+    console.error('Error loading config:', err);
+    statusEl.textContent = t('cfg.loadError');
+    statusEl.className = 'config-status error';
+  }
+}
+
+// ── SLIDER HELPERS ──
+function cfgBindSlider(sliderId, valueId) {
+  const slider = document.getElementById(sliderId);
+  const val = document.getElementById(valueId);
+  if (slider && val) {
+    slider.addEventListener('input', () => { val.textContent = slider.value; });
+  }
+}
+function cfgSetSlider(sliderId, valueId, value) {
+  const s = document.getElementById(sliderId);
+  const v = document.getElementById(valueId);
+  if (s) s.value = value;
+  if (v) v.textContent = value;
+}
+
+// ── POPULATE ALL CONFIG TABS ──
+function populateConfigTabs() {
+  if (!fullConfig) return;
+  const c = fullConfig;
+
+  // -- Aérodrome --
+  document.getElementById('cfgStationSearch').value = c.station?.icao || '';
+  document.getElementById('cfgDisplayName').value = c.station?.displayName || '';
+  document.getElementById('cfgLat').value = c.station?.lat || '';
+  document.getElementById('cfgLon').value = c.station?.lon || '';
+  document.getElementById('cfgFir').value = (c.station?.firs || []).join(', ');
+  document.getElementById('cfgFirName').value = c.station?.firName || '';
+  document.getElementById('cfgSigmetRegion').value = c.station?.sigmetRegion || 'eur';
+  cfgRenderRunways();
+
+  // Cloud mode: show hint, disable search
+  const cloudHint = document.getElementById('cfgSearchCloudHint');
+  if (api.mode !== 'local') {
+    cloudHint.style.display = '';
+  } else {
+    cloudHint.style.display = 'none';
+    cfgInitAirportSearch();
+  }
+
+  // -- Seuils --
+  const profile = c.thresholds?.profile || 'dgac';
+  document.querySelectorAll('input[name="cfgThresholdProfile"]').forEach(r => { r.checked = r.value === profile; });
+  document.getElementById('cfgThrVfrVis').value = c.thresholds?.vfr?.visibility ?? 5000;
+  document.getElementById('cfgThrVfrCeil').value = c.thresholds?.vfr?.ceiling ?? 1500;
+  document.getElementById('cfgThrSpecVis').value = c.thresholds?.vfrSpecial?.visibility ?? 1500;
+  document.getElementById('cfgThrSpecCeil').value = c.thresholds?.vfrSpecial?.ceiling ?? 600;
+  document.getElementById('cfgThrGreenVis').value = c.thresholds?.green?.visibility ?? 9999;
+  document.getElementById('cfgThrGreenCeil').value = c.thresholds?.green?.ceiling ?? 5000;
+  document.getElementById('cfgThrXwindDgr').value = c.thresholds?.wind?.crosswindDanger ?? 25;
+  document.getElementById('cfgThrXwindWrn').value = c.thresholds?.wind?.crosswindWarning ?? 17;
+  document.getElementById('cfgThrTailDgr').value = c.thresholds?.wind?.tailwindDanger ?? 11;
+  document.getElementById('cfgThrTailWrn').value = c.thresholds?.wind?.tailwindWarning ?? 6;
+  document.getElementById('cfgThrFogDgr').value = c.thresholds?.fog?.danger ?? 1;
+  document.getElementById('cfgThrFogWrn').value = c.thresholds?.fog?.warning ?? 2;
+  document.getElementById('cfgThrFogWatch').value = c.thresholds?.fog?.watch ?? 4;
+  document.getElementById('cfgThrMetarDgr').value = c.thresholds?.metarAge?.danger ?? 60;
+  document.getElementById('cfgThrMetarWrn').value = c.thresholds?.metarAge?.warning ?? 45;
+  document.getElementById('cfgThrSunsetShow').value = c.thresholds?.sunsetWarning?.showMinutes ?? 30;
+  document.getElementById('cfgThrSunsetCrit').value = c.thresholds?.sunsetWarning?.criticalMinutes ?? 15;
+  cfgUpdateThresholdState();
+
+  // -- Carte --
+  document.getElementById('cfgMapBasemap').value = c.maps?.basemap || 'voyager';
+  document.getElementById('cfgMapBasemapAuto').checked = c.maps?.basemapAuto === true;
+  document.getElementById('cfgMapBasemapDay').value = c.maps?.basemapDay || 'voyager';
+  document.getElementById('cfgMapBasemapNight').value = c.maps?.basemapNight || 'dark';
+  cfgToggleBasemapAuto();
+  document.getElementById('cfgMapAirports').value = c.maps?.airportDisplay || 'none';
+  cfgSetSlider('cfgMapZoom', 'cfgMapZoomVal', c.maps?.zoom ?? 7);
+  cfgSetSlider('cfgMapOffLat', 'cfgMapOffLatVal', c.maps?.offsetLat ?? 0);
+  cfgSetSlider('cfgMapOffLon', 'cfgMapOffLonVal', c.maps?.offsetLon ?? 0);
+  cfgSetSlider('cfgRotation', 'cfgRotationVal', c.maps?.rotationSeconds ?? 20);
+  cfgRenderMapLayers();
+
+  // -- Trafic --
+  document.getElementById('cfgTrafficEnabled').checked = c.traffic?.enabled !== false;
+  document.getElementById('cfgTrafficDetail').value = c.traffic?.detail || 'icon';
+  cfgSetSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal', c.traffic?.refreshSeconds ?? 10);
+  cfgSetSlider('cfgTrafficRadius', 'cfgTrafficRadiusVal', c.traffic?.radiusNm ?? 135);
+  cfgSetSlider('cfgTrafficAlt', 'cfgTrafficAltVal', c.traffic?.maxAltitude ?? 10000);
+  document.getElementById('cfgTrafficWatchlist').value = (c.traffic?.watchlist || []).join(', ');
+  document.getElementById('cfgTrafficWatchMode').value = c.traffic?.watchMode || 'highlight';
+  cfgToggleTraffic();
+  document.getElementById('cfgOgnEnabled').checked = c.traffic?.ognEnabled === true;
+  cfgSetSlider('cfgOgnRadius', 'cfgOgnRadiusVal', c.traffic?.ognRadiusKm ?? 250);
+  cfgToggleOgn();
+
+  // -- Sections --
+  cfgRenderSectionToggles();
+  document.getElementById('cfgTafDisplay').value = c.tafDisplay || 'raw';
+  document.getElementById('cfgSidebarPosition').value = c.sidebarPosition || 'right';
+
+  // -- Apparence --
+  const isAuto = c.themeName === 'auto';
+  document.querySelectorAll('input[name="cfgThemeMode"]').forEach(r => { r.checked = r.value === (isAuto ? 'auto' : 'fixed'); });
+  cfgToggleThemeMode();
+  cfgRenderThemeGrids();
+
+  document.getElementById('cfgAppTitle').value = c.branding?.appTitle || '';
+  document.getElementById('cfgClubName').value = c.branding?.clubName || '';
+  document.getElementById('cfgLogoDayName').textContent = c.branding?.logoDay || '—';
+  document.getElementById('cfgLogoNightName').textContent = c.branding?.logoNight || '—';
+
+  // -- Contenu club --
+  document.getElementById('cfgClubEnabled').checked = c.clubDisplay?.enabled !== false;
+  document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
+  document.getElementById('cfgClubServerPort').value = c.clubDisplay?.serverPort || 3000;
+  document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
+  cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', c.clubDisplay?.defaultDuration ?? 15);
+}
+
+// ── COLLECT CONFIG VALUES ──
+function collectConfigValues() {
+  if (!fullConfig) return;
+  const c = fullConfig;
+
+  // Aérodrome
+  if (!c.station) c.station = {};
+  c.station.displayName = document.getElementById('cfgDisplayName').value.trim();
+  c.station.lat = parseFloat(document.getElementById('cfgLat').value) || 0;
+  c.station.lon = parseFloat(document.getElementById('cfgLon').value) || 0;
+  const firVal = document.getElementById('cfgFir').value.trim();
+  c.station.firs = firVal ? firVal.split(',').map(s => s.trim()).filter(Boolean) : [];
+  c.station.firName = document.getElementById('cfgFirName').value.trim();
+  c.station.sigmetRegion = document.getElementById('cfgSigmetRegion').value;
+
+  // Seuils
+  if (!c.thresholds) c.thresholds = {};
+  c.thresholds.profile = document.querySelector('input[name="cfgThresholdProfile"]:checked')?.value || 'dgac';
+  if (!c.thresholds.vfr) c.thresholds.vfr = {};
+  c.thresholds.vfr.visibility = parseInt(document.getElementById('cfgThrVfrVis').value) || 5000;
+  c.thresholds.vfr.ceiling = parseInt(document.getElementById('cfgThrVfrCeil').value) || 1500;
+  if (!c.thresholds.vfrSpecial) c.thresholds.vfrSpecial = {};
+  c.thresholds.vfrSpecial.visibility = parseInt(document.getElementById('cfgThrSpecVis').value) || 1500;
+  c.thresholds.vfrSpecial.ceiling = parseInt(document.getElementById('cfgThrSpecCeil').value) || 600;
+  if (!c.thresholds.green) c.thresholds.green = {};
+  c.thresholds.green.visibility = parseInt(document.getElementById('cfgThrGreenVis').value) || 9999;
+  c.thresholds.green.ceiling = parseInt(document.getElementById('cfgThrGreenCeil').value) || 5000;
+  if (!c.thresholds.wind) c.thresholds.wind = {};
+  c.thresholds.wind.crosswindDanger = parseInt(document.getElementById('cfgThrXwindDgr').value) || 25;
+  c.thresholds.wind.crosswindWarning = parseInt(document.getElementById('cfgThrXwindWrn').value) || 17;
+  c.thresholds.wind.tailwindDanger = parseInt(document.getElementById('cfgThrTailDgr').value) || 11;
+  c.thresholds.wind.tailwindWarning = parseInt(document.getElementById('cfgThrTailWrn').value) || 6;
+  if (!c.thresholds.fog) c.thresholds.fog = {};
+  c.thresholds.fog.danger = parseInt(document.getElementById('cfgThrFogDgr').value) || 1;
+  c.thresholds.fog.warning = parseInt(document.getElementById('cfgThrFogWrn').value) || 2;
+  c.thresholds.fog.watch = parseInt(document.getElementById('cfgThrFogWatch').value) || 4;
+  if (!c.thresholds.metarAge) c.thresholds.metarAge = {};
+  c.thresholds.metarAge.danger = parseInt(document.getElementById('cfgThrMetarDgr').value) || 60;
+  c.thresholds.metarAge.warning = parseInt(document.getElementById('cfgThrMetarWrn').value) || 45;
+  if (!c.thresholds.sunsetWarning) c.thresholds.sunsetWarning = {};
+  c.thresholds.sunsetWarning.showMinutes = parseInt(document.getElementById('cfgThrSunsetShow').value) || 30;
+  c.thresholds.sunsetWarning.criticalMinutes = parseInt(document.getElementById('cfgThrSunsetCrit').value) || 15;
+
+  // Carte
+  if (!c.maps) c.maps = {};
+  c.maps.basemap = document.getElementById('cfgMapBasemap').value;
+  c.maps.basemapAuto = document.getElementById('cfgMapBasemapAuto').checked;
+  c.maps.basemapDay = document.getElementById('cfgMapBasemapDay').value;
+  c.maps.basemapNight = document.getElementById('cfgMapBasemapNight').value;
+  c.maps.airportDisplay = document.getElementById('cfgMapAirports').value;
+  c.maps.zoom = parseFloat(document.getElementById('cfgMapZoom').value) || 7;
+  c.maps.offsetLat = parseFloat(document.getElementById('cfgMapOffLat').value) || 0;
+  c.maps.offsetLon = parseFloat(document.getElementById('cfgMapOffLon').value) || 0;
+  c.maps.rotationSeconds = parseInt(document.getElementById('cfgRotation').value) || 20;
+  // Layers collected from rendered toggles
+  if (c.maps.layers) {
+    document.querySelectorAll('#cfgMapLayers input[data-layer-idx]').forEach(cb => {
+      const idx = parseInt(cb.dataset.layerIdx);
+      if (c.maps.layers[idx]) c.maps.layers[idx].enabled = cb.checked;
+    });
+  }
+
+  // Trafic
+  if (!c.traffic) c.traffic = {};
+  c.traffic.enabled = document.getElementById('cfgTrafficEnabled').checked;
+  c.traffic.detail = document.getElementById('cfgTrafficDetail').value;
+  c.traffic.refreshSeconds = parseInt(document.getElementById('cfgTrafficRefresh').value) || 10;
+  c.traffic.radiusNm = parseInt(document.getElementById('cfgTrafficRadius').value) || 135;
+  c.traffic.maxAltitude = parseInt(document.getElementById('cfgTrafficAlt').value) || 0;
+  const wlRaw = document.getElementById('cfgTrafficWatchlist').value.trim();
+  c.traffic.watchlist = wlRaw ? wlRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+  c.traffic.watchMode = document.getElementById('cfgTrafficWatchMode').value;
+  c.traffic.ognEnabled = document.getElementById('cfgOgnEnabled').checked;
+  c.traffic.ognRadiusKm = parseInt(document.getElementById('cfgOgnRadius').value) || 250;
+
+  // Sections
+  if (!c.sections) c.sections = {};
+  document.querySelectorAll('#cfgSectionToggles input[data-section-key]').forEach(cb => {
+    c.sections[cb.dataset.sectionKey] = cb.checked;
+  });
+  c.tafDisplay = document.getElementById('cfgTafDisplay').value;
+  c.sidebarPosition = document.getElementById('cfgSidebarPosition').value;
+
+  // Apparence
+  const themeMode = document.querySelector('input[name="cfgThemeMode"]:checked')?.value || 'auto';
+  if (themeMode === 'auto') {
+    c.themeName = 'auto';
+    if (!c.themeAuto) c.themeAuto = {};
+    const dayCard = document.querySelector('#cfgThemeDayGrid .cfg-theme-card.selected');
+    const nightCard = document.querySelector('#cfgThemeNightGrid .cfg-theme-card.selected');
+    if (dayCard) c.themeAuto.day = dayCard.dataset.theme;
+    if (nightCard) c.themeAuto.night = nightCard.dataset.theme;
+  } else {
+    const fixedCard = document.querySelector('#cfgThemeFixedGrid .cfg-theme-card.selected');
+    if (fixedCard) c.themeName = fixedCard.dataset.theme;
+  }
+  if (!c.branding) c.branding = {};
+  c.branding.appTitle = document.getElementById('cfgAppTitle').value.trim();
+  c.branding.clubName = document.getElementById('cfgClubName').value.trim();
+
+  // Contenu club
+  if (!c.clubDisplay) c.clubDisplay = {};
+  c.clubDisplay.enabled = document.getElementById('cfgClubEnabled').checked;
+  c.clubDisplay.serverEnabled = document.getElementById('cfgClubServerEnabled').checked;
+  c.clubDisplay.serverPort = parseInt(document.getElementById('cfgClubServerPort').value) || 3000;
+  c.clubDisplay.placement = document.getElementById('cfgClubPlacement').value;
+  c.clubDisplay.defaultDuration = parseInt(document.getElementById('cfgClubDuration').value) || 15;
+}
+
+// ── SAVE / CANCEL ──
+async function saveConfig() {
+  const btn = document.getElementById('btnSaveConfig');
+  const statusEl = document.getElementById('configStatus');
+  btn.disabled = true;
+  statusEl.textContent = t('cfg.saving');
+  statusEl.className = 'config-status';
+  try {
+    collectConfigValues();
+    const result = await api.saveFullConfig(fullConfig);
+    if (result.success !== false) {
+      originalFullConfig = JSON.parse(JSON.stringify(fullConfig));
+      statusEl.textContent = t('cfg.saveSuccess');
+      statusEl.className = 'config-status success';
+      setTimeout(() => { statusEl.textContent = ''; statusEl.className = 'config-status'; }, 3000);
+    } else {
+      statusEl.textContent = t('cfg.saveError');
+      statusEl.className = 'config-status error';
+    }
+  } catch (err) {
+    console.error('Save error:', err);
+    statusEl.textContent = t('cfg.saveError');
+    statusEl.className = 'config-status error';
+  }
+  btn.disabled = false;
+}
+
+function cancelConfig() {
+  if (originalFullConfig) {
+    fullConfig = JSON.parse(JSON.stringify(originalFullConfig));
+    populateConfigTabs();
+    const statusEl = document.getElementById('configStatus');
+    statusEl.textContent = '';
+    statusEl.className = 'config-status';
+  }
+}
+
+// ── AIRPORT SEARCH ──
+function cfgInitAirportSearch() {
+  const input = document.getElementById('cfgStationSearch');
+  const results = document.getElementById('cfgStationResults');
+  input.addEventListener('input', () => {
+    clearTimeout(cfgSearchTimeout);
+    const q = input.value.trim();
+    if (q.length < 2) { results.classList.remove('open'); return; }
+    cfgSearchTimeout = setTimeout(async () => {
+      try {
+        const items = await api.searchAirports(q);
+        if (items.length === 0) {
+          results.innerHTML = '<div class="cfg-search-item"><span class="cfg-search-detail">' + t('cfg.station.noResult') + '</span></div>';
+        } else {
+          results.innerHTML = items.slice(0, 10).map(a =>
+            '<div class="cfg-search-item" data-icao="' + escapeHtml(a.icao || a.id || '') + '">'
+            + '<div class="cfg-search-name">' + escapeHtml(a.icao || a.id || '') + ' — ' + escapeHtml(a.name || '') + '</div>'
+            + '<div class="cfg-search-detail">' + escapeHtml(a.city || '') + (a.type ? ' (' + a.type + ')' : '') + '</div>'
+            + '</div>'
+          ).join('');
+        }
+        results.classList.add('open');
+        results.querySelectorAll('.cfg-search-item[data-icao]').forEach(el => {
+          el.addEventListener('click', () => cfgSelectAirport(el.dataset.icao));
+        });
+      } catch (e) {
+        console.error('Search error:', e);
+      }
+    }, 300);
+  });
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.cfg-search-wrapper')) results.classList.remove('open');
+  });
+}
+
+async function cfgSelectAirport(icao) {
+  document.getElementById('cfgStationResults').classList.remove('open');
+  document.getElementById('cfgStationSearch').value = icao;
+  const details = await api.getAirport(icao);
+  if (details) {
+    fullConfig.station = fullConfig.station || {};
+    fullConfig.station.icao = icao;
+    document.getElementById('cfgDisplayName').value = details.displayName || details.name || icao;
+    fullConfig.station.displayName = details.displayName || details.name || icao;
+    if (details.lat != null) document.getElementById('cfgLat').value = details.lat;
+    if (details.lon != null) document.getElementById('cfgLon').value = details.lon;
+    if (details.firs) document.getElementById('cfgFir').value = (Array.isArray(details.firs) ? details.firs : [details.firs]).join(', ');
+    if (details.firName) document.getElementById('cfgFirName').value = details.firName;
+  }
+}
+
+// ── RUNWAYS ──
+function cfgRenderRunways() {
+  const container = document.getElementById('cfgRunwayList');
+  const rwys = fullConfig?.runways || [];
+  if (rwys.length === 0) {
+    container.innerHTML = '<div class="cfg-hint">' + t('cfg.runways.noRunway') + '</div>';
+    return;
+  }
+  container.innerHTML = rwys.map((r, i) =>
+    '<div class="cfg-runway-item">'
+    + '<span class="rwy-name">' + escapeHtml(r.name) + '</span>'
+    + '<span class="rwy-heading">' + r.heading + '°</span>'
+    + '<button class="cfg-rwy-delete" onclick="cfgDeleteRunway(' + i + ')">✕</button>'
+    + '</div>'
+  ).join('');
+}
+
+function cfgAddRunway() {
+  const name = document.getElementById('cfgNewRwyName').value.trim().toUpperCase();
+  const heading = parseInt(document.getElementById('cfgNewRwyHeading').value);
+  if (!name || isNaN(heading)) return;
+  if (!fullConfig.runways) fullConfig.runways = [];
+  fullConfig.runways.push({ name, heading: heading % 360 });
+  document.getElementById('cfgNewRwyName').value = '';
+  document.getElementById('cfgNewRwyHeading').value = '';
+  cfgRenderRunways();
+}
+
+function cfgDeleteRunway(index) {
+  if (fullConfig?.runways) {
+    fullConfig.runways.splice(index, 1);
+    cfgRenderRunways();
+  }
+}
+
+// ── THRESHOLDS TOGGLE ──
+function cfgUpdateThresholdState() {
+  const profile = document.querySelector('input[name="cfgThresholdProfile"]:checked')?.value;
+  const fields = document.getElementById('cfgThresholdFields');
+  if (fields) {
+    fields.querySelectorAll('.cfg-thr').forEach(input => {
+      input.disabled = profile === 'dgac';
+      input.style.opacity = profile === 'dgac' ? '0.5' : '1';
+    });
+  }
+}
+
+// ── BASEMAP AUTO TOGGLE ──
+function cfgToggleBasemapAuto() {
+  const auto = document.getElementById('cfgMapBasemapAuto').checked;
+  document.getElementById('cfgBasemapAutoGroup').style.display = auto ? '' : 'none';
+}
+
+// ── MAP LAYERS ──
+function cfgRenderMapLayers() {
+  const container = document.getElementById('cfgMapLayers');
+  const layers = fullConfig?.maps?.layers || [];
+  container.innerHTML = layers.map((l, i) =>
+    '<div class="cfg-toggle-row">'
+    + '<span class="cfg-toggle-label">' + escapeHtml(l.label || l.id) + (l.dayOnly ? ' ☀' : '') + '</span>'
+    + '<label class="toggle-switch"><input type="checkbox" data-layer-idx="' + i + '"' + (l.enabled ? ' checked' : '') + '><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
+    + '</div>'
+  ).join('');
+}
+
+// ── TRAFFIC TOGGLES ──
+function cfgToggleTraffic() {
+  const enabled = document.getElementById('cfgTrafficEnabled').checked;
+  document.getElementById('cfgTrafficGroup').style.display = enabled ? '' : 'none';
+  // Show watch mode only if watchlist has content
+  const wl = document.getElementById('cfgTrafficWatchlist').value.trim();
+  document.getElementById('cfgWatchModeGroup').style.display = wl ? '' : 'none';
+}
+
+function cfgToggleOgn() {
+  const enabled = document.getElementById('cfgOgnEnabled').checked;
+  document.getElementById('cfgOgnGroup').style.display = enabled ? '' : 'none';
+}
+
+// ── SECTION TOGGLES ──
+function cfgRenderSectionToggles() {
+  const container = document.getElementById('cfgSectionToggles');
+  const sections = fullConfig?.sections || {};
+  const labels = {
+    sunTimes: t('cfg.sections.sunTimes'),
+    conditions: t('cfg.sections.conditions'),
+    fogAlert: t('cfg.sections.fogAlert'),
+    runwayComponents: t('cfg.sections.runwayComponents'),
+    preferredRunway: t('cfg.sections.preferredRunway'),
+    metar: t('cfg.sections.metar'),
+    taf: t('cfg.sections.taf'),
+    tafBar: t('cfg.sections.tafBar'),
+    sigmet: t('cfg.sections.sigmet'),
+    flightCategory: t('cfg.sections.flightCategory'),
+    sunsetWarning: t('cfg.sections.sunsetWarning')
+  };
+  container.innerHTML = Object.entries(labels).map(([key, label]) =>
+    '<div class="cfg-toggle-row">'
+    + '<span class="cfg-toggle-label">' + escapeHtml(label) + '</span>'
+    + '<label class="toggle-switch"><input type="checkbox" data-section-key="' + key + '"' + (sections[key] !== false ? ' checked' : '') + '><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
+    + '</div>'
+  ).join('');
+}
+
+// ── THEME GRIDS ──
+const THEME_NAMES = { cockpit: 'Cockpit', ocean: 'Ocean', aeroclub: 'Aéroclub', daylight: 'Daylight' };
+
+function cfgRenderThemeGrids() {
+  const themes = fullConfig?.themes || {};
+  const dayTheme = fullConfig?.themeAuto?.day || 'cockpit';
+  const nightTheme = fullConfig?.themeAuto?.night || 'cockpit';
+  const fixedTheme = fullConfig?.themeName !== 'auto' ? fullConfig?.themeName : 'cockpit';
+
+  cfgBuildThemeGrid('cfgThemeDayGrid', themes, dayTheme);
+  cfgBuildThemeGrid('cfgThemeNightGrid', themes, nightTheme);
+  cfgBuildThemeGrid('cfgThemeFixedGrid', themes, fixedTheme);
+}
+
+function cfgBuildThemeGrid(containerId, themes, selectedTheme) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = Object.entries(THEME_NAMES).map(([key, name]) => {
+    const th = themes[key] || {};
+    return '<div class="cfg-theme-card' + (key === selectedTheme ? ' selected' : '') + '" data-theme="' + key + '">'
+      + '<div class="cfg-theme-preview" style="background:' + (th.bg || '#0a0e14') + ';">'
+      + '<span class="swatch" style="background:' + (th.accent || '#00d4ff') + ';"></span>'
+      + '<span class="swatch" style="background:' + (th.vfr || '#22c55e') + ';"></span>'
+      + '<span class="swatch" style="background:' + (th.ifr || '#ef4444') + ';"></span>'
+      + '</div>'
+      + '<div class="cfg-theme-name">' + escapeHtml(name) + '</div>'
+      + '</div>';
+  }).join('');
+
+  container.querySelectorAll('.cfg-theme-card').forEach(card => {
+    card.addEventListener('click', () => {
+      container.querySelectorAll('.cfg-theme-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    });
+  });
+}
+
+function cfgToggleThemeMode() {
+  const mode = document.querySelector('input[name="cfgThemeMode"]:checked')?.value;
+  document.getElementById('cfgThemeAutoConfig').style.display = mode === 'auto' ? '' : 'none';
+  document.getElementById('cfgThemeFixedConfig').style.display = mode === 'fixed' ? '' : 'none';
+}
+
+// ── LOGO UPLOAD ──
+document.addEventListener('DOMContentLoaded', () => {
+  const logoDayFile = document.getElementById('cfgLogoDayFile');
+  const logoNightFile = document.getElementById('cfgLogoNightFile');
+  if (logoDayFile) logoDayFile.addEventListener('change', () => cfgUploadLogo('day'));
+  if (logoNightFile) logoNightFile.addEventListener('change', () => cfgUploadLogo('night'));
+});
+
+async function cfgUploadLogo(which) {
+  const fileInput = document.getElementById(which === 'day' ? 'cfgLogoDayFile' : 'cfgLogoNightFile');
+  const file = fileInput.files[0];
+  if (!file) return;
+  try {
+    const result = await api.uploadLogo(file);
+    const fileName = result.fileName || result.filename || '';
+    if (which === 'day') {
+      fullConfig.branding = fullConfig.branding || {};
+      fullConfig.branding.logoDay = fileName;
+      document.getElementById('cfgLogoDayName').textContent = file.name;
+      // Preview
+      const reader = new FileReader();
+      reader.onload = (e) => { document.getElementById('cfgLogoDayPreview').innerHTML = '<img src="' + e.target.result + '" alt="">'; };
+      reader.readAsDataURL(file);
+    } else {
+      fullConfig.branding = fullConfig.branding || {};
+      fullConfig.branding.logoNight = fileName;
+      document.getElementById('cfgLogoNightName').textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => { document.getElementById('cfgLogoNightPreview').innerHTML = '<img src="' + e.target.result + '" alt="">'; };
+      reader.readAsDataURL(file);
+    }
+  } catch (err) {
+    console.error('Logo upload error:', err);
+  }
+}
+
+// ── EVENT BINDINGS (config) ──
+document.addEventListener('DOMContentLoaded', () => {
+  // Slider bindings
+  cfgBindSlider('cfgMapZoom', 'cfgMapZoomVal');
+  cfgBindSlider('cfgMapOffLat', 'cfgMapOffLatVal');
+  cfgBindSlider('cfgMapOffLon', 'cfgMapOffLonVal');
+  cfgBindSlider('cfgRotation', 'cfgRotationVal');
+  cfgBindSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal');
+  cfgBindSlider('cfgTrafficRadius', 'cfgTrafficRadiusVal');
+  cfgBindSlider('cfgTrafficAlt', 'cfgTrafficAltVal');
+  cfgBindSlider('cfgOgnRadius', 'cfgOgnRadiusVal');
+  cfgBindSlider('cfgClubDuration', 'cfgClubDurationVal');
+
+  // Threshold profile toggle
+  document.querySelectorAll('input[name="cfgThresholdProfile"]').forEach(r => {
+    r.addEventListener('change', cfgUpdateThresholdState);
+  });
+
+  // Basemap auto toggle
+  const bmAuto = document.getElementById('cfgMapBasemapAuto');
+  if (bmAuto) bmAuto.addEventListener('change', cfgToggleBasemapAuto);
+
+  // Traffic toggles
+  const trafficEn = document.getElementById('cfgTrafficEnabled');
+  if (trafficEn) trafficEn.addEventListener('change', cfgToggleTraffic);
+  const ognEn = document.getElementById('cfgOgnEnabled');
+  if (ognEn) ognEn.addEventListener('change', cfgToggleOgn);
+
+  // Watchlist → show/hide watch mode
+  const wlInput = document.getElementById('cfgTrafficWatchlist');
+  if (wlInput) wlInput.addEventListener('input', () => {
+    document.getElementById('cfgWatchModeGroup').style.display = wlInput.value.trim() ? '' : 'none';
+  });
+
+  // Theme mode toggle
+  document.querySelectorAll('input[name="cfgThemeMode"]').forEach(r => {
+    r.addEventListener('change', cfgToggleThemeMode);
+  });
+});
 
 // ── AUTO-INIT ──
 (async function init() {
