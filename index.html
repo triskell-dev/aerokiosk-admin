@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AeroKiosk — Gestion affichage</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>AEROKIOSK</h1>
+    <p class="subtitle">Gestion de l'affichage club</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="licenseKey">Clé de licence</label>
+        <input type="text" id="licenseKey" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off" required>
+      </div>
+      <div class="field">
+        <label for="password">Mot de passe admin</label>
+        <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn" id="loginBtn">Connexion</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div class="dashboard" id="dashboard">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <h2 id="clubName">AEROKIOSK</h2>
+      <div class="station-badge" id="stationBadge"></div>
+    </div>
+    <div class="top-bar-right">
+      <span class="mode-badge" id="modeIndicator"></span>
+      <button class="btn-logout" id="logoutBtn">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Boutons d'ajout -->
+    <div class="add-bar">
+      <button class="btn-add" onclick="openModal('slide')">
+        <span class="icon">+</span> Slide
+      </button>
+      <button class="btn-add" onclick="openModal('flash-info')">
+        <span class="icon">ℹ</span> Flash info
+      </button>
+      <button class="btn-add" onclick="openModal('flash-urgent')">
+        <span class="icon">⚠</span> Flash urgent
+      </button>
+    </div>
+
+    <!-- Liste des slides -->
+    <div class="slides-list" id="slidesList">
+      <div class="empty-state">
+        <div class="icon">📋</div>
+        <p>Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL AJOUT ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Ajouter</h3>
+    <form id="addForm">
+      <input type="hidden" id="addMode" value="slide">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="addLabel">Nom / Titre</label>
+          <input type="text" id="addLabel" placeholder="ex: Photo du club">
+        </div>
+        <div class="form-group">
+          <label for="addFormat">Format</label>
+          <select id="addFormat">
+            <option value="text">Texte</option>
+            <option value="image">Image</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Texte -->
+      <div class="form-group" id="textGroup">
+        <label for="addContent">Contenu</label>
+        <textarea id="addContent" rows="4" placeholder="Votre message..."></textarea>
+      </div>
+
+      <!-- Image -->
+      <div class="form-group" id="imageGroup" style="display:none;">
+        <label>Image (JPG, PNG, SVG)</label>
+        <div class="file-upload">
+          <input type="file" id="addFile" accept=".jpg,.jpeg,.png,.svg">
+          <div class="file-upload-label">
+            <span class="icon">📁</span>
+            Cliquez ou glissez une image
+          </div>
+        </div>
+        <div class="file-upload-preview" id="filePreview"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="addDuration">Durée (secondes)</label>
+          <input type="number" id="addDuration" value="15" min="5" max="120">
+        </div>
+        <div class="form-group">
+          <label for="addExpires">Expiration (optionnel)</label>
+          <input type="datetime-local" id="addExpires">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal()">Annuler</button>
+        <button type="submit" class="btn-submit">Publier</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
