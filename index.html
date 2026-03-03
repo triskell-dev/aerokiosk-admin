@@ -24,7 +24,26 @@
       </div>
       <button type="submit" class="login-btn" id="loginBtn">Connexion</button>
       <div class="login-error" id="loginError"></div>
+      <div class="forgot-link">
+        <a href="#" id="forgotPasswordLink">Mot de passe oublié ?</a>
+      </div>
     </form>
+    <!-- Vue reset mot de passe -->
+    <div id="resetView" style="display:none;">
+      <h1>AEROKIOSK</h1>
+      <p class="subtitle">Réinitialisation du mot de passe</p>
+      <p class="reset-instructions">Entrez votre clé de licence pour supprimer le mot de passe admin. Vous pourrez ensuite en définir un nouveau dans les paramètres du kiosque.</p>
+      <div class="field">
+        <label for="resetLicenseKey">Clé de licence</label>
+        <input type="text" id="resetLicenseKey" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase;letter-spacing:1px;">
+      </div>
+      <button type="button" class="login-btn" id="resetBtn">Réinitialiser</button>
+      <div class="login-error" id="resetError"></div>
+      <div class="login-success" id="resetSuccess" style="display:none;"></div>
+      <div class="forgot-link">
+        <a href="#" id="resetBackLink">← Retour à la connexion</a>
+      </div>
+    </div>
   </div>
 </div>
 

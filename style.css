@@ -94,6 +94,30 @@ body {
   margin-top: 10px;
   min-height: 20px;
 }
+.login-success {
+  color: var(--success);
+  font-size: 13px;
+  margin-top: 10px;
+}
+.forgot-link {
+  text-align: center;
+  margin-top: 14px;
+}
+.forgot-link a {
+  color: var(--accent);
+  font-size: 13px;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.forgot-link a:hover { opacity: 1; }
+.reset-instructions {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+  line-height: 1.5;
+  text-align: left;
+}
 
 /* ── DASHBOARD ── */
 .dashboard { display: none; min-height: 100vh; }

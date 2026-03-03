@@ -403,6 +403,82 @@ logoutBtn.addEventListener('click', () => {
   showLogin();
 });
 
+// ── MOT DE PASSE OUBLIÉ ──
+document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('resetView').style.display = '';
+  document.getElementById('resetError').textContent = '';
+  document.getElementById('resetSuccess').style.display = 'none';
+  document.getElementById('resetLicenseKey').value = document.getElementById('licenseKey').value || '';
+  document.getElementById('resetLicenseKey').focus();
+});
+
+document.getElementById('resetBackLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('resetView').style.display = 'none';
+  document.getElementById('loginForm').style.display = '';
+});
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  const resetBtn = document.getElementById('resetBtn');
+  const errorEl = document.getElementById('resetError');
+  const successEl = document.getElementById('resetSuccess');
+  errorEl.textContent = '';
+  successEl.style.display = 'none';
+
+  const key = document.getElementById('resetLicenseKey').value.trim();
+  if (!key) { errorEl.textContent = 'Entrez votre clé de licence.'; return; }
+
+  resetBtn.disabled = true;
+
+  try {
+    if (api.mode === 'local') {
+      // Mode local : appeler l'API du serveur kiosque
+      const resp = await fetch(window.location.origin + '/api/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ licenseKey: key })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data.success) throw new Error('invalid_key');
+    } else {
+      // Mode Supabase : vérifier que la clé existe, puis effacer le hash
+      const checkResp = await fetch(
+        SUPABASE_URL + '/rest/v1/licenses?key=eq.' + encodeURIComponent(key) + '&select=key',
+        { headers: supabaseHeaders() }
+      );
+      if (!checkResp.ok) throw new Error('server_error');
+      const rows = await checkResp.json();
+      if (rows.length === 0) throw new Error('invalid_key');
+
+      // Effacer le mot de passe admin dans Supabase
+      const updateResp = await fetch(
+        SUPABASE_URL + '/rest/v1/licenses?key=eq.' + encodeURIComponent(key),
+        {
+          method: 'PATCH',
+          headers: supabaseHeaders(),
+          body: JSON.stringify({ admin_password_hash: null })
+        }
+      );
+      if (!updateResp.ok) throw new Error('server_error');
+    }
+
+    // Succès
+    successEl.textContent = 'Mot de passe supprimé. Vous pouvez maintenant vous connecter sans mot de passe, puis en définir un nouveau dans les paramètres du kiosque.';
+    successEl.style.display = '';
+    errorEl.textContent = '';
+  } catch (err) {
+    if (err.message === 'invalid_key') {
+      errorEl.textContent = 'Clé de licence incorrecte.';
+    } else {
+      errorEl.textContent = 'Erreur serveur — vérifiez votre connexion.';
+    }
+  }
+
+  resetBtn.disabled = false;
+});
+
 // ── SLIDES LIST ──
 async function refreshSlides() {
   try {
