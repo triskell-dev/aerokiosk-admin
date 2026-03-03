@@ -11,6 +11,13 @@
 <!-- ── LOGIN ── -->
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
+    <select class="lang-select" onchange="setLang(this.value)">
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="it">IT</option>
+      <option value="es">ES</option>
+      <option value="en">EN</option>
+    </select>
     <h1>AEROKIOSK</h1>
     <p class="subtitle" data-i18n="login.subtitle">Gestion de l'affichage club</p>
     <form id="loginForm">
@@ -55,6 +62,13 @@
       <div class="station-badge" id="stationBadge"></div>
     </div>
     <div class="top-bar-right">
+      <select class="lang-select" onchange="setLang(this.value)">
+        <option value="fr">FR</option>
+        <option value="de">DE</option>
+        <option value="it">IT</option>
+        <option value="es">ES</option>
+        <option value="en">EN</option>
+      </select>
       <span class="mode-badge" id="modeIndicator"></span>
       <button class="btn-logout" id="logoutBtn" data-i18n="dashboard.logout">Déconnexion</button>
     </div>

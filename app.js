@@ -292,16 +292,21 @@ const TRANSLATIONS = {
 };
 
 const SUPPORTED_LANGS = ['fr', 'de', 'it', 'es', 'en'];
+const LANG_LABELS = { fr: 'FR', de: 'DE', it: 'IT', es: 'ES', en: 'EN' };
 const DATE_LOCALES = { fr: 'fr-FR', de: 'de-DE', it: 'it-IT', es: 'es-ES', en: 'en-GB' };
 
 /** Detect browser language → supported lang, fallback 'en' */
 function detectLang() {
+  // Check localStorage first (manual override)
+  const saved = localStorage.getItem('clubAdminLang');
+  if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  // Auto-detect from browser
   const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
   const short = nav.split('-')[0];
   return SUPPORTED_LANGS.includes(short) ? short : 'en';
 }
 
-const LANG = detectLang();
+let LANG = detectLang();
 
 /** Translate a key. Fallback: English → key name. */
 function t(key) {
@@ -332,6 +337,24 @@ function applyI18n() {
   document.title = t('pageTitle');
   // HTML lang
   document.documentElement.lang = LANG;
+  // Sync all language selectors
+  document.querySelectorAll('.lang-select').forEach(sel => { sel.value = LANG; });
+}
+
+/** Change language, persist, and re-apply */
+function setLang(lang) {
+  if (!SUPPORTED_LANGS.includes(lang)) return;
+  LANG = lang;
+  localStorage.setItem('clubAdminLang', lang);
+  applyI18n();
+  // Re-render slides if visible (dynamic content)
+  if (dashboard.classList.contains('visible')) {
+    const modeIndicator = document.getElementById('modeIndicator');
+    if (modeIndicator) {
+      modeIndicator.textContent = api.mode === 'local' ? t('dashboard.modeLocal') : t('dashboard.modeCloud');
+    }
+    renderSlides();
+  }
 }
 
 // Apply i18n as soon as DOM is ready
