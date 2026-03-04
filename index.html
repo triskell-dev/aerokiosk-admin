@@ -120,6 +120,7 @@
         <button class="config-tab" data-ctab="sections" onclick="switchConfigTab('sections')" data-i18n="cfg.tabSections">Sections</button>
         <button class="config-tab" data-ctab="appearance" onclick="switchConfigTab('appearance')" data-i18n="cfg.tabAppearance">Apparence</button>
         <button class="config-tab" data-ctab="clubdisplay" onclick="switchConfigTab('clubdisplay')" data-i18n="cfg.tabClubDisplay">Contenu club</button>
+        <button class="config-tab god-tab" data-ctab="godmode" onclick="switchConfigTab('godmode')" style="display:none;">Advanced</button>
       </div>
 
       <!-- ======== PANNEAU : Aérodrome ======== -->
@@ -465,6 +466,34 @@
         </div>
       </div>
 
+      <!-- ======== PANNEAU : God Mode (caché) ======== -->
+      <div class="config-panel god-panel" data-cpanel="godmode" id="cfgGodMode">
+        <div class="god-warning">
+          ⚠ Mode avancé — Usage personnel uniquement. Ces fonctionnalités utilisent des sources non-officielles.
+        </div>
+
+        <h3 class="section-title">FlightRadar24 (non-officiel)</h3>
+        <p class="cfg-hint">Scraper FR24 — meilleure couverture que adsb.lol mais non-officiel. Les markers FR24 apparaissent en rose sur la carte.</p>
+
+        <div class="form-group">
+          <label class="cfg-toggle-row">
+            <span>Activer FlightRadar24</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="cfgFr24Enabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </label>
+        </div>
+
+        <div id="cfgFr24Settings" style="display:none;">
+          <div class="form-group">
+            <label>Intervalle de rafraîchissement <span class="cfg-slider-value" id="cfgFr24RefreshVal">30</span>s</label>
+            <input type="range" class="cfg-range" id="cfgFr24Refresh" min="10" max="120" step="5" value="30">
+          </div>
+          <p class="cfg-hint">Un intervalle court (10-15s) augmente le risque de blocage par FR24. Recommandé : 30s minimum.</p>
+        </div>
+      </div>
+
       <!-- Footer Enregistrer / Annuler -->
       <div class="config-footer" id="configFooter">
         <div class="config-status" id="configStatus"></div>
@@ -535,6 +564,21 @@
         <button type="submit" class="btn-submit" data-i18n="modal.publish">Publier</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- ── MODAL GOD MODE ── -->
+<div class="god-mode-overlay" id="godModeOverlay" style="display:none;" onclick="if(event.target===this)closeGodModal()">
+  <div class="god-mode-card">
+    <h3 id="godModalTitle">Accès avancé</h3>
+    <p id="godModalDesc" class="god-modal-desc">Entrez le mot de passe pour activer le mode avancé.</p>
+    <input type="password" id="godModalPassword" class="form-input" placeholder="Mot de passe" autocomplete="off">
+    <input type="password" id="godModalConfirm" class="form-input" placeholder="Confirmer le mot de passe" autocomplete="off" style="display:none;">
+    <div class="god-modal-error" id="godModalError" style="display:none;"></div>
+    <div class="god-modal-actions">
+      <button class="btn-cancel" onclick="closeGodModal()">Annuler</button>
+      <button class="btn-submit" id="godModalSubmit" onclick="submitGodModal()">Déverrouiller</button>
+    </div>
   </div>
 </div>
 

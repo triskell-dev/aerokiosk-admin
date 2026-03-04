@@ -1483,6 +1483,42 @@ class ApiClient {
     }
   }
 
+  // ── GOD MODE ──
+
+  async godModeUnlock(password) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/godmode-unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      return resp.json();
+    } else {
+      // Mode cloud : vérification côté client
+      if (!fullConfig || !fullConfig.godMode?.passwordHash) return { ok: false, needsSetup: true };
+      const ok = await verifyHashClient(password, fullConfig.godMode.passwordHash);
+      return { ok };
+    }
+  }
+
+  async godModeSetup(password) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/godmode-setup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      return resp.json();
+    } else {
+      // Mode cloud : hash côté client et sauvegarder dans config
+      const hash = await hashPasswordClient(password);
+      if (!fullConfig.godMode) fullConfig.godMode = {};
+      fullConfig.godMode.passwordHash = hash;
+      await this.saveFullConfig(fullConfig);
+      return { ok: true };
+    }
+  }
+
   // ── IMAGE URL HELPER ──
 
   getImageUrl(slide) {
@@ -1551,6 +1587,9 @@ function showDashboard() {
   // Reset to content view, clear config cache
   fullConfig = null;
   originalFullConfig = null;
+  godModeActive = false;
+  const godTab = document.querySelector('.god-tab');
+  if (godTab) godTab.style.display = 'none';
   switchView('content');
 
   refreshSlides();
@@ -1852,6 +1891,8 @@ let currentConfigTab = 'aerodrome';
 let fullConfig = null;
 let originalFullConfig = null;
 let cfgSearchTimeout = null;
+let godModeActive = false;
+let godModalMode = 'unlock'; // 'unlock' ou 'setup'
 
 // ── VIEW / TAB SWITCHING ──
 function switchView(view) {
@@ -2002,6 +2043,9 @@ function populateConfigTabs() {
   document.getElementById('cfgClubServerPort').value = c.clubDisplay?.serverPort || 3000;
   document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
   cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', c.clubDisplay?.defaultDuration ?? 15);
+
+  // -- God mode (si actif) --
+  if (godModeActive) populateGodModeTab();
 }
 
 // ── COLLECT CONFIG VALUES ──
@@ -2111,6 +2155,9 @@ function collectConfigValues() {
   c.clubDisplay.serverPort = parseInt(document.getElementById('cfgClubServerPort').value) || 3000;
   c.clubDisplay.placement = document.getElementById('cfgClubPlacement').value;
   c.clubDisplay.defaultDuration = parseInt(document.getElementById('cfgClubDuration').value) || 15;
+
+  // God mode
+  if (godModeActive) collectGodModeValues();
 }
 
 // ── SAVE / CANCEL ──
@@ -2397,6 +2444,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cfgBindSlider('cfgTrafficAlt', 'cfgTrafficAltVal');
   cfgBindSlider('cfgOgnRadius', 'cfgOgnRadiusVal');
   cfgBindSlider('cfgClubDuration', 'cfgClubDurationVal');
+  cfgBindSlider('cfgFr24Refresh', 'cfgFr24RefreshVal');
 
   // Threshold profile toggle
   document.querySelectorAll('input[name="cfgThresholdProfile"]').forEach(r => {
@@ -2423,7 +2471,186 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input[name="cfgThemeMode"]').forEach(r => {
     r.addEventListener('change', cfgToggleThemeMode);
   });
+
+  // FR24 toggle → show/hide settings
+  const fr24En = document.getElementById('cfgFr24Enabled');
+  if (fr24En) fr24En.addEventListener('change', () => {
+    document.getElementById('cfgFr24Settings').style.display = fr24En.checked ? '' : 'none';
+  });
+
+  // God mode keyboard shortcut: Ctrl+Shift+G
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'G') {
+      e.preventDefault();
+      if (godModeActive) return; // déjà actif
+      if (currentView !== 'config') return; // seulement en vue config
+      triggerGodMode();
+    }
+  });
 });
+
+// ── GOD MODE ──
+
+// Hash SHA-256 côté client (pour mode cloud)
+async function hashPasswordClient(password) {
+  const salt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+  const data = new TextEncoder().encode(salt + password);
+  const hashBuf = await crypto.subtle.digest('SHA-256', data);
+  const hash = Array.from(new Uint8Array(hashBuf))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+  return `sha256:${salt}:${hash}`;
+}
+
+async function verifyHashClient(password, storedHash) {
+  if (!storedHash) return false;
+  const parts = storedHash.split(':');
+  if (parts.length !== 3) return false;
+  const [, salt, hash] = parts;
+  const data = new TextEncoder().encode(salt + password);
+  const hashBuf = await crypto.subtle.digest('SHA-256', data);
+  const computed = Array.from(new Uint8Array(hashBuf))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+  return computed === hash;
+}
+
+async function triggerGodMode() {
+  if (!fullConfig) return;
+  // Vérifier si un mot de passe god mode est déjà défini
+  if (api.mode === 'local') {
+    try {
+      const result = await api.godModeUnlock('__check__');
+      if (result.needsSetup) {
+        showGodModal('setup');
+      } else {
+        showGodModal('unlock');
+      }
+    } catch (e) {
+      showGodModal('unlock');
+    }
+  } else {
+    // Mode cloud : vérifier dans la config chargée
+    if (!fullConfig.godMode?.passwordHash) {
+      showGodModal('setup');
+    } else {
+      showGodModal('unlock');
+    }
+  }
+}
+
+function showGodModal(mode) {
+  godModalMode = mode;
+  const overlay = document.getElementById('godModeOverlay');
+  const title = document.getElementById('godModalTitle');
+  const desc = document.getElementById('godModalDesc');
+  const pwdInput = document.getElementById('godModalPassword');
+  const confirmInput = document.getElementById('godModalConfirm');
+  const submitBtn = document.getElementById('godModalSubmit');
+  const errorEl = document.getElementById('godModalError');
+
+  errorEl.style.display = 'none';
+  pwdInput.value = '';
+  confirmInput.value = '';
+
+  if (mode === 'setup') {
+    title.textContent = 'Créer accès avancé';
+    desc.textContent = 'Définissez un mot de passe pour le mode avancé. Ce mot de passe est distinct du mot de passe admin.';
+    confirmInput.style.display = '';
+    submitBtn.textContent = 'Créer';
+  } else {
+    title.textContent = 'Accès avancé';
+    desc.textContent = 'Entrez le mot de passe pour activer le mode avancé.';
+    confirmInput.style.display = 'none';
+    submitBtn.textContent = 'Déverrouiller';
+  }
+
+  overlay.style.display = 'flex';
+  setTimeout(() => pwdInput.focus(), 100);
+
+  // Enter key handler
+  pwdInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); if (mode === 'setup') confirmInput.focus(); else submitGodModal(); } };
+  confirmInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); submitGodModal(); } };
+}
+
+function closeGodModal() {
+  document.getElementById('godModeOverlay').style.display = 'none';
+}
+
+async function submitGodModal() {
+  const pwd = document.getElementById('godModalPassword').value;
+  const confirm = document.getElementById('godModalConfirm').value;
+  const errorEl = document.getElementById('godModalError');
+
+  if (!pwd) {
+    errorEl.textContent = 'Mot de passe requis';
+    errorEl.style.display = '';
+    return;
+  }
+
+  if (godModalMode === 'setup') {
+    if (pwd.length < 4) {
+      errorEl.textContent = 'Minimum 4 caractères';
+      errorEl.style.display = '';
+      return;
+    }
+    if (pwd !== confirm) {
+      errorEl.textContent = 'Les mots de passe ne correspondent pas';
+      errorEl.style.display = '';
+      return;
+    }
+    try {
+      await api.godModeSetup(pwd);
+      closeGodModal();
+      activateGodMode();
+    } catch (e) {
+      errorEl.textContent = 'Erreur : ' + e.message;
+      errorEl.style.display = '';
+    }
+  } else {
+    try {
+      const result = await api.godModeUnlock(pwd);
+      if (result.ok) {
+        closeGodModal();
+        activateGodMode();
+      } else {
+        errorEl.textContent = 'Mot de passe incorrect';
+        errorEl.style.display = '';
+      }
+    } catch (e) {
+      errorEl.textContent = 'Erreur : ' + e.message;
+      errorEl.style.display = '';
+    }
+  }
+}
+
+function activateGodMode() {
+  godModeActive = true;
+  sessionStorage.setItem('godModeActive', 'true');
+  // Afficher l'onglet god mode
+  const godTab = document.querySelector('.god-tab');
+  if (godTab) godTab.style.display = '';
+  // Basculer vers l'onglet
+  switchConfigTab('godmode');
+  // Populate
+  populateGodModeTab();
+}
+
+function populateGodModeTab() {
+  if (!fullConfig) return;
+  const gm = fullConfig.godMode || {};
+  const fr24 = gm.fr24 || {};
+  document.getElementById('cfgFr24Enabled').checked = !!fr24.enabled;
+  document.getElementById('cfgFr24Settings').style.display = fr24.enabled ? '' : 'none';
+  cfgSetSlider('cfgFr24Refresh', 'cfgFr24RefreshVal', fr24.refreshSeconds || 30, 's');
+}
+
+function collectGodModeValues() {
+  if (!fullConfig) return;
+  if (!fullConfig.godMode) fullConfig.godMode = {};
+  if (!fullConfig.godMode.fr24) fullConfig.godMode.fr24 = {};
+  fullConfig.godMode.fr24.enabled = document.getElementById('cfgFr24Enabled').checked;
+  fullConfig.godMode.fr24.refreshSeconds = parseInt(document.getElementById('cfgFr24Refresh').value, 10) || 30;
+}
 
 // ── AUTO-INIT ──
 (async function init() {

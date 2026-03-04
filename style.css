@@ -670,3 +670,64 @@ body {
   .nav-tab { padding: 10px 14px; font-size: 12px; }
   .config-footer { flex-direction: column; gap: 10px; }
 }
+
+/* ── GOD MODE ── */
+.god-tab {
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  color: #fff !important;
+  border-color: #7c3aed !important;
+}
+.god-tab.active {
+  background: linear-gradient(135deg, #6d28d9, #be185d) !important;
+}
+.god-panel { border-left: 3px solid #7c3aed; padding-left: 20px; }
+.god-warning {
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: #c084fc;
+  font-size: 13px;
+}
+
+/* God mode modal */
+.god-mode-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+.god-mode-card {
+  background: #1e293b;
+  border: 1px solid #7c3aed;
+  border-radius: 12px;
+  padding: 28px 32px;
+  width: 360px;
+  max-width: 90vw;
+}
+.god-mode-card h3 {
+  margin: 0 0 8px;
+  color: #c084fc;
+  font-size: 18px;
+}
+.god-modal-desc {
+  color: #94a3b8;
+  font-size: 13px;
+  margin: 0 0 16px;
+}
+.god-mode-card .form-input {
+  width: 100%;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+.god-modal-error {
+  color: #f87171;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.god-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
