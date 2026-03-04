@@ -115,6 +115,7 @@
       <div class="config-tabs" id="configTabs">
         <button class="config-tab active" data-ctab="aerodrome" onclick="switchConfigTab('aerodrome')" data-i18n="cfg.tabAerodrome">Aérodrome</button>
         <button class="config-tab" data-ctab="thresholds" onclick="switchConfigTab('thresholds')" data-i18n="cfg.tabThresholds">Seuils</button>
+        <button class="config-tab" data-ctab="units" onclick="switchConfigTab('units')" data-i18n="cfg.tabUnits">Unités</button>
         <button class="config-tab" data-ctab="maps" onclick="switchConfigTab('maps')" data-i18n="cfg.tabMaps">Carte</button>
         <button class="config-tab" data-ctab="traffic" onclick="switchConfigTab('traffic')" data-i18n="cfg.tabTraffic">Trafic</button>
         <button class="config-tab" data-ctab="sections" onclick="switchConfigTab('sections')" data-i18n="cfg.tabSections">Sections</button>
@@ -184,11 +185,15 @@
       <div class="config-panel" data-cpanel="thresholds" id="cfgThresholds">
         <div class="form-group">
           <label data-i18n="cfg.thresholds.profile">Profil</label>
-          <div class="form-row" style="gap:16px;">
-            <label class="cfg-radio-label"><input type="radio" name="cfgThresholdProfile" value="dgac" checked> <span data-i18n="cfg.thresholds.standard">Standard</span></label>
-            <label class="cfg-radio-label"><input type="radio" name="cfgThresholdProfile" value="custom"> <span data-i18n="cfg.thresholds.custom">Personnalisé</span></label>
-          </div>
+          <select class="form-input" id="cfgThresholdProfile">
+            <option value="easa">EASA (Europe)</option>
+            <option value="caa">CAA (UK)</option>
+            <option value="faa">FAA (USA)</option>
+            <option value="tcca">TCCA (Canada)</option>
+            <option value="custom" data-i18n="cfg.thresholds.custom">Personnalisé</option>
+          </select>
         </div>
+        <div id="cfgPresetInfo" style="margin-bottom:12px;"></div>
         <div id="cfgThresholdFields">
           <div class="section-title" data-i18n="cfg.thresholds.vfr">VFR</div>
           <div class="form-row">
@@ -229,6 +234,42 @@
           <div class="form-row">
             <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.sunsetOrange">Alerte orange (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrSunsetShow"></div>
             <div class="form-group" style="flex:1;"><label data-i18n="cfg.thresholds.sunsetRed">Alerte rouge (min)</label><input type="number" class="form-input cfg-thr" id="cfgThrSunsetCrit"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== PANNEAU : Unités ======== -->
+      <div class="config-panel" data-cpanel="units" id="cfgUnits">
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.pressure">Pression</label>
+            <select class="form-input" id="cfgUnitPressure">
+              <option value="hPa">hPa</option>
+              <option value="inHg">inHg</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.visibility">Visibilité</label>
+            <select class="form-input" id="cfgUnitVisibility">
+              <option value="metric" data-i18n="cfg.units.metric">Métrique (m/km)</option>
+              <option value="sm" data-i18n="cfg.units.statuteMiles">Statute Miles (SM)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.temperature">Température</label>
+            <select class="form-input" id="cfgUnitTemperature">
+              <option value="C">°C</option>
+              <option value="F">°F</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.wind">Vent</label>
+            <select class="form-input" id="cfgUnitWind">
+              <option value="kt" data-i18n="cfg.units.knots">Nœuds (kt)</option>
+              <option value="kmh" data-i18n="cfg.units.kmh">km/h</option>
+            </select>
           </div>
         </div>
       </div>

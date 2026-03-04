@@ -79,6 +79,7 @@ const TRANSLATIONS = {
     // ── Config tabs ──
     'cfg.tabAerodrome': 'Aérodrome',
     'cfg.tabThresholds': 'Seuils',
+    'cfg.tabUnits': 'Unités',
     'cfg.tabMaps': 'Carte',
     'cfg.tabTraffic': 'Trafic',
     'cfg.tabSections': 'Sections',
@@ -131,6 +132,19 @@ const TRANSLATIONS = {
     'cfg.thresholds.sunsetAlert': 'Alerte nuit aéronautique',
     'cfg.thresholds.sunsetOrange': 'Alerte orange (min)',
     'cfg.thresholds.sunsetRed': 'Alerte rouge (min)',
+    'cfg.thresholds.category': 'Catégorie',
+    'cfg.thresholds.visibility': 'Visibilité',
+    'cfg.thresholds.ceiling': 'Plafond',
+    // ── Unités ──
+    'cfg.units.title': 'Unités d\'affichage',
+    'cfg.units.pressure': 'Pression',
+    'cfg.units.visibility': 'Visibilité',
+    'cfg.units.temperature': 'Température',
+    'cfg.units.wind': 'Vent',
+    'cfg.units.metric': 'Métrique (m/km)',
+    'cfg.units.statuteMiles': 'Statute Miles (SM)',
+    'cfg.units.knots': 'Nœuds (kt)',
+    'cfg.units.kmh': 'km/h',
     // ── Carte ──
     'cfg.maps.basemap': 'Fond de carte',
     'cfg.maps.basemapDark': 'Sombre minimal',
@@ -290,6 +304,7 @@ const TRANSLATIONS = {
     'cfg.save': 'Speichern',
     'cfg.tabAerodrome': 'Flugplatz',
     'cfg.tabThresholds': 'Schwellenwerte',
+    'cfg.tabUnits': 'Einheiten',
     'cfg.tabMaps': 'Karte',
     'cfg.tabTraffic': 'Verkehr',
     'cfg.tabSections': 'Bereiche',
@@ -340,6 +355,19 @@ const TRANSLATIONS = {
     'cfg.thresholds.sunsetAlert': 'Nachtflugwarnung',
     'cfg.thresholds.sunsetOrange': 'Orange Warnung (min)',
     'cfg.thresholds.sunsetRed': 'Rote Warnung (min)',
+    'cfg.thresholds.category': 'Kategorie',
+    'cfg.thresholds.visibility': 'Sicht',
+    'cfg.thresholds.ceiling': 'Wolkenuntergrenze',
+    // ── Einheiten ──
+    'cfg.units.title': 'Anzeigeeinheiten',
+    'cfg.units.pressure': 'Druck',
+    'cfg.units.visibility': 'Sicht',
+    'cfg.units.temperature': 'Temperatur',
+    'cfg.units.wind': 'Wind',
+    'cfg.units.metric': 'Metrisch (m/km)',
+    'cfg.units.statuteMiles': 'Statute Miles (SM)',
+    'cfg.units.knots': 'Knoten (kt)',
+    'cfg.units.kmh': 'km/h',
     'cfg.maps.basemap': 'Grundkarte',
     'cfg.maps.basemapDark': 'Dunkel minimal',
     'cfg.maps.basemapDarkDetail': 'Dunkel detailliert',
@@ -494,6 +522,7 @@ const TRANSLATIONS = {
     'cfg.save': 'Salva',
     'cfg.tabAerodrome': 'Aeroporto',
     'cfg.tabThresholds': 'Soglie',
+    'cfg.tabUnits': 'Unità',
     'cfg.tabMaps': 'Mappa',
     'cfg.tabTraffic': 'Traffico',
     'cfg.tabSections': 'Sezioni',
@@ -544,6 +573,19 @@ const TRANSLATIONS = {
     'cfg.thresholds.sunsetAlert': 'Allarme notte aeronautica',
     'cfg.thresholds.sunsetOrange': 'Allarme arancione (min)',
     'cfg.thresholds.sunsetRed': 'Allarme rosso (min)',
+    'cfg.thresholds.category': 'Categoria',
+    'cfg.thresholds.visibility': 'Visibilità',
+    'cfg.thresholds.ceiling': 'Ceiling',
+    // ── Unità ──
+    'cfg.units.title': 'Unità di visualizzazione',
+    'cfg.units.pressure': 'Pressione',
+    'cfg.units.visibility': 'Visibilità',
+    'cfg.units.temperature': 'Temperatura',
+    'cfg.units.wind': 'Vento',
+    'cfg.units.metric': 'Metrico (m/km)',
+    'cfg.units.statuteMiles': 'Statute Miles (SM)',
+    'cfg.units.knots': 'Nodi (kt)',
+    'cfg.units.kmh': 'km/h',
     'cfg.maps.basemap': 'Mappa base',
     'cfg.maps.basemapDark': 'Scuro minimale',
     'cfg.maps.basemapDarkDetail': 'Scuro dettagliato',
@@ -698,6 +740,7 @@ const TRANSLATIONS = {
     'cfg.save': 'Guardar',
     'cfg.tabAerodrome': 'Aeródromo',
     'cfg.tabThresholds': 'Umbrales',
+    'cfg.tabUnits': 'Unidades',
     'cfg.tabMaps': 'Mapa',
     'cfg.tabTraffic': 'Tráfico',
     'cfg.tabSections': 'Secciones',
@@ -748,6 +791,19 @@ const TRANSLATIONS = {
     'cfg.thresholds.sunsetAlert': 'Alerta noche aeronáutica',
     'cfg.thresholds.sunsetOrange': 'Alerta naranja (min)',
     'cfg.thresholds.sunsetRed': 'Alerta roja (min)',
+    'cfg.thresholds.category': 'Categoría',
+    'cfg.thresholds.visibility': 'Visibilidad',
+    'cfg.thresholds.ceiling': 'Techo',
+    // ── Unidades ──
+    'cfg.units.title': 'Unidades de visualización',
+    'cfg.units.pressure': 'Presión',
+    'cfg.units.visibility': 'Visibilidad',
+    'cfg.units.temperature': 'Temperatura',
+    'cfg.units.wind': 'Viento',
+    'cfg.units.metric': 'Métrico (m/km)',
+    'cfg.units.statuteMiles': 'Statute Miles (SM)',
+    'cfg.units.knots': 'Nudos (kt)',
+    'cfg.units.kmh': 'km/h',
     'cfg.maps.basemap': 'Mapa base',
     'cfg.maps.basemapDark': 'Oscuro mínimo',
     'cfg.maps.basemapDarkDetail': 'Oscuro detallado',
@@ -902,6 +958,7 @@ const TRANSLATIONS = {
     'cfg.save': 'Save',
     'cfg.tabAerodrome': 'Aerodrome',
     'cfg.tabThresholds': 'Thresholds',
+    'cfg.tabUnits': 'Units',
     'cfg.tabMaps': 'Map',
     'cfg.tabTraffic': 'Traffic',
     'cfg.tabSections': 'Sections',
@@ -952,6 +1009,19 @@ const TRANSLATIONS = {
     'cfg.thresholds.sunsetAlert': 'Aeronautical night alert',
     'cfg.thresholds.sunsetOrange': 'Orange alert (min)',
     'cfg.thresholds.sunsetRed': 'Red alert (min)',
+    'cfg.thresholds.category': 'Category',
+    'cfg.thresholds.visibility': 'Visibility',
+    'cfg.thresholds.ceiling': 'Ceiling',
+    // ── Units ──
+    'cfg.units.title': 'Display units',
+    'cfg.units.pressure': 'Pressure',
+    'cfg.units.visibility': 'Visibility',
+    'cfg.units.temperature': 'Temperature',
+    'cfg.units.wind': 'Wind',
+    'cfg.units.metric': 'Metric (m/km)',
+    'cfg.units.statuteMiles': 'Statute Miles (SM)',
+    'cfg.units.knots': 'Knots (kt)',
+    'cfg.units.kmh': 'km/h',
     'cfg.maps.basemap': 'Base map',
     'cfg.maps.basemapDark': 'Dark minimal',
     'cfg.maps.basemapDarkDetail': 'Dark detailed',
@@ -2004,8 +2074,9 @@ function populateConfigTabs() {
   }
 
   // -- Seuils --
-  const profile = c.thresholds?.profile || 'dgac';
-  document.querySelectorAll('input[name="cfgThresholdProfile"]').forEach(r => { r.checked = r.value === profile; });
+  let profile = c.thresholds?.profile || 'easa';
+  if (profile === 'dgac') profile = 'easa'; // rétro-compat
+  document.getElementById('cfgThresholdProfile').value = profile;
   document.getElementById('cfgThrVfrVis').value = c.thresholds?.vfr?.visibility ?? 5000;
   document.getElementById('cfgThrVfrCeil').value = c.thresholds?.vfr?.ceiling ?? 1500;
   document.getElementById('cfgThrSpecVis').value = c.thresholds?.vfrSpecial?.visibility ?? 1500;
@@ -2024,6 +2095,13 @@ function populateConfigTabs() {
   document.getElementById('cfgThrSunsetShow').value = c.thresholds?.sunsetWarning?.showMinutes ?? 30;
   document.getElementById('cfgThrSunsetCrit').value = c.thresholds?.sunsetWarning?.criticalMinutes ?? 15;
   cfgUpdateThresholdState();
+
+  // -- Unités --
+  const units = c.units || {};
+  document.getElementById('cfgUnitPressure').value = units.pressure || 'hPa';
+  document.getElementById('cfgUnitVisibility').value = units.visibility || 'metric';
+  document.getElementById('cfgUnitTemperature').value = units.temperature || 'C';
+  document.getElementById('cfgUnitWind').value = units.wind || 'kt';
 
   // -- Carte --
   document.getElementById('cfgMapBasemap').value = c.maps?.basemap || 'voyager';
@@ -2100,7 +2178,7 @@ function collectConfigValues() {
 
   // Seuils
   if (!c.thresholds) c.thresholds = {};
-  c.thresholds.profile = document.querySelector('input[name="cfgThresholdProfile"]:checked')?.value || 'dgac';
+  c.thresholds.profile = document.getElementById('cfgThresholdProfile').value || 'easa';
   if (!c.thresholds.vfr) c.thresholds.vfr = {};
   c.thresholds.vfr.visibility = parseInt(document.getElementById('cfgThrVfrVis').value) || 5000;
   c.thresholds.vfr.ceiling = parseInt(document.getElementById('cfgThrVfrCeil').value) || 1500;
@@ -2125,6 +2203,13 @@ function collectConfigValues() {
   if (!c.thresholds.sunsetWarning) c.thresholds.sunsetWarning = {};
   c.thresholds.sunsetWarning.showMinutes = parseInt(document.getElementById('cfgThrSunsetShow').value) || 30;
   c.thresholds.sunsetWarning.criticalMinutes = parseInt(document.getElementById('cfgThrSunsetCrit').value) || 15;
+
+  // Unités
+  if (!c.units) c.units = {};
+  c.units.pressure = document.getElementById('cfgUnitPressure').value;
+  c.units.visibility = document.getElementById('cfgUnitVisibility').value;
+  c.units.temperature = document.getElementById('cfgUnitTemperature').value;
+  c.units.wind = document.getElementById('cfgUnitWind').value;
 
   // Carte
   if (!c.maps) c.maps = {};
@@ -2325,13 +2410,57 @@ function cfgDeleteRunway(index) {
 
 // ── THRESHOLDS TOGGLE ──
 function cfgUpdateThresholdState() {
-  const profile = document.querySelector('input[name="cfgThresholdProfile"]:checked')?.value;
+  const profile = document.getElementById('cfgThresholdProfile').value;
+  const isCustom = profile === 'custom';
   const fields = document.getElementById('cfgThresholdFields');
-  if (fields) {
-    fields.querySelectorAll('.cfg-thr').forEach(input => {
-      input.disabled = profile === 'dgac';
-      input.style.opacity = profile === 'dgac' ? '0.5' : '1';
+  const presetInfo = document.getElementById('cfgPresetInfo');
+
+  // Afficher/masquer les champs custom vs preset info
+  if (fields) fields.style.display = isCustom ? 'block' : 'none';
+
+  if (isCustom) {
+    if (presetInfo) presetInfo.innerHTML = '';
+    return;
+  }
+
+  // Affichage read-only des catégories du preset
+  const presets = {
+    easa: [
+      { cat: 'VFR', color: '#22c55e', vis: '≥ 5000 m', ceil: '≥ 1500 ft' },
+      { cat: 'VFR SPECIAL', color: '#f59e0b', vis: '≥ 1500 m', ceil: '≥ 600 ft' },
+      { cat: 'IFR', color: '#ef4444', vis: '< 1500 m', ceil: '< 600 ft' }
+    ],
+    caa: [
+      { cat: 'VFR', color: '#22c55e', vis: '≥ 5000 m', ceil: '≥ 1500 ft' },
+      { cat: 'VFR SPECIAL', color: '#f59e0b', vis: '≥ 1500 m', ceil: '≥ 600 ft' },
+      { cat: 'IFR', color: '#ef4444', vis: '< 1500 m', ceil: '< 600 ft' }
+    ],
+    faa: [
+      { cat: 'VFR', color: '#22c55e', vis: '> 5 SM (8050 m)', ceil: '> 3000 ft' },
+      { cat: 'MVFR', color: '#3b82f6', vis: '3–5 SM (4828–8050 m)', ceil: '1000–3000 ft' },
+      { cat: 'IFR', color: '#ef4444', vis: '1–3 SM (1609–4828 m)', ceil: '500–1000 ft' },
+      { cat: 'LIFR', color: '#d946ef', vis: '< 1 SM (1609 m)', ceil: '< 500 ft' }
+    ],
+    tcca: [
+      { cat: 'VFR', color: '#22c55e', vis: '> 5 SM (8050 m)', ceil: '> 3000 ft' },
+      { cat: 'MVFR', color: '#3b82f6', vis: '3–5 SM (4828–8050 m)', ceil: '1000–3000 ft' },
+      { cat: 'IFR', color: '#ef4444', vis: '< 3 SM (4828 m)', ceil: '< 1000 ft' }
+    ]
+  };
+
+  const cats = presets[profile] || presets.easa;
+  if (presetInfo) {
+    let html = '<div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:4px 12px; font-size:12px; padding:8px; background:rgba(255,255,255,0.03); border-radius:6px; border:1px solid var(--border);">';
+    html += '<div style="font-weight:600; color:var(--text-dim);">' + t('cfg.thresholds.category') + '</div>';
+    html += '<div style="font-weight:600; color:var(--text-dim);">' + t('cfg.thresholds.visibility') + '</div>';
+    html += '<div style="font-weight:600; color:var(--text-dim);">' + t('cfg.thresholds.ceiling') + '</div>';
+    cats.forEach(c => {
+      html += '<div style="color:' + c.color + '; font-weight:600;">' + c.cat + '</div>';
+      html += '<div style="color:var(--text);">' + c.vis + '</div>';
+      html += '<div style="color:var(--text);">' + c.ceil + '</div>';
     });
+    html += '</div>';
+    presetInfo.innerHTML = html;
   }
 }
 
@@ -2491,9 +2620,8 @@ document.addEventListener('DOMContentLoaded', () => {
   cfgBindSlider('cfgFr24Refresh', 'cfgFr24RefreshVal');
 
   // Threshold profile toggle
-  document.querySelectorAll('input[name="cfgThresholdProfile"]').forEach(r => {
-    r.addEventListener('change', cfgUpdateThresholdState);
-  });
+  const thrSelect = document.getElementById('cfgThresholdProfile');
+  if (thrSelect) thrSelect.addEventListener('change', cfgUpdateThresholdState);
 
   // Basemap auto toggle
   const bmAuto = document.getElementById('cfgMapBasemapAuto');
