@@ -169,6 +169,12 @@ const TRANSLATIONS = {
     'cfg.traffic.flarmEnabled': 'Afficher le trafic FLARM',
     'cfg.traffic.flarmRadius': 'Rayon FLARM (km)',
     'cfg.traffic.flarmHint': 'Les aéronefs FLARM apparaissent en triangles verts. Les filtres altitude et watchlist s\'appliquent aussi au FLARM.',
+    'cfg.traffic.fr24Title': 'FlightRadar24',
+    'cfg.traffic.fr24Enabled': 'Activer FlightRadar24',
+    'cfg.traffic.fr24ApiKey': 'Clé API',
+    'cfg.traffic.fr24ApiKeyPlaceholder': 'Coller votre clé API FR24...',
+    'cfg.traffic.fr24Link': 'Obtenir une clé API',
+    'cfg.traffic.fr24Hint': 'Les avions FR24 apparaissent en rose. Inclut les avions Mode S (MLAT). Abonnement FR24 API requis (9$/mois).',
     // ── Sections ──
     'cfg.sections.sunTimes': 'Éphémérides',
     'cfg.sections.conditions': 'Conditions actuelles',
@@ -370,6 +376,12 @@ const TRANSLATIONS = {
     'cfg.traffic.flarmEnabled': 'FLARM-Verkehr anzeigen',
     'cfg.traffic.flarmRadius': 'FLARM-Radius (km)',
     'cfg.traffic.flarmHint': 'FLARM-Luftfahrzeuge erscheinen als grüne Dreiecke. Höhenfilter und Watchlist gelten auch für FLARM.',
+    'cfg.traffic.fr24Title': 'FlightRadar24',
+    'cfg.traffic.fr24Enabled': 'FlightRadar24 aktivieren',
+    'cfg.traffic.fr24ApiKey': 'API-Schlüssel',
+    'cfg.traffic.fr24ApiKeyPlaceholder': 'FR24-API-Schlüssel einfügen...',
+    'cfg.traffic.fr24Link': 'API-Schlüssel erhalten',
+    'cfg.traffic.fr24Hint': 'FR24-Flugzeuge erscheinen rosa. Enthält Mode-S (MLAT). FR24-API-Abo erforderlich (9$/Monat).',
     'cfg.sections.sunTimes': 'Sonnenzeiten',
     'cfg.sections.conditions': 'Aktuelle Bedingungen',
     'cfg.sections.fogAlert': 'Nebelwarnung',
@@ -568,6 +580,12 @@ const TRANSLATIONS = {
     'cfg.traffic.flarmEnabled': 'Mostra traffico FLARM',
     'cfg.traffic.flarmRadius': 'Raggio FLARM (km)',
     'cfg.traffic.flarmHint': 'Gli aeromobili FLARM appaiono come triangoli verdi. Filtri quota e watchlist si applicano anche al FLARM.',
+    'cfg.traffic.fr24Title': 'FlightRadar24',
+    'cfg.traffic.fr24Enabled': 'Attiva FlightRadar24',
+    'cfg.traffic.fr24ApiKey': 'Chiave API',
+    'cfg.traffic.fr24ApiKeyPlaceholder': 'Incolla la tua chiave API FR24...',
+    'cfg.traffic.fr24Link': 'Ottieni una chiave API',
+    'cfg.traffic.fr24Hint': 'Gli aerei FR24 appaiono in rosa. Include Mode S (MLAT). Abbonamento FR24 API richiesto (9$/mese).',
     'cfg.sections.sunTimes': 'Effemeridi',
     'cfg.sections.conditions': 'Condizioni attuali',
     'cfg.sections.fogAlert': 'Allarme nebbia',
@@ -766,6 +784,12 @@ const TRANSLATIONS = {
     'cfg.traffic.flarmEnabled': 'Mostrar tráfico FLARM',
     'cfg.traffic.flarmRadius': 'Radio FLARM (km)',
     'cfg.traffic.flarmHint': 'Las aeronaves FLARM aparecen como triángulos verdes. Los filtros de altitud y watchlist también se aplican al FLARM.',
+    'cfg.traffic.fr24Title': 'FlightRadar24',
+    'cfg.traffic.fr24Enabled': 'Activar FlightRadar24',
+    'cfg.traffic.fr24ApiKey': 'Clave API',
+    'cfg.traffic.fr24ApiKeyPlaceholder': 'Pega tu clave API FR24...',
+    'cfg.traffic.fr24Link': 'Obtener una clave API',
+    'cfg.traffic.fr24Hint': 'Los aviones FR24 aparecen en rosa. Incluye Mode S (MLAT). Suscripción FR24 API requerida (9$/mes).',
     'cfg.sections.sunTimes': 'Efemérides',
     'cfg.sections.conditions': 'Condiciones actuales',
     'cfg.sections.fogAlert': 'Alerta de niebla',
@@ -964,6 +988,12 @@ const TRANSLATIONS = {
     'cfg.traffic.flarmEnabled': 'Show FLARM traffic',
     'cfg.traffic.flarmRadius': 'FLARM radius (km)',
     'cfg.traffic.flarmHint': 'FLARM aircraft appear as green triangles. Altitude filters and watchlist also apply to FLARM.',
+    'cfg.traffic.fr24Title': 'FlightRadar24',
+    'cfg.traffic.fr24Enabled': 'Enable FlightRadar24',
+    'cfg.traffic.fr24ApiKey': 'API key',
+    'cfg.traffic.fr24ApiKeyPlaceholder': 'Paste your FR24 API key...',
+    'cfg.traffic.fr24Link': 'Get an API key',
+    'cfg.traffic.fr24Hint': 'FR24 aircraft appear in pink. Includes Mode S (MLAT) aircraft. FR24 API subscription required ($9/month).',
     'cfg.sections.sunTimes': 'Sun times',
     'cfg.sections.conditions': 'Current conditions',
     'cfg.sections.fogAlert': 'Fog alert',
@@ -2021,6 +2051,11 @@ function populateConfigTabs() {
   cfgSetSlider('cfgOgnRadius', 'cfgOgnRadiusVal', c.traffic?.ognRadiusKm ?? 250);
   cfgToggleOgn();
 
+  // -- FlightRadar24 (API officielle) --
+  document.getElementById('cfgFr24OfficialEnabled').checked = c.traffic?.fr24Enabled === true;
+  document.getElementById('cfgFr24ApiKey').value = c.traffic?.fr24ApiKey || '';
+  cfgToggleFr24Official();
+
   // -- Sections --
   cfgRenderSectionToggles();
   document.getElementById('cfgTafDisplay').value = c.tafDisplay || 'raw';
@@ -2122,6 +2157,10 @@ function collectConfigValues() {
   c.traffic.watchMode = document.getElementById('cfgTrafficWatchMode').value;
   c.traffic.ognEnabled = document.getElementById('cfgOgnEnabled').checked;
   c.traffic.ognRadiusKm = parseInt(document.getElementById('cfgOgnRadius').value) || 250;
+
+  // FlightRadar24 (API officielle)
+  c.traffic.fr24Enabled = document.getElementById('cfgFr24OfficialEnabled').checked;
+  c.traffic.fr24ApiKey = document.getElementById('cfgFr24ApiKey').value.trim();
 
   // Sections
   if (!c.sections) c.sections = {};
@@ -2328,6 +2367,11 @@ function cfgToggleOgn() {
   document.getElementById('cfgOgnGroup').style.display = enabled ? '' : 'none';
 }
 
+function cfgToggleFr24Official() {
+  const enabled = document.getElementById('cfgFr24OfficialEnabled').checked;
+  document.getElementById('cfgFr24OfficialGroup').style.display = enabled ? '' : 'none';
+}
+
 // ── SECTION TOGGLES ──
 function cfgRenderSectionToggles() {
   const container = document.getElementById('cfgSectionToggles');
@@ -2460,6 +2504,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (trafficEn) trafficEn.addEventListener('change', cfgToggleTraffic);
   const ognEn = document.getElementById('cfgOgnEnabled');
   if (ognEn) ognEn.addEventListener('change', cfgToggleOgn);
+  const fr24OfficialEn = document.getElementById('cfgFr24OfficialEnabled');
+  if (fr24OfficialEn) fr24OfficialEn.addEventListener('change', cfgToggleFr24Official);
 
   // Watchlist → show/hide watch mode
   const wlInput = document.getElementById('cfgTrafficWatchlist');
