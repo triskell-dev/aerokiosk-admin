@@ -671,6 +671,113 @@ body {
   .config-footer { flex-direction: column; gap: 10px; }
 }
 
+/* ── FLEET ── */
+.fleet-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.fleet-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex; gap: 14px;
+  align-items: center;
+  transition: border-color 0.2s;
+}
+.fleet-card:hover { border-color: var(--text-dim); }
+.fleet-card-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.fleet-card-dot.go { background: #22c55e; }
+.fleet-card-dot.mel { background: #f59e0b; }
+.fleet-card-dot.nogo { background: #ef4444; }
+.fleet-card-info { flex: 1; min-width: 0; }
+.fleet-card-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 2px;
+}
+.fleet-card-reg {
+  font-size: 15px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fleet-card-badge {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.fleet-card-badge.go { background: rgba(34,197,94,0.15); color: #22c55e; }
+.fleet-card-badge.mel { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.fleet-card-badge.nogo { background: rgba(239,68,68,0.15); color: #ef4444; }
+.fleet-card-meta {
+  font-size: 12px; color: var(--text-dim);
+}
+.fleet-card-actions {
+  display: flex; gap: 8px;
+  flex-shrink: 0;
+}
+.btn-edit {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.2s;
+}
+.btn-edit:hover { color: var(--accent); }
+
+/* Fleet modal */
+.fleet-status-radios {
+  display: flex; gap: 12px;
+}
+.fleet-status-radio {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  padding: 8px 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+.fleet-status-radio:has(input:checked) { border-color: var(--accent); }
+.fleet-status-radio input { display: none; }
+.fleet-status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.mel-item-row {
+  display: flex; gap: 8px; margin-bottom: 8px;
+  align-items: flex-end;
+}
+.mel-item-row .form-group { margin-bottom: 0; }
+.mel-item-row input,
+.mel-item-row select {
+  width: 100%; padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px; font-family: inherit;
+  outline: none;
+}
+.mel-item-row input:focus,
+.mel-item-row select:focus { border-color: var(--accent); }
+.mel-remove {
+  background: none; border: none;
+  color: var(--text-dim); font-size: 16px;
+  cursor: pointer; padding: 4px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.mel-remove:hover { color: var(--danger); }
+
 /* ── GOD MODE ── */
 .god-tab {
   background: linear-gradient(135deg, #7c3aed, #db2777) !important;

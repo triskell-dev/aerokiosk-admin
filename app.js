@@ -235,7 +235,30 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementAfter': 'Slides club après la météo',
     'cfg.clubDisplay.placementInterleaved': 'Intercalé avec la météo',
     'cfg.clubDisplay.placementOnly': 'Contenu club uniquement',
-    'cfg.clubDisplay.defaultDuration': 'Durée par défaut (s)'
+    'cfg.clubDisplay.defaultDuration': 'Durée par défaut (s)',
+    // ── Flotte ──
+    'nav.fleet': 'Flotte',
+    'fleet.add': 'Ajouter un aéronef',
+    'fleet.empty': 'Aucun aéronef configuré.',
+    'fleet.registration': 'Immatriculation',
+    'fleet.regPlaceholder': 'F-GXYZ',
+    'fleet.type': 'Type d\'aéronef',
+    'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.hours': 'Heures totales',
+    'fleet.status': 'Statut',
+    'fleet.melItems': 'Items MEL',
+    'fleet.melAdd': 'Ajouter une MEL',
+    'fleet.melCode': 'Code ATA',
+    'fleet.melDesc': 'Description',
+    'fleet.melCategory': 'Cat.',
+    'fleet.melExpiry': 'Expiration',
+    'fleet.nogoReason': 'Motif d\'indisponibilité',
+    'fleet.save': 'Enregistrer',
+    'fleet.editTitle': 'Modifier l\'aéronef',
+    'fleet.confirmDelete': 'Supprimer cet aéronef ?',
+    'fleet.deleteTitle': 'Supprimer',
+    'error.loadFleet': 'Erreur chargement flotte',
+    'error.saveFleet': 'Erreur sauvegarde flotte'
   },
 
   de: {
@@ -453,7 +476,29 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementAfter': 'Club-Folien nach Wetter',
     'cfg.clubDisplay.placementInterleaved': 'Abwechselnd mit Wetter',
     'cfg.clubDisplay.placementOnly': 'Nur Club-Inhalte',
-    'cfg.clubDisplay.defaultDuration': 'Standarddauer (s)'
+    'cfg.clubDisplay.defaultDuration': 'Standarddauer (s)',
+    'nav.fleet': 'Flotte',
+    'fleet.add': 'Luftfahrzeug hinzufügen',
+    'fleet.empty': 'Keine Luftfahrzeuge konfiguriert.',
+    'fleet.registration': 'Kennzeichen',
+    'fleet.regPlaceholder': 'D-EABC',
+    'fleet.type': 'Flugzeugtyp',
+    'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.hours': 'Gesamtstunden',
+    'fleet.status': 'Status',
+    'fleet.melItems': 'MEL-Einträge',
+    'fleet.melAdd': 'MEL hinzufügen',
+    'fleet.melCode': 'ATA-Code',
+    'fleet.melDesc': 'Beschreibung',
+    'fleet.melCategory': 'Kat.',
+    'fleet.melExpiry': 'Ablaufdatum',
+    'fleet.nogoReason': 'Grund der Nichtverfügbarkeit',
+    'fleet.save': 'Speichern',
+    'fleet.editTitle': 'Luftfahrzeug bearbeiten',
+    'fleet.confirmDelete': 'Dieses Luftfahrzeug löschen?',
+    'fleet.deleteTitle': 'Löschen',
+    'error.loadFleet': 'Fehler beim Laden der Flotte',
+    'error.saveFleet': 'Fehler beim Speichern der Flotte'
   },
 
   it: {
@@ -671,7 +716,29 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementAfter': 'Slide club dopo il meteo',
     'cfg.clubDisplay.placementInterleaved': 'Alternato con il meteo',
     'cfg.clubDisplay.placementOnly': 'Solo contenuto club',
-    'cfg.clubDisplay.defaultDuration': 'Durata predefinita (s)'
+    'cfg.clubDisplay.defaultDuration': 'Durata predefinita (s)',
+    'nav.fleet': 'Flotta',
+    'fleet.add': 'Aggiungi aeromobile',
+    'fleet.empty': 'Nessun aeromobile configurato.',
+    'fleet.registration': 'Immatricolazione',
+    'fleet.regPlaceholder': 'I-ABCD',
+    'fleet.type': 'Tipo di aeromobile',
+    'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.hours': 'Ore totali',
+    'fleet.status': 'Stato',
+    'fleet.melItems': 'Voci MEL',
+    'fleet.melAdd': 'Aggiungi MEL',
+    'fleet.melCode': 'Codice ATA',
+    'fleet.melDesc': 'Descrizione',
+    'fleet.melCategory': 'Cat.',
+    'fleet.melExpiry': 'Scadenza',
+    'fleet.nogoReason': 'Motivo di indisponibilità',
+    'fleet.save': 'Salva',
+    'fleet.editTitle': 'Modifica aeromobile',
+    'fleet.confirmDelete': 'Eliminare questo aeromobile?',
+    'fleet.deleteTitle': 'Elimina',
+    'error.loadFleet': 'Errore caricamento flotta',
+    'error.saveFleet': 'Errore salvataggio flotta'
   },
 
   es: {
@@ -889,7 +956,29 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementAfter': 'Diapositivas club después del tiempo',
     'cfg.clubDisplay.placementInterleaved': 'Alternado con el tiempo',
     'cfg.clubDisplay.placementOnly': 'Solo contenido club',
-    'cfg.clubDisplay.defaultDuration': 'Duración predeterminada (s)'
+    'cfg.clubDisplay.defaultDuration': 'Duración predeterminada (s)',
+    'nav.fleet': 'Flota',
+    'fleet.add': 'Añadir aeronave',
+    'fleet.empty': 'Ninguna aeronave configurada.',
+    'fleet.registration': 'Matrícula',
+    'fleet.regPlaceholder': 'EC-ABC',
+    'fleet.type': 'Tipo de aeronave',
+    'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.hours': 'Horas totales',
+    'fleet.status': 'Estado',
+    'fleet.melItems': 'Elementos MEL',
+    'fleet.melAdd': 'Añadir MEL',
+    'fleet.melCode': 'Código ATA',
+    'fleet.melDesc': 'Descripción',
+    'fleet.melCategory': 'Cat.',
+    'fleet.melExpiry': 'Vencimiento',
+    'fleet.nogoReason': 'Motivo de indisponibilidad',
+    'fleet.save': 'Guardar',
+    'fleet.editTitle': 'Modificar aeronave',
+    'fleet.confirmDelete': '¿Eliminar esta aeronave?',
+    'fleet.deleteTitle': 'Eliminar',
+    'error.loadFleet': 'Error al cargar la flota',
+    'error.saveFleet': 'Error al guardar la flota'
   },
 
   en: {
@@ -1107,7 +1196,29 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementAfter': 'Club slides after weather',
     'cfg.clubDisplay.placementInterleaved': 'Interleaved with weather',
     'cfg.clubDisplay.placementOnly': 'Club content only',
-    'cfg.clubDisplay.defaultDuration': 'Default duration (s)'
+    'cfg.clubDisplay.defaultDuration': 'Default duration (s)',
+    'nav.fleet': 'Fleet',
+    'fleet.add': 'Add aircraft',
+    'fleet.empty': 'No aircraft configured.',
+    'fleet.registration': 'Registration',
+    'fleet.regPlaceholder': 'N12345',
+    'fleet.type': 'Aircraft type',
+    'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.hours': 'Total hours',
+    'fleet.status': 'Status',
+    'fleet.melItems': 'MEL items',
+    'fleet.melAdd': 'Add MEL',
+    'fleet.melCode': 'ATA code',
+    'fleet.melDesc': 'Description',
+    'fleet.melCategory': 'Cat.',
+    'fleet.melExpiry': 'Expiry date',
+    'fleet.nogoReason': 'Reason for unavailability',
+    'fleet.save': 'Save',
+    'fleet.editTitle': 'Edit aircraft',
+    'fleet.confirmDelete': 'Delete this aircraft?',
+    'fleet.deleteTitle': 'Delete',
+    'error.loadFleet': 'Error loading fleet',
+    'error.saveFleet': 'Error saving fleet'
   }
 };
 
@@ -1174,6 +1285,7 @@ function setLang(lang) {
       modeIndicator.textContent = api.mode === 'local' ? t('dashboard.modeLocal') : t('dashboard.modeCloud');
     }
     renderSlides();
+    if (currentView === 'fleet') renderFleet();
     // Re-render config if loaded
     if (currentView === 'config' && fullConfig) {
       cfgRenderSectionToggles();
@@ -1470,6 +1582,94 @@ class ApiClient {
     );
     if (!resp.ok) throw new Error('Upload failed');
     return { image_path: storagePath };
+  }
+
+  // ── GET FLEET ──
+
+  async getFleet() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/fleet');
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_fleet?license_key=eq.' + encodeURIComponent(this.licenseKey)
+          + '&order=sort_order.asc,registration.asc',
+        { headers: supabaseHeaders() }
+      );
+      if (!resp.ok) throw new Error(t('error.loadFleet'));
+      return resp.json();
+    }
+  }
+
+  // ── CREATE FLEET ITEM ──
+
+  async createFleetItem(data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/fleet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/club_fleet', {
+        method: 'POST',
+        headers: supabaseHeaders({ 'Prefer': 'return=representation' }),
+        body: JSON.stringify({
+          license_key: this.licenseKey,
+          registration: data.registration,
+          type: data.type || '',
+          status: data.status || 'go',
+          total_hours: data.total_hours || null,
+          mel_items: data.mel_items || [],
+          nogo_reason: data.nogo_reason || '',
+          sort_order: data.sort_order || 0
+        })
+      });
+      if (!resp.ok) throw new Error(t('error.saveFleet'));
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  // ── UPDATE FLEET ITEM ──
+
+  async updateFleetItem(id, data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/fleet/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_fleet?id=eq.' + encodeURIComponent(id),
+        {
+          method: 'PATCH',
+          headers: supabaseHeaders({ 'Prefer': 'return=representation' }),
+          body: JSON.stringify(data)
+        }
+      );
+      if (!resp.ok) throw new Error(t('error.saveFleet'));
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  // ── DELETE FLEET ITEM ──
+
+  async deleteFleetItem(id) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/fleet/' + id, { method: 'DELETE' });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_fleet?id=eq.' + encodeURIComponent(id),
+        { method: 'DELETE', headers: supabaseHeaders() }
+      );
+      return { success: resp.ok };
+    }
   }
 
   // ── GET CONFIG (local only) ──
@@ -1985,6 +2185,203 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// ── FLEET STATE ──
+let fleetItems = [];
+let editingFleetId = null;
+
+async function refreshFleet() {
+  try {
+    fleetItems = await api.getFleet();
+    // Sort: nogo first, mel, go, then by registration
+    const statusOrder = { nogo: 0, mel: 1, go: 2 };
+    fleetItems.sort((a, b) => {
+      const sa = statusOrder[a.status] ?? 2;
+      const sb = statusOrder[b.status] ?? 2;
+      if (sa !== sb) return sa - sb;
+      return (a.registration || '').localeCompare(b.registration || '');
+    });
+    renderFleet();
+  } catch (e) {
+    console.error('Error loading fleet:', e);
+  }
+}
+
+function renderFleet() {
+  const container = document.getElementById('fleetList');
+  if (fleetItems.length === 0) {
+    container.innerHTML = '<div class="empty-state">'
+      + '<div class="icon">✈</div>'
+      + '<p>' + t('fleet.empty') + '</p>'
+      + '</div>';
+    return;
+  }
+
+  container.innerHTML = fleetItems.map(a => {
+    const statusLabel = a.status === 'nogo' ? 'NO GO' : a.status.toUpperCase();
+    let meta = a.type || '';
+    if (a.total_hours != null) meta += (meta ? ' · ' : '') + a.total_hours + ' h';
+    if (a.status === 'mel' && Array.isArray(a.mel_items) && a.mel_items.length > 0) {
+      meta += ' · ' + a.mel_items.length + ' MEL';
+    }
+    if (a.status === 'nogo' && a.nogo_reason) {
+      meta += (meta ? ' · ' : '') + escapeHtml(a.nogo_reason).substring(0, 50);
+    }
+
+    return '<div class="fleet-card" data-id="' + a.id + '">'
+      + '<div class="fleet-card-dot ' + a.status + '"></div>'
+      + '<div class="fleet-card-info">'
+      + '  <div class="fleet-card-top">'
+      + '    <span class="fleet-card-reg">' + escapeHtml(a.registration) + '</span>'
+      + '    <span class="fleet-card-badge ' + a.status + '">' + statusLabel + '</span>'
+      + '  </div>'
+      + '  <div class="fleet-card-meta">' + escapeHtml(meta) + '</div>'
+      + '</div>'
+      + '<div class="fleet-card-actions">'
+      + '  <button class="btn-edit" onclick="editFleetItem(\'' + a.id + '\')" title="Edit">✎</button>'
+      + '  <button class="btn-delete" onclick="deleteFleetItem(\'' + a.id + '\')" title="' + t('fleet.deleteTitle') + '">✕</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ── FLEET MODAL ──
+
+const fleetModalOverlay = document.getElementById('fleetModalOverlay');
+const fleetForm = document.getElementById('fleetForm');
+
+function openFleetModal(item) {
+  editingFleetId = item ? item.id : null;
+  document.getElementById('fleetModalTitle').textContent = item ? t('fleet.editTitle') : t('fleet.add');
+  document.getElementById('fleetReg').value = item ? item.registration : '';
+  document.getElementById('fleetType').value = item ? (item.type || '') : '';
+  document.getElementById('fleetHours').value = item ? (item.total_hours || '') : '';
+  document.getElementById('fleetNogoReason').value = item ? (item.nogo_reason || '') : '';
+
+  // Status radios
+  const status = item ? item.status : 'go';
+  document.querySelectorAll('input[name="fleetStatus"]').forEach(r => { r.checked = r.value === status; });
+  updateFleetStatusUI();
+
+  // MEL items
+  const melList = document.getElementById('fleetMelList');
+  melList.innerHTML = '';
+  if (item && Array.isArray(item.mel_items)) {
+    item.mel_items.forEach(m => addMelItem(m));
+  }
+
+  fleetModalOverlay.classList.add('visible');
+}
+
+function closeFleetModal() {
+  fleetModalOverlay.classList.remove('visible');
+  editingFleetId = null;
+}
+
+function updateFleetStatusUI() {
+  const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
+  document.getElementById('fleetMelSection').style.display = status === 'mel' ? '' : 'none';
+  document.getElementById('fleetNogoSection').style.display = status === 'nogo' ? '' : 'none';
+}
+
+// Status radio change
+document.querySelectorAll('input[name="fleetStatus"]').forEach(r => {
+  r.addEventListener('change', updateFleetStatusUI);
+});
+
+function addMelItem(data) {
+  const list = document.getElementById('fleetMelList');
+  const row = document.createElement('div');
+  row.className = 'mel-item-row';
+  row.innerHTML = '<div class="form-group" style="flex:1.2;">'
+    + '<input type="text" class="mel-code" placeholder="' + t('fleet.melCode') + '" value="' + escapeHtml((data && data.code) || '') + '">'
+    + '</div>'
+    + '<div class="form-group" style="flex:2;">'
+    + '<input type="text" class="mel-desc" placeholder="' + t('fleet.melDesc') + '" value="' + escapeHtml((data && data.description) || '') + '">'
+    + '</div>'
+    + '<div class="form-group" style="flex:0.6;">'
+    + '<select class="mel-cat">'
+    + '<option value="A"' + (data && data.category === 'A' ? ' selected' : '') + '>A</option>'
+    + '<option value="B"' + (data && data.category === 'B' ? ' selected' : '') + '>B</option>'
+    + '<option value="C"' + ((!data || !data.category || data.category === 'C') ? ' selected' : '') + '>C</option>'
+    + '<option value="D"' + (data && data.category === 'D' ? ' selected' : '') + '>D</option>'
+    + '</select>'
+    + '</div>'
+    + '<div class="form-group" style="flex:1;">'
+    + '<input type="date" class="mel-expiry" value="' + ((data && data.expiryDate) || '') + '">'
+    + '</div>'
+    + '<button type="button" class="mel-remove" onclick="this.parentElement.remove()">✕</button>';
+  list.appendChild(row);
+}
+
+function collectMelItems() {
+  const items = [];
+  document.querySelectorAll('#fleetMelList .mel-item-row').forEach(row => {
+    const code = row.querySelector('.mel-code').value.trim();
+    const description = row.querySelector('.mel-desc').value.trim();
+    const category = row.querySelector('.mel-cat').value;
+    const expiryDate = row.querySelector('.mel-expiry').value;
+    if (code || description) {
+      items.push({ code, description, category, expiryDate });
+    }
+  });
+  return items;
+}
+
+fleetForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const submitBtn = fleetForm.querySelector('.btn-submit');
+  submitBtn.disabled = true;
+
+  const registration = document.getElementById('fleetReg').value.trim().toUpperCase();
+  const type = document.getElementById('fleetType').value.trim();
+  const totalHours = document.getElementById('fleetHours').value;
+  const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
+  const nogo_reason = document.getElementById('fleetNogoReason').value.trim();
+  const mel_items = status === 'mel' ? collectMelItems() : [];
+
+  const data = {
+    registration,
+    type,
+    status,
+    total_hours: totalHours ? parseFloat(totalHours) : null,
+    mel_items,
+    nogo_reason: status === 'nogo' ? nogo_reason : ''
+  };
+
+  try {
+    if (editingFleetId) {
+      await api.updateFleetItem(editingFleetId, data);
+    } else {
+      await api.createFleetItem(data);
+    }
+    closeFleetModal();
+    await refreshFleet();
+  } catch (err) {
+    console.error('Fleet save error:', err);
+    alert(t('error.saveFleet'));
+  }
+  submitBtn.disabled = false;
+});
+
+fleetModalOverlay.addEventListener('click', (e) => {
+  if (e.target === fleetModalOverlay) closeFleetModal();
+});
+
+function editFleetItem(id) {
+  const item = fleetItems.find(a => a.id === id);
+  if (item) openFleetModal(item);
+}
+
+async function deleteFleetItem(id) {
+  if (!confirm(t('fleet.confirmDelete'))) return;
+  try {
+    await api.deleteFleetItem(id);
+    await refreshFleet();
+  } catch (e) {
+    console.error('Fleet delete error:', e);
+  }
+}
+
 // ── CONFIG STATE ──
 let currentView = 'content';
 let currentConfigTab = 'aerodrome';
@@ -2000,7 +2397,9 @@ function switchView(view) {
   document.querySelectorAll('.nav-tab').forEach(t =>
     t.classList.toggle('active', t.dataset.view === view));
   document.getElementById('viewContent').style.display = view === 'content' ? '' : 'none';
+  document.getElementById('viewFleet').style.display = view === 'fleet' ? '' : 'none';
   document.getElementById('viewConfig').style.display = view === 'config' ? '' : 'none';
+  if (view === 'fleet') refreshFleet();
   if (view === 'config' && !fullConfig) loadFullConfig();
 }
 

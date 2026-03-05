@@ -74,10 +74,13 @@
     </div>
   </div>
 
-  <!-- Navigation Contenu / Configuration -->
+  <!-- Navigation Contenu / Flotte / Configuration -->
   <div class="nav-tabs" id="navTabs">
     <button class="nav-tab active" data-view="content" onclick="switchView('content')">
       <span class="nav-icon">📋</span> <span data-i18n="nav.content">Contenu</span>
+    </button>
+    <button class="nav-tab" data-view="fleet" onclick="switchView('fleet')">
+      <span class="nav-icon">✈</span> <span data-i18n="nav.fleet">Flotte</span>
     </button>
     <button class="nav-tab" data-view="config" onclick="switchView('config')">
       <span class="nav-icon">⚙</span> <span data-i18n="nav.config">Configuration</span>
@@ -102,6 +105,23 @@
         <div class="empty-state">
           <div class="icon">📋</div>
           <p data-i18n-html="slides.emptyText">Aucun contenu pour le moment.<br>Ajoutez un slide, un flash info ou un flash urgent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VUE FLOTTE ── -->
+  <div id="viewFleet" style="display:none;">
+    <div class="content">
+      <div class="add-bar">
+        <button class="btn-add" onclick="openFleetModal()">
+          <span class="icon">+</span> <span data-i18n="fleet.add">Ajouter un aéronef</span>
+        </button>
+      </div>
+      <div class="fleet-list" id="fleetList">
+        <div class="empty-state">
+          <div class="icon">✈</div>
+          <p data-i18n="fleet.empty">Aucun aéronef configuré.</p>
         </div>
       </div>
     </div>
@@ -619,6 +639,54 @@
       <div class="modal-actions">
         <button type="button" class="btn-cancel" onclick="closeModal()" data-i18n="modal.cancel">Annuler</button>
         <button type="submit" class="btn-submit" data-i18n="modal.publish">Publier</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── MODAL FLEET ── -->
+<div class="modal-overlay" id="fleetModalOverlay">
+  <div class="modal">
+    <h3 id="fleetModalTitle" data-i18n="fleet.add">Ajouter un aéronef</h3>
+    <form id="fleetForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fleetReg" data-i18n="fleet.registration">Immatriculation</label>
+          <input type="text" id="fleetReg" required style="text-transform:uppercase; letter-spacing:1px;" data-i18n-placeholder="fleet.regPlaceholder" placeholder="F-GXYZ">
+        </div>
+        <div class="form-group">
+          <label for="fleetType" data-i18n="fleet.type">Type d'aéronef</label>
+          <input type="text" id="fleetType" data-i18n-placeholder="fleet.typePlaceholder" placeholder="Cessna 172S">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fleetHours" data-i18n="fleet.hours">Heures totales</label>
+        <input type="number" id="fleetHours" step="0.1" min="0" style="width:160px;">
+      </div>
+      <div class="form-group">
+        <label data-i18n="fleet.status">Statut</label>
+        <div class="fleet-status-radios">
+          <label class="fleet-status-radio go"><input type="radio" name="fleetStatus" value="go" checked><span class="fleet-status-dot" style="background:#22c55e;"></span> GO</label>
+          <label class="fleet-status-radio mel"><input type="radio" name="fleetStatus" value="mel"><span class="fleet-status-dot" style="background:#f59e0b;"></span> MEL</label>
+          <label class="fleet-status-radio nogo"><input type="radio" name="fleetStatus" value="nogo"><span class="fleet-status-dot" style="background:#ef4444;"></span> NO GO</label>
+        </div>
+      </div>
+      <div id="fleetMelSection" style="display:none;">
+        <div class="section-title" data-i18n="fleet.melItems">Items MEL</div>
+        <div id="fleetMelList"></div>
+        <button type="button" class="btn-add" style="margin-top:8px;" onclick="addMelItem()">
+          <span class="icon">+</span> <span data-i18n="fleet.melAdd">Ajouter une MEL</span>
+        </button>
+      </div>
+      <div id="fleetNogoSection" style="display:none;">
+        <div class="form-group">
+          <label for="fleetNogoReason" data-i18n="fleet.nogoReason">Motif d'indisponibilité</label>
+          <textarea id="fleetNogoReason" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeFleetModal()" data-i18n="modal.cancel">Annuler</button>
+        <button type="submit" class="btn-submit" data-i18n="fleet.save">Enregistrer</button>
       </div>
     </form>
   </div>
