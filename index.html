@@ -669,6 +669,7 @@
           <label class="fleet-status-radio go"><input type="radio" name="fleetStatus" value="go" checked><span class="fleet-status-dot" style="background:#22c55e;"></span> GO</label>
           <label class="fleet-status-radio mel"><input type="radio" name="fleetStatus" value="mel"><span class="fleet-status-dot" style="background:#f59e0b;"></span> MEL</label>
           <label class="fleet-status-radio nogo"><input type="radio" name="fleetStatus" value="nogo"><span class="fleet-status-dot" style="background:#ef4444;"></span> NO GO</label>
+          <label class="fleet-status-radio maint"><input type="radio" name="fleetStatus" value="maint"><span class="fleet-status-dot" style="background:#a855f7;"></span> MAINT</label>
         </div>
       </div>
       <div id="fleetMelSection" style="display:none;">
@@ -682,6 +683,12 @@
         <div class="form-group">
           <label for="fleetNogoReason" data-i18n="fleet.nogoReason">Motif d'indisponibilité</label>
           <textarea id="fleetNogoReason" rows="2"></textarea>
+        </div>
+      </div>
+      <div id="fleetMaintSection" style="display:none;">
+        <div class="form-group">
+          <label for="fleetMaintReason" data-i18n="fleet.maintReason">Motif de maintenance</label>
+          <textarea id="fleetMaintReason" rows="2"></textarea>
         </div>
       </div>
       <div class="modal-actions">

@@ -253,6 +253,7 @@ const TRANSLATIONS = {
     'fleet.melCategory': 'Cat.',
     'fleet.melExpiry': 'Expiration',
     'fleet.nogoReason': 'Motif d\'indisponibilité',
+    'fleet.maintReason': 'Motif de maintenance',
     'fleet.save': 'Enregistrer',
     'fleet.editTitle': 'Modifier l\'aéronef',
     'fleet.confirmDelete': 'Supprimer cet aéronef ?',
@@ -493,6 +494,7 @@ const TRANSLATIONS = {
     'fleet.melCategory': 'Kat.',
     'fleet.melExpiry': 'Ablaufdatum',
     'fleet.nogoReason': 'Grund der Nichtverfügbarkeit',
+    'fleet.maintReason': 'Wartungsgrund',
     'fleet.save': 'Speichern',
     'fleet.editTitle': 'Luftfahrzeug bearbeiten',
     'fleet.confirmDelete': 'Dieses Luftfahrzeug löschen?',
@@ -733,6 +735,7 @@ const TRANSLATIONS = {
     'fleet.melCategory': 'Cat.',
     'fleet.melExpiry': 'Scadenza',
     'fleet.nogoReason': 'Motivo di indisponibilità',
+    'fleet.maintReason': 'Motivo della manutenzione',
     'fleet.save': 'Salva',
     'fleet.editTitle': 'Modifica aeromobile',
     'fleet.confirmDelete': 'Eliminare questo aeromobile?',
@@ -973,6 +976,7 @@ const TRANSLATIONS = {
     'fleet.melCategory': 'Cat.',
     'fleet.melExpiry': 'Vencimiento',
     'fleet.nogoReason': 'Motivo de indisponibilidad',
+    'fleet.maintReason': 'Motivo del mantenimiento',
     'fleet.save': 'Guardar',
     'fleet.editTitle': 'Modificar aeronave',
     'fleet.confirmDelete': '¿Eliminar esta aeronave?',
@@ -1213,6 +1217,7 @@ const TRANSLATIONS = {
     'fleet.melCategory': 'Cat.',
     'fleet.melExpiry': 'Expiry date',
     'fleet.nogoReason': 'Reason for unavailability',
+    'fleet.maintReason': 'Maintenance reason',
     'fleet.save': 'Save',
     'fleet.editTitle': 'Edit aircraft',
     'fleet.confirmDelete': 'Delete this aircraft?',
@@ -2192,8 +2197,8 @@ let editingFleetId = null;
 async function refreshFleet() {
   try {
     fleetItems = await api.getFleet();
-    // Sort: nogo first, mel, go, then by registration
-    const statusOrder = { nogo: 0, mel: 1, go: 2 };
+    // Sort: nogo first, maint, mel, go, then by registration
+    const statusOrder = { nogo: 0, maint: 1, mel: 2, go: 3 };
     fleetItems.sort((a, b) => {
       const sa = statusOrder[a.status] ?? 2;
       const sb = statusOrder[b.status] ?? 2;
@@ -2217,7 +2222,8 @@ function renderFleet() {
   }
 
   container.innerHTML = fleetItems.map(a => {
-    const statusLabel = a.status === 'nogo' ? 'NO GO' : a.status.toUpperCase();
+    const statusLabels = { go: 'GO', mel: 'MEL', nogo: 'NO GO', maint: 'MAINT' };
+    const statusLabel = statusLabels[a.status] || a.status.toUpperCase();
     let meta = a.type || '';
     if (a.total_hours != null) meta += (meta ? ' · ' : '') + a.total_hours + ' h';
     if (a.status === 'mel' && Array.isArray(a.mel_items) && a.mel_items.length > 0) {
@@ -2225,6 +2231,9 @@ function renderFleet() {
     }
     if (a.status === 'nogo' && a.nogo_reason) {
       meta += (meta ? ' · ' : '') + escapeHtml(a.nogo_reason).substring(0, 50);
+    }
+    if (a.status === 'maint' && a.maint_reason) {
+      meta += (meta ? ' · ' : '') + escapeHtml(a.maint_reason).substring(0, 50);
     }
 
     return '<div class="fleet-card" data-id="' + a.id + '">'
@@ -2256,6 +2265,7 @@ function openFleetModal(item) {
   document.getElementById('fleetType').value = item ? (item.type || '') : '';
   document.getElementById('fleetHours').value = item ? (item.total_hours || '') : '';
   document.getElementById('fleetNogoReason').value = item ? (item.nogo_reason || '') : '';
+  document.getElementById('fleetMaintReason').value = item ? (item.maint_reason || '') : '';
 
   // Status radios
   const status = item ? item.status : 'go';
@@ -2281,6 +2291,7 @@ function updateFleetStatusUI() {
   const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
   document.getElementById('fleetMelSection').style.display = status === 'mel' ? '' : 'none';
   document.getElementById('fleetNogoSection').style.display = status === 'nogo' ? '' : 'none';
+  document.getElementById('fleetMaintSection').style.display = status === 'maint' ? '' : 'none';
 }
 
 // Status radio change
@@ -2337,6 +2348,7 @@ fleetForm.addEventListener('submit', async (e) => {
   const totalHours = document.getElementById('fleetHours').value;
   const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
   const nogo_reason = document.getElementById('fleetNogoReason').value.trim();
+  const maint_reason = document.getElementById('fleetMaintReason').value.trim();
   const mel_items = status === 'mel' ? collectMelItems() : [];
 
   const data = {
@@ -2345,7 +2357,8 @@ fleetForm.addEventListener('submit', async (e) => {
     status,
     total_hours: totalHours ? parseFloat(totalHours) : null,
     mel_items,
-    nogo_reason: status === 'nogo' ? nogo_reason : ''
+    nogo_reason: status === 'nogo' ? nogo_reason : '',
+    maint_reason: status === 'maint' ? maint_reason : ''
   };
 
   try {
