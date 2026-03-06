@@ -335,6 +335,14 @@
           <input type="range" class="form-range" id="cfgMapBrightness" min="30" max="100" step="1" value="52">
         </div>
         <div class="form-group">
+          <label><span data-i18n="cfg.maps.weatherIntensityDark">Intensité couches météo (fond sombre)</span> <span class="cfg-slider-value" id="cfgWeatherDarkVal">250</span>%</label>
+          <input type="range" class="cfg-range" id="cfgWeatherDark" min="100" max="500" step="10" value="250">
+        </div>
+        <div class="form-group">
+          <label><span data-i18n="cfg.maps.weatherIntensityLight">Intensité couches météo (fond clair)</span> <span class="cfg-slider-value" id="cfgWeatherLightVal">90</span>%</label>
+          <input type="range" class="cfg-range" id="cfgWeatherLight" min="50" max="200" step="5" value="90">
+        </div>
+        <div class="form-group">
           <label data-i18n="cfg.maps.airportsOnMap">Terrains sur la carte</label>
           <select class="form-select" id="cfgMapAirports">
             <option value="none" data-i18n="cfg.maps.airportsNone">Masqués</option>

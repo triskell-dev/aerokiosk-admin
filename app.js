@@ -155,6 +155,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapDay': 'Fond de jour',
     'cfg.maps.basemapNight': 'Fond de nuit',
     'cfg.maps.basemapBrightness': 'Luminosité fond de carte',
+    'cfg.maps.weatherIntensityDark': 'Intensité couches météo (fond sombre)',
+    'cfg.maps.weatherIntensityLight': 'Intensité couches météo (fond clair)',
     'cfg.maps.airportsOnMap': 'Terrains sur la carte',
     'cfg.maps.airportsNone': 'Masqués',
     'cfg.maps.airportsIcao': 'Aéroports uniquement',
@@ -408,6 +410,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapDay': 'Tagkarte',
     'cfg.maps.basemapNight': 'Nachtkarte',
     'cfg.maps.basemapBrightness': 'Kartenhelligkeit',
+    'cfg.maps.weatherIntensityDark': 'Wetterlagen-Intensität (dunkle Karte)',
+    'cfg.maps.weatherIntensityLight': 'Wetterlagen-Intensität (helle Karte)',
     'cfg.maps.airportsOnMap': 'Flugplätze auf der Karte',
     'cfg.maps.airportsNone': 'Ausgeblendet',
     'cfg.maps.airportsIcao': 'Nur Flughäfen',
@@ -656,6 +660,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapDay': 'Mappa diurna',
     'cfg.maps.basemapNight': 'Mappa notturna',
     'cfg.maps.basemapBrightness': 'Luminosità mappa di base',
+    'cfg.maps.weatherIntensityDark': 'Intensità strati meteo (sfondo scuro)',
+    'cfg.maps.weatherIntensityLight': 'Intensità strati meteo (sfondo chiaro)',
     'cfg.maps.airportsOnMap': 'Aeroporti sulla mappa',
     'cfg.maps.airportsNone': 'Nascosti',
     'cfg.maps.airportsIcao': 'Solo aeroporti',
@@ -904,6 +910,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapDay': 'Mapa diurno',
     'cfg.maps.basemapNight': 'Mapa nocturno',
     'cfg.maps.basemapBrightness': 'Brillo del mapa base',
+    'cfg.maps.weatherIntensityDark': 'Intensidad capas meteorológicas (fondo oscuro)',
+    'cfg.maps.weatherIntensityLight': 'Intensidad capas meteorológicas (fondo claro)',
     'cfg.maps.airportsOnMap': 'Aeródromos en el mapa',
     'cfg.maps.airportsNone': 'Ocultos',
     'cfg.maps.airportsIcao': 'Solo aeropuertos',
@@ -1152,6 +1160,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapDay': 'Day map',
     'cfg.maps.basemapNight': 'Night map',
     'cfg.maps.basemapBrightness': 'Base map brightness',
+    'cfg.maps.weatherIntensityDark': 'Weather layer intensity (dark base)',
+    'cfg.maps.weatherIntensityLight': 'Weather layer intensity (light base)',
     'cfg.maps.airportsOnMap': 'Airports on map',
     'cfg.maps.airportsNone': 'Hidden',
     'cfg.maps.airportsIcao': 'Airports only',
@@ -2567,6 +2577,8 @@ function populateConfigTabs() {
   cfgToggleBasemapAuto();
   document.getElementById('cfgMapAirports').value = c.maps?.airportDisplay || 'none';
   cfgSetSlider('cfgMapBrightness', 'cfgMapBrightnessVal', c.maps?.basemapBrightness ?? 52);
+  cfgSetSlider('cfgWeatherDark', 'cfgWeatherDarkVal', c.maps?.weatherIntensityDark ?? 250);
+  cfgSetSlider('cfgWeatherLight', 'cfgWeatherLightVal', c.maps?.weatherIntensityLight ?? 90);
   cfgSetSlider('cfgMapZoom', 'cfgMapZoomVal', c.maps?.zoom ?? 7);
   cfgSetSlider('cfgMapOffLat', 'cfgMapOffLatVal', c.maps?.offsetLat ?? 0);
   cfgSetSlider('cfgMapOffLon', 'cfgMapOffLonVal', c.maps?.offsetLon ?? 0);
@@ -2677,6 +2689,8 @@ function collectConfigValues() {
   c.maps.basemapNight = document.getElementById('cfgMapBasemapNight').value;
   c.maps.airportDisplay = document.getElementById('cfgMapAirports').value;
   c.maps.basemapBrightness = parseInt(document.getElementById('cfgMapBrightness').value) || 52;
+  c.maps.weatherIntensityDark = parseInt(document.getElementById('cfgWeatherDark').value) || 250;
+  c.maps.weatherIntensityLight = parseInt(document.getElementById('cfgWeatherLight').value) || 90;
   c.maps.zoom = parseFloat(document.getElementById('cfgMapZoom').value) || 7;
   c.maps.offsetLat = parseFloat(document.getElementById('cfgMapOffLat').value) || 0;
   c.maps.offsetLon = parseFloat(document.getElementById('cfgMapOffLon').value) || 0;
@@ -3123,6 +3137,8 @@ document.addEventListener('DOMContentLoaded', () => {
   cfgBindSlider('cfgMapOffLon', 'cfgMapOffLonVal');
   cfgBindSlider('cfgRotation', 'cfgRotationVal');
   cfgBindSlider('cfgMapBrightness', 'cfgMapBrightnessVal');
+  cfgBindSlider('cfgWeatherDark', 'cfgWeatherDarkVal');
+  cfgBindSlider('cfgWeatherLight', 'cfgWeatherLightVal');
   cfgBindSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal');
   cfgBindSlider('cfgTrafficRadius', 'cfgTrafficRadiusVal');
   cfgBindSlider('cfgTrafficAlt', 'cfgTrafficAltVal');
