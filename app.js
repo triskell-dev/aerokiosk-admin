@@ -2967,7 +2967,8 @@ const CFG_ACTIVITY_PROFILES = {
   aeromodel: {
     sections: { sunTimes: true, conditions: true, fogAlert: true, runwayComponents: false, preferredRunway: false, metar: false, taf: true, tafBar: false, sigmet: false, flightCategory: false, sunsetWarning: true },
     tafDisplay: 'decoded',
-    layers: { clouds_new: true, precipitation_new: true, pressure_new: false, wind_new: true, temp_new: true, snow_new: false, gusts: true, dewpoint: false, cape: false, pbl: false, uv: true, wind_altitude: false }
+    layers: { clouds_new: true, precipitation_new: true, pressure_new: false, wind_new: true, temp_new: true, snow_new: false, gusts: true, dewpoint: false, cape: false, pbl: false, uv: true, wind_altitude: false },
+    fleet: false
   }
 };
 
