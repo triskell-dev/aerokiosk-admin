@@ -1859,6 +1859,15 @@ class ApiClient {
     }
   }
 
+  async lightningToggle() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/lightning-toggle', { method: 'POST' });
+      return resp.json();
+    }
+    // Mode cloud : pas supporté (lightning = local only)
+    return { ok: false, error: 'local_only' };
+  }
+
   // ── IMAGE URL HELPER ──
 
   getImageUrl(slide) {
@@ -3333,6 +3342,36 @@ function showNedry() {
   setTimeout(() => { clearInterval(typeInterval); overlay.remove(); }, 5000);
 }
 
+let lightningRemoteActive = false;
+
+async function toggleLightningRemote() {
+  try {
+    await api.lightningToggle();
+    lightningRemoteActive = !lightningRemoteActive;
+    updateLightningButton();
+  } catch (e) {
+    console.warn('Lightning toggle error:', e);
+  }
+}
+
+function updateLightningButton() {
+  const btn = document.getElementById('cfgLightningToggle');
+  const status = document.getElementById('cfgLightningStatus');
+  if (lightningRemoteActive) {
+    btn.textContent = '⚡ Désactiver Lightning';
+    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    btn.style.color = '#fff';
+    status.textContent = 'Actif';
+    status.style.color = '#fbbf24';
+  } else {
+    btn.textContent = '⚡ Activer Lightning';
+    btn.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+    btn.style.color = '#000';
+    status.textContent = 'Inactif';
+    status.style.color = '#64748b';
+  }
+}
+
 function populateGodModeTab() {
   if (!fullConfig) return;
   const gm = fullConfig.godMode || {};
@@ -3340,6 +3379,7 @@ function populateGodModeTab() {
   document.getElementById('cfgFr24Enabled').checked = !!fr24.enabled;
   document.getElementById('cfgFr24Settings').style.display = fr24.enabled ? '' : 'none';
   cfgSetSlider('cfgFr24Refresh', 'cfgFr24RefreshVal', fr24.refreshSeconds || 30, 's');
+  updateLightningButton();
 }
 
 function collectGodModeValues() {
