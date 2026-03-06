@@ -202,6 +202,11 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Catégorie de vol',
     'cfg.sections.sunsetWarning': 'Alerte coucher de soleil',
+    'cfg.sections.activityProfile': "Profil d'activité",
+    'cfg.sections.profileStandard': 'Standard (aérodrome)',
+    'cfg.sections.profileGlider': 'Planeur',
+    'cfg.sections.profileAeromodel': 'Aéromodélisme',
+    'cfg.sections.profileCustom': 'Personnalisé',
     'cfg.sections.tafDisplay': 'Affichage TAF',
     'cfg.sections.tafRaw': 'Brut uniquement',
     'cfg.sections.tafDecoded': 'Décodé uniquement',
@@ -448,6 +453,11 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Flugkategorie',
     'cfg.sections.sunsetWarning': 'Sonnenuntergangswarnung',
+    'cfg.sections.activityProfile': 'Aktivitätsprofil',
+    'cfg.sections.profileStandard': 'Standard (Flugplatz)',
+    'cfg.sections.profileGlider': 'Segelflug',
+    'cfg.sections.profileAeromodel': 'Modellflug',
+    'cfg.sections.profileCustom': 'Benutzerdefiniert',
     'cfg.sections.tafDisplay': 'TAF-Anzeige',
     'cfg.sections.tafRaw': 'Nur Rohtext',
     'cfg.sections.tafDecoded': 'Nur dekodiert',
@@ -691,6 +701,11 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Categoria di volo',
     'cfg.sections.sunsetWarning': 'Allarme tramonto',
+    'cfg.sections.activityProfile': 'Profilo attività',
+    'cfg.sections.profileStandard': 'Standard (aerodromo)',
+    'cfg.sections.profileGlider': 'Aliante',
+    'cfg.sections.profileAeromodel': 'Aeromodellismo',
+    'cfg.sections.profileCustom': 'Personalizzato',
     'cfg.sections.tafDisplay': 'Visualizzazione TAF',
     'cfg.sections.tafRaw': 'Solo grezzo',
     'cfg.sections.tafDecoded': 'Solo decodificato',
@@ -934,6 +949,11 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Categoría de vuelo',
     'cfg.sections.sunsetWarning': 'Alerta atardecer',
+    'cfg.sections.activityProfile': 'Perfil de actividad',
+    'cfg.sections.profileStandard': 'Estándar (aeródromo)',
+    'cfg.sections.profileGlider': 'Planeador',
+    'cfg.sections.profileAeromodel': 'Aeromodelismo',
+    'cfg.sections.profileCustom': 'Personalizado',
     'cfg.sections.tafDisplay': 'Visualización TAF',
     'cfg.sections.tafRaw': 'Solo bruto',
     'cfg.sections.tafDecoded': 'Solo decodificado',
@@ -1177,6 +1197,11 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Flight category',
     'cfg.sections.sunsetWarning': 'Sunset warning',
+    'cfg.sections.activityProfile': 'Activity profile',
+    'cfg.sections.profileStandard': 'Standard (aerodrome)',
+    'cfg.sections.profileGlider': 'Glider',
+    'cfg.sections.profileAeromodel': 'Aeromodelling',
+    'cfg.sections.profileCustom': 'Custom',
     'cfg.sections.tafDisplay': 'TAF display',
     'cfg.sections.tafRaw': 'Raw only',
     'cfg.sections.tafDecoded': 'Decoded only',
@@ -2558,6 +2583,7 @@ function populateConfigTabs() {
   cfgToggleFr24Official();
 
   // -- Sections --
+  document.getElementById('cfgActivityProfile').value = c.activityProfile || 'standard';
   cfgRenderSectionToggles();
   document.getElementById('cfgTafDisplay').value = c.tafDisplay || 'raw';
   document.getElementById('cfgSidebarPosition').value = c.sidebarPosition || 'right';
@@ -2672,6 +2698,7 @@ function collectConfigValues() {
   c.traffic.fr24ApiKey = document.getElementById('cfgFr24ApiKey').value.trim();
 
   // Sections
+  c.activityProfile = document.getElementById('cfgActivityProfile').value;
   if (!c.sections) c.sections = {};
   document.querySelectorAll('#cfgSectionToggles input[data-section-key]').forEach(cb => {
     c.sections[cb.dataset.sectionKey] = cb.checked;
@@ -2925,6 +2952,43 @@ function cfgToggleFr24Official() {
   document.getElementById('cfgFr24OfficialGroup').style.display = enabled ? '' : 'none';
 }
 
+// ── ACTIVITY PROFILES ──
+const CFG_ACTIVITY_PROFILES = {
+  standard: {
+    sections: { sunTimes: true, conditions: true, fogAlert: true, runwayComponents: true, preferredRunway: true, metar: true, taf: true, tafBar: true, sigmet: true, flightCategory: true, sunsetWarning: true },
+    tafDisplay: 'both',
+    layers: { clouds_new: true, precipitation_new: true, pressure_new: true, wind_new: true, temp_new: true, snow_new: false, gusts: false, dewpoint: false, cape: false, pbl: false, uv: false, wind_altitude: false }
+  },
+  glider: {
+    sections: { sunTimes: true, conditions: true, fogAlert: true, runwayComponents: false, preferredRunway: false, metar: true, taf: true, tafBar: true, sigmet: true, flightCategory: true, sunsetWarning: true },
+    tafDisplay: 'bar',
+    layers: { clouds_new: true, precipitation_new: true, pressure_new: true, wind_new: true, temp_new: true, snow_new: false, gusts: true, dewpoint: true, cape: true, pbl: true, uv: false, wind_altitude: true }
+  },
+  aeromodel: {
+    sections: { sunTimes: true, conditions: true, fogAlert: true, runwayComponents: false, preferredRunway: false, metar: false, taf: true, tafBar: false, sigmet: false, flightCategory: false, sunsetWarning: true },
+    tafDisplay: 'decoded',
+    layers: { clouds_new: true, precipitation_new: true, pressure_new: false, wind_new: true, temp_new: true, snow_new: false, gusts: true, dewpoint: false, cape: false, pbl: false, uv: true, wind_altitude: false }
+  }
+};
+
+function cfgApplyActivityProfile(profileId) {
+  const profile = CFG_ACTIVITY_PROFILES[profileId];
+  if (!profile) return;
+  // Sections
+  document.querySelectorAll('#cfgSectionToggles input[data-section-key]').forEach(cb => {
+    const key = cb.dataset.sectionKey;
+    if (profile.sections[key] !== undefined) cb.checked = profile.sections[key];
+  });
+  // TAF display
+  document.getElementById('cfgTafDisplay').value = profile.tafDisplay;
+  // Layers
+  document.querySelectorAll('#cfgMapLayers input[data-layer-idx]').forEach(cb => {
+    const idx = parseInt(cb.dataset.layerIdx);
+    const layer = fullConfig?.maps?.layers?.[idx];
+    if (layer && profile.layers[layer.id] !== undefined) cb.checked = profile.layers[layer.id];
+  });
+}
+
 // ── SECTION TOGGLES ──
 function cfgRenderSectionToggles() {
   const container = document.getElementById('cfgSectionToggles');
@@ -2948,6 +3012,18 @@ function cfgRenderSectionToggles() {
     + '<label class="toggle-switch"><input type="checkbox" data-section-key="' + key + '"' + (sections[key] !== false ? ' checked' : '') + '><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
     + '</div>'
   ).join('');
+
+  // Passer en custom si modif manuelle
+  container.querySelectorAll('input[data-section-key]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      document.getElementById('cfgActivityProfile').value = 'custom';
+    });
+  });
+
+  // Handler profil d'activité
+  document.getElementById('cfgActivityProfile').addEventListener('change', (e) => {
+    if (e.target.value !== 'custom') cfgApplyActivityProfile(e.target.value);
+  });
 }
 
 // ── THEME GRIDS ──
