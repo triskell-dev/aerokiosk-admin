@@ -840,3 +840,45 @@ body {
   gap: 10px;
   justify-content: flex-end;
 }
+
+/* Nedry easter egg */
+.nedry-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: not-allowed;
+  overflow: hidden;
+}
+.nedry-text {
+  font-family: 'Courier New', monospace;
+  font-size: 18px; font-weight: 700;
+  color: #00ff00; text-align: center;
+  line-height: 1.6; white-space: pre-wrap;
+  max-width: 80vw;
+  text-shadow: 0 0 8px rgba(0,255,0,0.5);
+  animation: nedry-flicker 0.15s infinite alternate;
+}
+.nedry-finger {
+  font-size: 72px;
+  margin-bottom: 24px;
+  animation: nedry-wag 0.4s ease-in-out infinite alternate;
+}
+@keyframes nedry-wag {
+  0% { transform: rotate(-12deg); }
+  100% { transform: rotate(12deg); }
+}
+@keyframes nedry-flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.85; }
+}
+.nedry-scanline {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,0,0.03) 2px,
+    rgba(0,255,0,0.03) 4px
+  );
+  pointer-events: none;
+}

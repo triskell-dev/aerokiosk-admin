@@ -3289,8 +3289,7 @@ async function submitGodModal() {
         closeGodModal();
         activateGodMode();
       } else {
-        errorEl.textContent = 'Mot de passe incorrect';
-        errorEl.style.display = '';
+        showNedry();
       }
     } catch (e) {
       errorEl.textContent = 'Erreur : ' + e.message;
@@ -3309,6 +3308,29 @@ function activateGodMode() {
   switchConfigTab('godmode');
   // Populate
   populateGodModeTab();
+}
+
+function showNedry() {
+  closeGodModal();
+  const overlay = document.createElement('div');
+  overlay.className = 'nedry-overlay';
+  overlay.innerHTML = '<div class="nedry-finger">☝️</div>'
+    + '<div class="nedry-text" id="nedryText"></div>'
+    + '<div class="nedry-scanline"></div>';
+  document.body.appendChild(overlay);
+
+  const phrase = 'Ah ah ah, you didn\'t say the magic word!\n';
+  const el = overlay.querySelector('#nedryText');
+  let count = 0;
+  const maxLines = 12;
+  const typeInterval = setInterval(() => {
+    el.textContent += phrase;
+    count++;
+    if (count >= maxLines) clearInterval(typeInterval);
+  }, 300);
+
+  overlay.onclick = () => { clearInterval(typeInterval); overlay.remove(); };
+  setTimeout(() => { clearInterval(typeInterval); overlay.remove(); }, 5000);
 }
 
 function populateGodModeTab() {
