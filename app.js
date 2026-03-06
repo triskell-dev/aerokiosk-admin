@@ -204,6 +204,7 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Catégorie de vol',
     'cfg.sections.sunsetWarning': 'Alerte coucher de soleil',
+    'cfg.sections.ramadan': 'Horaires Ramadan (Imsak / Iftar)',
     'cfg.sections.activityProfile': "Profil d'activité",
     'cfg.sections.profileStandard': 'Standard (aérodrome)',
     'cfg.sections.profileGlider': 'Planeur',
@@ -457,6 +458,7 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Flugkategorie',
     'cfg.sections.sunsetWarning': 'Sonnenuntergangswarnung',
+    'cfg.sections.ramadan': 'Ramadan-Zeiten (Imsak / Iftar)',
     'cfg.sections.activityProfile': 'Aktivitätsprofil',
     'cfg.sections.profileStandard': 'Standard (Flugplatz)',
     'cfg.sections.profileGlider': 'Segelflug',
@@ -707,6 +709,7 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Categoria di volo',
     'cfg.sections.sunsetWarning': 'Allarme tramonto',
+    'cfg.sections.ramadan': 'Orari Ramadan (Imsak / Iftar)',
     'cfg.sections.activityProfile': 'Profilo attività',
     'cfg.sections.profileStandard': 'Standard (aerodromo)',
     'cfg.sections.profileGlider': 'Aliante',
@@ -957,6 +960,7 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Categoría de vuelo',
     'cfg.sections.sunsetWarning': 'Alerta atardecer',
+    'cfg.sections.ramadan': 'Horarios Ramadan (Imsak / Iftar)',
     'cfg.sections.activityProfile': 'Perfil de actividad',
     'cfg.sections.profileStandard': 'Estándar (aeródromo)',
     'cfg.sections.profileGlider': 'Planeador',
@@ -1207,6 +1211,7 @@ const TRANSLATIONS = {
     'cfg.sections.sigmet': 'SIGMET',
     'cfg.sections.flightCategory': 'Flight category',
     'cfg.sections.sunsetWarning': 'Sunset warning',
+    'cfg.sections.ramadan': 'Ramadan times (Imsak / Iftar)',
     'cfg.sections.activityProfile': 'Activity profile',
     'cfg.sections.profileStandard': 'Standard (aerodrome)',
     'cfg.sections.profileGlider': 'Glider',
@@ -3028,7 +3033,8 @@ function cfgRenderSectionToggles() {
     tafBar: t('cfg.sections.tafBar'),
     sigmet: t('cfg.sections.sigmet'),
     flightCategory: t('cfg.sections.flightCategory'),
-    sunsetWarning: t('cfg.sections.sunsetWarning')
+    sunsetWarning: t('cfg.sections.sunsetWarning'),
+    ramadan: t('cfg.sections.ramadan')
   };
   container.innerHTML = Object.entries(labels).map(([key, label]) =>
     '<div class="cfg-toggle-row">'
