@@ -234,6 +234,16 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo jour',
     'cfg.appearance.logoNight': 'Logo nuit',
     'cfg.appearance.chooseLogo': 'Choisir...',
+    // ── Écrans ──
+    'cfg.screens.title': 'Écrans',
+    'cfg.screens.hint': 'Choisissez le mode d\'affichage pour chaque écran détecté.',
+    'cfg.screens.add': 'Ajouter un écran',
+    'cfg.screens.screen': 'Écran',
+    'cfg.screens.viewFull': 'Complet (carte + météo)',
+    'cfg.screens.viewMap': 'Carte seule',
+    'cfg.screens.viewWeather': 'Météo seule (sidebar)',
+    'cfg.screens.viewFleet': 'Flotte',
+    'cfg.screens.viewClub': 'Contenu club',
     // ── Contenu club ──
     'cfg.clubDisplay.title': 'Affichage club',
     'cfg.clubDisplay.enabled': 'Activer l\'affichage club',
@@ -487,6 +497,15 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo Tag',
     'cfg.appearance.logoNight': 'Logo Nacht',
     'cfg.appearance.chooseLogo': 'Auswählen...',
+    'cfg.screens.title': 'Bildschirme',
+    'cfg.screens.hint': 'Wählen Sie den Anzeigemodus für jeden erkannten Bildschirm.',
+    'cfg.screens.add': 'Bildschirm hinzufügen',
+    'cfg.screens.screen': 'Bildschirm',
+    'cfg.screens.viewFull': 'Vollständig (Karte + Wetter)',
+    'cfg.screens.viewMap': 'Nur Karte',
+    'cfg.screens.viewWeather': 'Nur Wetter (Sidebar)',
+    'cfg.screens.viewFleet': 'Flotte',
+    'cfg.screens.viewClub': 'Club-Inhalte',
     'cfg.clubDisplay.title': 'Club-Anzeige',
     'cfg.clubDisplay.enabled': 'Club-Anzeige aktivieren',
     'cfg.clubDisplay.enabledHint': 'Eigene Inhalte im Wechsel mit Wetter auf dem Kiosk anzeigen.',
@@ -738,6 +757,15 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo giorno',
     'cfg.appearance.logoNight': 'Logo notte',
     'cfg.appearance.chooseLogo': 'Scegli...',
+    'cfg.screens.title': 'Schermi',
+    'cfg.screens.hint': 'Scegli la modalità di visualizzazione per ogni schermo rilevato.',
+    'cfg.screens.add': 'Aggiungi schermo',
+    'cfg.screens.screen': 'Schermo',
+    'cfg.screens.viewFull': 'Completo (mappa + meteo)',
+    'cfg.screens.viewMap': 'Solo mappa',
+    'cfg.screens.viewWeather': 'Solo meteo (sidebar)',
+    'cfg.screens.viewFleet': 'Flotta',
+    'cfg.screens.viewClub': 'Contenuto club',
     'cfg.clubDisplay.title': 'Display club',
     'cfg.clubDisplay.enabled': 'Attiva display club',
     'cfg.clubDisplay.enabledHint': 'Mostra contenuti personalizzati sul chiosco in rotazione con il meteo.',
@@ -989,6 +1017,15 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo día',
     'cfg.appearance.logoNight': 'Logo noche',
     'cfg.appearance.chooseLogo': 'Elegir...',
+    'cfg.screens.title': 'Pantallas',
+    'cfg.screens.hint': 'Elija el modo de visualización para cada pantalla detectada.',
+    'cfg.screens.add': 'Añadir pantalla',
+    'cfg.screens.screen': 'Pantalla',
+    'cfg.screens.viewFull': 'Completo (mapa + meteorología)',
+    'cfg.screens.viewMap': 'Solo mapa',
+    'cfg.screens.viewWeather': 'Solo meteorología (sidebar)',
+    'cfg.screens.viewFleet': 'Flota',
+    'cfg.screens.viewClub': 'Contenido club',
     'cfg.clubDisplay.title': 'Pantalla del club',
     'cfg.clubDisplay.enabled': 'Activar pantalla del club',
     'cfg.clubDisplay.enabledHint': 'Mostrar contenido personalizado en el quiosco en rotación con el tiempo.',
@@ -1240,6 +1277,15 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Day logo',
     'cfg.appearance.logoNight': 'Night logo',
     'cfg.appearance.chooseLogo': 'Choose...',
+    'cfg.screens.title': 'Screens',
+    'cfg.screens.hint': 'Choose the display mode for each detected screen.',
+    'cfg.screens.add': 'Add a screen',
+    'cfg.screens.screen': 'Screen',
+    'cfg.screens.viewFull': 'Full (map + weather)',
+    'cfg.screens.viewMap': 'Map only',
+    'cfg.screens.viewWeather': 'Weather only (sidebar)',
+    'cfg.screens.viewFleet': 'Fleet',
+    'cfg.screens.viewClub': 'Club content',
     'cfg.clubDisplay.title': 'Club display',
     'cfg.clubDisplay.enabled': 'Enable club display',
     'cfg.clubDisplay.enabledHint': 'Show custom content on the kiosk rotating with weather.',
@@ -2625,6 +2671,9 @@ function populateConfigTabs() {
   document.getElementById('cfgLogoDayName').textContent = c.branding?.logoDay || '—';
   document.getElementById('cfgLogoNightName').textContent = c.branding?.logoNight || '—';
 
+  // -- Écrans --
+  cfgPopulateScreenList();
+
   // -- Contenu club --
   document.getElementById('cfgClubEnabled').checked = c.clubDisplay?.enabled !== false;
   document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
@@ -2634,6 +2683,76 @@ function populateConfigTabs() {
 
   // -- God mode (si actif) --
   if (godModeActive) populateGodModeTab();
+}
+
+// ── SCREEN LIST (multi-écran) ──
+function cfgPopulateScreenList() {
+  const c = fullConfig;
+  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0, view: c.layout === 'mapOnly' ? 'map' : 'full' }];
+  const container = document.getElementById('cfgScreenList');
+  container.innerHTML = '';
+  screens.forEach((scr, i) => cfgAddScreenRow(container, scr));
+
+  document.getElementById('cfgBtnAddScreen').onclick = () => {
+    cfgAddScreenRow(container, { displayIndex: container.children.length, view: 'full' });
+  };
+}
+
+function cfgAddScreenRow(container, scr) {
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex; gap:8px; align-items:center;';
+
+  const displaySel = document.createElement('select');
+  displaySel.className = 'form-select cfg-screen-display';
+  displaySel.style.flex = '1';
+  for (let i = 0; i < 4; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${t('cfg.screens.screen') || 'Écran'} ${i + 1}`;
+    if (i === scr.displayIndex) opt.selected = true;
+    displaySel.appendChild(opt);
+  }
+
+  const viewSel = document.createElement('select');
+  viewSel.className = 'form-select cfg-screen-view';
+  viewSel.style.flex = '1';
+  const views = [
+    { value: 'full', label: t('cfg.screens.viewFull') || 'Complet' },
+    { value: 'map', label: t('cfg.screens.viewMap') || 'Carte seule' },
+    { value: 'weather', label: t('cfg.screens.viewWeather') || 'Météo seule' },
+    { value: 'fleet', label: t('cfg.screens.viewFleet') || 'Flotte' },
+    { value: 'club', label: t('cfg.screens.viewClub') || 'Contenu club' }
+  ];
+  views.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.value;
+    opt.textContent = v.label;
+    if (v.value === scr.view) opt.selected = true;
+    viewSel.appendChild(opt);
+  });
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'btn-ghost';
+  removeBtn.textContent = '✕';
+  removeBtn.style.cssText = 'padding:4px 8px; cursor:pointer; border:none; color:var(--text-dim);';
+  removeBtn.onclick = () => {
+    row.remove();
+    if (container.children.length === 0) {
+      cfgAddScreenRow(container, { displayIndex: 0, view: 'full' });
+    }
+  };
+
+  row.appendChild(displaySel);
+  row.appendChild(viewSel);
+  row.appendChild(removeBtn);
+  container.appendChild(row);
+}
+
+function cfgCollectScreens() {
+  return Array.from(document.getElementById('cfgScreenList').children).map(row => ({
+    displayIndex: parseInt(row.querySelector('.cfg-screen-display').value) || 0,
+    view: row.querySelector('.cfg-screen-view').value || 'full'
+  }));
 }
 
 // ── COLLECT CONFIG VALUES ──
@@ -2758,6 +2877,12 @@ function collectConfigValues() {
   c.clubDisplay.serverPort = parseInt(document.getElementById('cfgClubServerPort').value) || 3000;
   c.clubDisplay.placement = document.getElementById('cfgClubPlacement').value;
   c.clubDisplay.defaultDuration = parseInt(document.getElementById('cfgClubDuration').value) || 15;
+
+  // Écrans
+  c.screens = cfgCollectScreens();
+  if (!c.kiosk) c.kiosk = {};
+  c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
+  c.layout = c.screens[0]?.view === 'map' ? 'mapOnly' : 'full';
 
   // God mode
   if (godModeActive) collectGodModeValues();
