@@ -263,6 +263,10 @@ const TRANSLATIONS = {
     // ── Flotte ──
     'nav.fleet': 'Flotte',
     'nav.rooms': 'Planification',
+    'cfg.rooms.screenThemeTitle': '\u00c9cran salle (tablette)',
+    'cfg.rooms.screenThemeHint': 'Th\u00e8me de la page salle affich\u00e9e sur tablette.',
+    'cfg.rooms.themeDark': 'Sombre',
+    'cfg.rooms.themeLight': 'Clair',
     'rooms.add': 'Ajouter une salle',
     'rooms.edit': 'Modifier la salle',
     'rooms.empty': 'Aucune salle configuree.',
@@ -581,6 +585,10 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.defaultDuration': 'Standarddauer (s)',
     'nav.fleet': 'Flotte',
     'nav.rooms': 'Planung',
+    'cfg.rooms.screenThemeTitle': 'Raumbildschirm (Tablet)',
+    'cfg.rooms.screenThemeHint': 'Farbschema der Raumseite auf dem Tablet.',
+    'cfg.rooms.themeDark': 'Dunkel',
+    'cfg.rooms.themeLight': 'Hell',
     'rooms.add': 'Raum hinzufügen',
     'rooms.edit': 'Raum bearbeiten',
     'rooms.empty': 'Keine Räume konfiguriert.',
@@ -899,6 +907,10 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.defaultDuration': 'Durata predefinita (s)',
     'nav.fleet': 'Flotta',
     'nav.rooms': 'Pianificazione',
+    'cfg.rooms.screenThemeTitle': 'Schermo sala (tablet)',
+    'cfg.rooms.screenThemeHint': 'Tema della pagina sala visualizzata sul tablet.',
+    'cfg.rooms.themeDark': 'Scuro',
+    'cfg.rooms.themeLight': 'Chiaro',
     'rooms.add': 'Aggiungi sala',
     'rooms.edit': 'Modifica sala',
     'rooms.empty': 'Nessuna sala configurata.',
@@ -1217,6 +1229,10 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.defaultDuration': 'Duración predeterminada (s)',
     'nav.fleet': 'Flota',
     'nav.rooms': 'Planificación',
+    'cfg.rooms.screenThemeTitle': 'Pantalla sala (tableta)',
+    'cfg.rooms.screenThemeHint': 'Tema de la p\u00e1gina de sala en la tableta.',
+    'cfg.rooms.themeDark': 'Oscuro',
+    'cfg.rooms.themeLight': 'Claro',
     'rooms.add': 'Añadir sala',
     'rooms.edit': 'Modificar sala',
     'rooms.empty': 'Ninguna sala configurada.',
@@ -1535,6 +1551,10 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.defaultDuration': 'Default duration (s)',
     'nav.fleet': 'Fleet',
     'nav.rooms': 'Scheduling',
+    'cfg.rooms.screenThemeTitle': 'Room screen (tablet)',
+    'cfg.rooms.screenThemeHint': 'Theme of the room page displayed on tablet.',
+    'cfg.rooms.themeDark': 'Dark',
+    'cfg.rooms.themeLight': 'Light',
     'rooms.add': 'Add a room',
     'rooms.edit': 'Edit room',
     'rooms.empty': 'No rooms configured.',
@@ -3768,6 +3788,9 @@ function populateConfigTabs() {
   // -- Écrans --
   cfgPopulateScreenList();
 
+  // -- Thème écran salle --
+  document.getElementById('cfgRoomScreenTheme').value = c.rooms?.screenTheme || 'dark';
+
   // -- Contenu club --
   document.getElementById('cfgClubEnabled').checked = c.clubDisplay?.enabled !== false;
   document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
@@ -3979,6 +4002,10 @@ function collectConfigValues() {
   if (!c.kiosk) c.kiosk = {};
   c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
   c.layout = c.screens[0]?.view === 'map' ? 'mapOnly' : 'full';
+
+  // Thème écran salle
+  if (!c.rooms) c.rooms = {};
+  c.rooms.screenTheme = document.getElementById('cfgRoomScreenTheme').value || 'dark';
 
   // God mode
   if (godModeActive) collectGodModeValues();

@@ -21,6 +21,18 @@
   --nogo-bg: rgba(239,68,68,0.12);
   --radius: 12px;
 }
+:root.light {
+  --bg: #f0f2f5;
+  --panel: #ffffff;
+  --border: #d1d5db;
+  --text: #1f2937;
+  --text-dim: #6b7280;
+  --accent: #0284c7;
+  --go: #16a34a;
+  --go-bg: rgba(22,163,74,0.1);
+  --nogo: #dc2626;
+  --nogo-bg: rgba(220,38,38,0.08);
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
   height: 100%; width: 100%;
@@ -308,6 +320,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 .kiosk-unlock-btn:active { opacity: 0.5; }
+:root.light .kiosk-unlock-btn { color: #9ca3af; }
 
 /* ── OVERLAY ── */
 .overlay {
@@ -738,14 +751,12 @@ let lang = 'fr';
 function L(key) { return (LABELS[lang] || LABELS.fr)[key] || key; }
 
 // ── FETCH CLUB LANGUAGE ──
-async function fetchClubLanguage() {
+async function fetchClubConfig() {
   try {
+    let cfg = null;
     if (mode === 'local') {
       const resp = await fetch('/api/config');
-      if (resp.ok) {
-        const cfg = await resp.json();
-        if (cfg.language && LABELS[cfg.language]) { lang = cfg.language; }
-      }
+      if (resp.ok) cfg = await resp.json();
     } else if (licenseKey) {
       const resp = await fetch(
         SUPABASE_URL + '/rest/v1/club_config?license_key=eq.' + encodeURIComponent(licenseKey) + '&select=config',
@@ -753,12 +764,20 @@ async function fetchClubLanguage() {
       );
       if (resp.ok) {
         const rows = await resp.json();
-        if (rows.length && rows[0].config && rows[0].config.language && LABELS[rows[0].config.language]) {
-          lang = rows[0].config.language;
-        }
+        if (rows.length && rows[0].config) cfg = rows[0].config;
       }
     }
-  } catch (e) { /* keep current lang */ }
+    if (cfg) {
+      // Language
+      if (cfg.language && LABELS[cfg.language]) lang = cfg.language;
+      // Theme
+      if (cfg.rooms && cfg.rooms.screenTheme === 'light') {
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+      }
+    }
+  } catch (e) { /* keep defaults */ }
 }
 
 // ── INIT ──
@@ -791,13 +810,13 @@ async function init() {
   } else {
     // No room ID — show setup screen
     document.getElementById('loadingScreen').style.display = 'none';
-    await fetchClubLanguage();
+    await fetchClubConfig();
     showSetupScreen();
     return;
   }
 
   // Fetch club language before display
-  await fetchClubLanguage();
+  await fetchClubConfig();
 
   await startRoomDisplay();
 }
@@ -849,7 +868,7 @@ async function setupLoadRooms() {
   errEl.style.display = 'none';
 
   try {
-    await fetchClubLanguage();
+    await fetchClubConfig();
     const rooms = await fetchRooms();
     if (!rooms || !rooms.length) {
       errEl.textContent = L('setupKeyError');
