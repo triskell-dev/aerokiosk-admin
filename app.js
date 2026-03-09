@@ -3911,6 +3911,9 @@ function populateConfigTabs() {
   document.getElementById('cfgLogoDayName').textContent = c.branding?.logoDay || '—';
   document.getElementById('cfgLogoNightName').textContent = c.branding?.logoNight || '—';
 
+  // -- Langue (dans Apparence) --
+  document.getElementById('cfgLanguage').value = c.language || 'fr';
+
   // -- Écrans --
   cfgPopulateScreenList();
 
@@ -3924,9 +3927,10 @@ function populateConfigTabs() {
   document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
   cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', c.clubDisplay?.defaultDuration ?? 15);
 
-  // -- Système --
-  document.getElementById('cfgLanguage').value = c.language || 'fr';
+  // -- Système (mot de passe) --
   cfgPopulatePasswordStatus();
+
+  // -- Brief auto simu (dans Planification) --
   document.getElementById('cfgAutoBookBriefForSim').checked = c.rooms?.autoBookBriefForSim !== false;
 
   // -- God mode (si actif) --
@@ -4068,6 +4072,14 @@ async function cfgRemovePassword() {
   fullConfig.admin.passwordHash = '';
   await saveConfig();
   cfgPopulatePasswordStatus();
+}
+
+// ── BRIEF AUTO SIMU (dans onglet Planification, sauvegarde à la volée) ──
+async function cfgSaveAutoBookBrief() {
+  if (!fullConfig) return;
+  if (!fullConfig.rooms) fullConfig.rooms = {};
+  fullConfig.rooms.autoBookBriefForSim = document.getElementById('cfgAutoBookBriefForSim').checked;
+  await saveConfig();
 }
 
 // ── COLLECT CONFIG VALUES ──
