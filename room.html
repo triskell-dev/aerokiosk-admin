@@ -696,7 +696,7 @@ async function setupLoadRooms() {
   errEl.style.display = 'none';
 
   try {
-    console.log('[room.html] setupLoadRooms — licenseKey:', JSON.stringify(licenseKey));
+    alert('DEBUG v2 — key: ' + licenseKey);
     const rooms = await fetchRooms();
     console.log('[room.html] fetchRooms result:', JSON.stringify(rooms));
     if (!rooms || !rooms.length) {
