@@ -234,7 +234,30 @@ html, body {
   padding: clamp(12px, 2.5vw, 20px);
   background: var(--panel);
 }
-.quick-booking.hidden { display: none; }
+.quick-start-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.quick-start-label {
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 600;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.quick-start-select {
+  flex: 1;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+.quick-start-select:focus { border-color: var(--accent); }
 .quick-title {
   font-size: clamp(15px, 2.8vw, 20px);
   font-weight: 700;
@@ -520,8 +543,12 @@ html, body {
 
   <!-- Quick booking -->
   <div class="quick-booking" id="quickBooking">
-    <div class="quick-title" id="quickTitle">Reserver maintenant</div>
+    <div class="quick-title" id="quickTitle">Réserver</div>
     <div class="dur-alert" id="durAlert"></div>
+    <div class="quick-start-row">
+      <label class="quick-start-label" id="quickStartLabel">Début</label>
+      <select class="quick-start-select" id="quickStartTime" onchange="onStartTimeChange()"></select>
+    </div>
     <div class="quick-durations" id="quickDurations">
       <button class="dur-btn" data-dur="15" onclick="selectDuration(15)">15 min</button>
       <button class="dur-btn selected" data-dur="30" onclick="selectDuration(30)">30 min</button>
@@ -533,7 +560,7 @@ html, body {
       <input type="text" id="quickTitleInput" placeholder="Titre (optionnel)">
     </div>
     <div class="quick-error" id="quickError"></div>
-    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Reserver</button>
+    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Réserver</button>
   </div>
 </div>
 
@@ -604,8 +631,9 @@ const LABELS = {
   fr: {
     libre: 'LIBRE', occupe: 'OCCUP\u00c9E', today: "Aujourd'hui",
     nextAt: 'Prochaine r\u00e9sa \u00e0', until: 'jusqu\'\u00e0', by: 'par',
-    bookNow: 'R\u00e9server maintenant', yourName: 'Votre nom (obligatoire)',
+    bookNow: 'R\u00e9server', yourName: 'Votre nom (obligatoire)',
     titleOpt: 'Titre (optionnel)', book: 'R\u00e9server',
+    startTime: 'D\u00e9but',
     noBookings: 'Aucune r\u00e9servation aujourd\'hui',
     errorName: 'Le nom est obligatoire.',
     errorOverlap: 'Chevauchement avec la r\u00e9servation suivante.',
@@ -633,8 +661,9 @@ const LABELS = {
   en: {
     libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
     nextAt: 'Next booking at', until: 'until', by: 'by',
-    bookNow: 'Book now', yourName: 'Your name (required)',
+    bookNow: 'Book', yourName: 'Your name (required)',
     titleOpt: 'Title (optional)', book: 'Book',
+    startTime: 'Start',
     noBookings: 'No bookings today',
     errorName: 'Name is required.',
     errorOverlap: 'Overlaps with the next booking.',
@@ -662,8 +691,9 @@ const LABELS = {
   de: {
     libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
     nextAt: 'Nachste Reservierung um', until: 'bis', by: 'von',
-    bookNow: 'Jetzt buchen', yourName: 'Ihr Name (Pflicht)',
+    bookNow: 'Buchen', yourName: 'Ihr Name (Pflicht)',
     titleOpt: 'Titel (optional)', book: 'Buchen',
+    startTime: 'Beginn',
     noBookings: 'Keine Reservierungen heute',
     errorName: 'Name ist Pflicht.',
     errorOverlap: 'Uberschneidung mit der nachsten Reservierung.',
@@ -691,8 +721,9 @@ const LABELS = {
   it: {
     libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
     nextAt: 'Prossima prenotazione alle', until: 'fino alle', by: 'da',
-    bookNow: 'Prenota ora', yourName: 'Il tuo nome (obbligatorio)',
+    bookNow: 'Prenota', yourName: 'Il tuo nome (obbligatorio)',
     titleOpt: 'Titolo (opzionale)', book: 'Prenota',
+    startTime: 'Inizio',
     noBookings: 'Nessuna prenotazione oggi',
     errorName: 'Il nome e obbligatorio.',
     errorOverlap: 'Sovrapposizione con la prenotazione successiva.',
@@ -720,8 +751,9 @@ const LABELS = {
   es: {
     libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
     nextAt: 'Proxima reserva a las', until: 'hasta', by: 'por',
-    bookNow: 'Reservar ahora', yourName: 'Tu nombre (obligatorio)',
+    bookNow: 'Reservar', yourName: 'Tu nombre (obligatorio)',
     titleOpt: 'Titulo (opcional)', book: 'Reservar',
+    startTime: 'Inicio',
     noBookings: 'Sin reservas hoy',
     errorName: 'El nombre es obligatorio.',
     errorOverlap: 'Solapa con la siguiente reserva.',
@@ -976,6 +1008,7 @@ function applyLabels() {
   document.getElementById('roomMeta').textContent = typeLabel + capText;
   document.getElementById('timelineHeader').textContent = L('today');
   document.getElementById('quickTitle').textContent = L('bookNow');
+  document.getElementById('quickStartLabel').textContent = L('startTime');
   document.getElementById('quickName').placeholder = L('yourName');
   document.getElementById('quickTitleInput').placeholder = L('titleOpt');
   document.getElementById('quickSubmit').textContent = L('book');
@@ -1147,55 +1180,83 @@ function renderTimeline() {
 function renderQuickBooking() {
   const now = new Date();
   const nowMins = now.getHours() * 60 + now.getMinutes();
-  const qb = document.getElementById('quickBooking');
-  const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15;
+  const firstSlot = Math.ceil(nowMins / 15) * 15; // prochain quart d'heure
 
-  // Occupied = any booking covering now OR starting at the next rounded slot
-  const occupied = bookings.find(b => {
-    const s = timeToMinutes(b.start_time);
-    const e = timeToMinutes(b.end_time);
-    return (nowMins >= s && nowMins < e) || (s >= nowMins && s <= startMins);
-  });
+  // Build list of available start times (quarts d'heure de maintenant à 21h)
+  const sel = document.getElementById('quickStartTime');
+  const prevVal = sel.value;
+  sel.innerHTML = '';
 
+  let defaultSlot = null;
+  for (let m = firstSlot; m < 21 * 60; m += 15) {
+    // Check if this slot is inside an existing booking
+    const blocked = bookings.some(b => {
+      const s = timeToMinutes(b.start_time);
+      const e = timeToMinutes(b.end_time);
+      return m >= s && m < e;
+    });
+    if (blocked) continue;
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = minutesToTime(m);
+    sel.appendChild(opt);
+    if (!defaultSlot) defaultSlot = m;
+  }
+
+  // Restore previous selection if still available, otherwise first free slot
+  if (prevVal && sel.querySelector('option[value="' + prevVal + '"]')) {
+    sel.value = prevVal;
+  } else if (defaultSlot !== null) {
+    sel.value = defaultSlot;
+  }
+
+  updateDurationButtons();
+}
+
+function onStartTimeChange() {
+  updateDurationButtons();
+}
+
+function updateDurationButtons() {
+  const sel = document.getElementById('quickStartTime');
+  const startMins = parseInt(sel.value) || 0;
   const alertEl = document.getElementById('durAlert');
 
-  if (occupied) {
-    qb.classList.add('hidden');
-    alertEl.style.display = 'none';
-  } else {
-    qb.classList.remove('hidden');
-    // Check max duration until next booking
-    const next = bookings.find(b => timeToMinutes(b.start_time) >= startMins);
-    const maxMins = next ? timeToMinutes(next.start_time) - startMins : 120;
-
-    // Show alert if selected duration exceeds max
-    const allDisabled = maxMins < 15;
-    if (allDisabled) {
-      alertEl.textContent = L('durAlertOccupied');
-      alertEl.style.display = '';
-    } else if (selectedDuration > maxMins) {
-      const msg = L('durAlert').replace('{0}', String(maxMins)).replace('{1}', String(maxMins));
-      alertEl.textContent = msg;
-      alertEl.style.display = '';
-    } else {
-      alertEl.style.display = 'none';
-    }
-
-    document.querySelectorAll('.dur-btn').forEach(btn => {
-      const dur = parseInt(btn.dataset.dur);
-      btn.disabled = dur > maxMins;
-      if (dur > maxMins && dur === selectedDuration) {
-        selectedDuration = [60, 45, 30, 15].find(d => d <= maxMins) || 15;
-      }
-    });
-    // Update selected state
-    document.querySelectorAll('.dur-btn').forEach(btn => {
-      btn.classList.toggle('selected', parseInt(btn.dataset.dur) === selectedDuration);
-    });
-
-    // Hide submit if nothing possible
-    document.getElementById('quickSubmit').disabled = allDisabled;
+  if (!sel.options.length) {
+    alertEl.textContent = L('durAlertOccupied');
+    alertEl.style.display = '';
+    document.querySelectorAll('.dur-btn').forEach(btn => { btn.disabled = true; });
+    document.getElementById('quickSubmit').disabled = true;
+    return;
   }
+
+  // Max duration = time until next booking after startMins
+  const next = bookings.find(b => timeToMinutes(b.start_time) > startMins);
+  const maxMins = next ? timeToMinutes(next.start_time) - startMins : 120;
+
+  const allDisabled = maxMins < 15;
+  if (allDisabled) {
+    alertEl.textContent = L('durAlertOccupied');
+    alertEl.style.display = '';
+  } else if (selectedDuration > maxMins) {
+    const msg = L('durAlert').replace('{0}', String(maxMins)).replace('{1}', String(maxMins));
+    alertEl.textContent = msg;
+    alertEl.style.display = '';
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    const dur = parseInt(btn.dataset.dur);
+    btn.disabled = dur > maxMins;
+    if (dur > maxMins && dur === selectedDuration) {
+      selectedDuration = [60, 45, 30, 15].find(d => d <= maxMins) || 15;
+    }
+  });
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.dur) === selectedDuration);
+  });
+  document.getElementById('quickSubmit').disabled = allDisabled;
 }
 
 function selectDuration(mins) {
@@ -1207,7 +1268,7 @@ function selectDuration(mins) {
 
 async function submitQuickBooking() {
   const name = document.getElementById('quickName').value.trim();
-  const title = document.getElementById('quickTitleInput').value.trim() || 'Reservation sur place';
+  const title = document.getElementById('quickTitleInput').value.trim() || '';
   const errEl = document.getElementById('quickError');
 
   if (!name) {
@@ -1216,10 +1277,8 @@ async function submitQuickBooking() {
     return;
   }
 
-  const now = new Date();
-  const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15; // Round up to next 15min
+  const startMins = parseInt(document.getElementById('quickStartTime').value);
   const endMins = startMins + selectedDuration;
-
   const startTime = minutesToTime(startMins);
   const endTime = minutesToTime(endMins);
 
@@ -1239,7 +1298,7 @@ async function submitQuickBooking() {
   try {
     await createBooking({
       room_id: roomId,
-      date: now.toISOString().slice(0, 10),
+      date: new Date().toISOString().slice(0, 10),
       start_time: startTime,
       end_time: endTime,
       title: title,
@@ -1247,11 +1306,8 @@ async function submitQuickBooking() {
       source: 'tablet'
     });
 
-    // Clear fields
     document.getElementById('quickName').value = '';
     document.getElementById('quickTitleInput').value = '';
-
-    // Refresh immediately
     await refreshData();
   } catch (err) {
     errEl.textContent = L('errorSave');
