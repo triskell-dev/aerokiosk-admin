@@ -296,17 +296,18 @@ html, body {
 /* ── KIOSK LOCK ── */
 .kiosk-unlock-btn {
   position: fixed;
-  bottom: 4px; right: 4px;
-  width: 32px; height: 32px;
+  bottom: 8px; right: 8px;
+  width: 36px; height: 36px;
   background: transparent;
   border: none;
   cursor: pointer;
-  opacity: 0.08;
-  font-size: 14px;
+  opacity: 0.06;
+  font-size: 16px;
   color: var(--text-dim);
   z-index: 100;
+  -webkit-tap-highlight-color: transparent;
 }
-.kiosk-unlock-btn:hover { opacity: 0.3; }
+.kiosk-unlock-btn:active { opacity: 0.25; }
 
 /* ── OVERLAY ── */
 .overlay {
@@ -551,13 +552,13 @@ html, body {
 </div>
 
 <!-- Kiosk unlock button -->
-<button class="kiosk-unlock-btn" id="kioskUnlockBtn" onclick="showUnlockOverlay()">&#128274;</button>
+<button class="kiosk-unlock-btn" id="kioskUnlockBtn" onclick="showUnlockOverlay()">&#9881;</button>
 
 <!-- Unlock overlay -->
 <div class="overlay hidden" id="unlockOverlay">
   <div class="overlay-card">
     <h3 id="unlockTitle">Mode administrateur</h3>
-    <input type="password" id="unlockPassword" placeholder="Mot de passe admin">
+    <input type="password" id="unlockPassword" placeholder="Cl\u00e9 de licence AeroKiosk">
     <div class="overlay-actions">
       <button class="primary" onclick="tryUnlock()">OK</button>
       <button onclick="hideUnlockOverlay()">Annuler</button>
@@ -613,7 +614,8 @@ const LABELS = {
     editSave: 'Enregistrer', editDelete: 'Supprimer',
     confirmDelete: '\u00cates-vous s\u00fbr de vouloir supprimer cette r\u00e9servation ?',
     editErrorOverlap: 'Chevauchement avec une autre r\u00e9servation.',
-    editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but."
+    editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but.",
+    pwaHint: "Pour un mode kiosque, ajoutez cette page \u00e0 l'\u00e9cran d'accueil (Partager \u25b6 Sur l'\u00e9cran d'accueil)"
   },
   en: {
     libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
@@ -641,7 +643,8 @@ const LABELS = {
     editSave: 'Save', editDelete: 'Delete',
     confirmDelete: 'Are you sure you want to delete this booking?',
     editErrorOverlap: 'Overlaps with another booking.',
-    editErrorTime: 'End time must be after start time.'
+    editErrorTime: 'End time must be after start time.',
+    pwaHint: 'For kiosk mode, add this page to home screen (Share \u25b6 Add to Home Screen)'
   },
   de: {
     libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
@@ -669,7 +672,8 @@ const LABELS = {
     editSave: 'Speichern', editDelete: 'L\u00f6schen',
     confirmDelete: 'M\u00f6chten Sie diese Reservierung wirklich l\u00f6schen?',
     editErrorOverlap: '\u00dcberschneidung mit einer anderen Reservierung.',
-    editErrorTime: 'Endzeit muss nach Startzeit liegen.'
+    editErrorTime: 'Endzeit muss nach Startzeit liegen.',
+    pwaHint: 'F\u00fcr Kiosk-Modus: Seite zum Startbildschirm hinzuf\u00fcgen (Teilen \u25b6 Zum Home-Bildschirm)'
   },
   it: {
     libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
@@ -697,7 +701,8 @@ const LABELS = {
     editSave: 'Salva', editDelete: 'Elimina',
     confirmDelete: 'Sei sicuro di voler eliminare questa prenotazione?',
     editErrorOverlap: 'Sovrapposizione con un\'altra prenotazione.',
-    editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio."
+    editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio.",
+    pwaHint: "Per modalit\u00e0 kiosk, aggiungi alla schermata iniziale (Condividi \u25b6 Aggiungi alla Home)"
   },
   es: {
     libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
@@ -725,7 +730,8 @@ const LABELS = {
     editSave: 'Guardar', editDelete: 'Eliminar',
     confirmDelete: '\u00bfEst\u00e1 seguro de que desea eliminar esta reserva?',
     editErrorOverlap: 'Se superpone con otra reserva.',
-    editErrorTime: 'La hora de fin debe ser posterior a la de inicio.'
+    editErrorTime: 'La hora de fin debe ser posterior a la de inicio.',
+    pwaHint: 'Para modo kiosko, a\u00f1ade esta p\u00e1gina a la pantalla de inicio (Compartir \u25b6 A\u00f1adir a inicio)'
   }
 };
 let lang = 'fr';
@@ -920,19 +926,15 @@ async function startRoomDisplay() {
   if (pollTimer) clearInterval(pollTimer);
   pollTimer = setInterval(refreshData, POLL_INTERVAL);
 
-  // Auto fullscreen: show tap prompt, then go fullscreen on first interaction
-  if (!window.navigator.standalone) {
-    const tapOverlay = document.createElement('div');
-    tapOverlay.id = 'tapOverlay';
-    tapOverlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;cursor:pointer;';
-    tapOverlay.innerHTML = '<div style="text-align:center;color:#e2e8f0;font-size:1.5rem;">Touchez pour passer en plein ecran</div>';
-    document.body.appendChild(tapOverlay);
-    tapOverlay.addEventListener('click', () => {
-      tapOverlay.remove();
-      enterFullscreen();
-    }, { once: true });
+  // PWA standalone hint: if not in standalone mode, show a hint
+  if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 20px;color:var(--text-dim);font-size:13px;z-index:500;text-align:center;max-width:80vw;';
+    hint.innerHTML = L('pwaHint') || 'Pour un mode kiosque plein \u00e9cran, ajoutez cette page \u00e0 l\'\u00e9cran d\'accueil (Partager \u25b6 Sur l\'\u00e9cran d\'accueil)';
+    document.body.appendChild(hint);
+    setTimeout(() => { hint.style.opacity = '0'; hint.style.transition = 'opacity 1s'; }, 8000);
+    setTimeout(() => hint.remove(), 9500);
   }
-  document.addEventListener('fullscreenchange', onFullscreenChange);
 }
 
 // ── CHANGE ROOM (from unlock overlay) ──
@@ -1369,22 +1371,6 @@ async function doDeleteBooking(id) {
   }
 }
 
-// ── KIOSK FULLSCREEN ──
-function enterFullscreen() {
-  if (!isKiosk) return;
-  const el = document.documentElement;
-  if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-}
-
-function onFullscreenChange() {
-  if (!isKiosk) return;
-  // Re-enter fullscreen if exited
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    setTimeout(enterFullscreen, 500);
-  }
-}
-
 // ── KIOSK UNLOCK ──
 function showUnlockOverlay() {
   document.getElementById('unlockOverlay').classList.remove('hidden');
@@ -1400,34 +1386,18 @@ async function tryUnlock() {
   const pw = document.getElementById('unlockPassword').value;
   if (!pw) return;
 
-  try {
-    let ok = false;
-    if (mode === 'local') {
-      const resp = await fetch('/api/verify-god-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pw })
-      });
-      const data = await resp.json();
-      ok = data.ok;
-    } else {
-      // Cloud: use license key as fallback unlock
-      ok = (pw === licenseKey);
-    }
+  // Unlock with license key
+  const ok = (pw === licenseKey);
 
-    if (ok) {
-      isKiosk = false;
-      hideUnlockOverlay();
-      // Exit fullscreen
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } else {
-      document.getElementById('unlockPassword').value = '';
-      document.getElementById('unlockPassword').style.borderColor = 'var(--nogo)';
-      setTimeout(() => { document.getElementById('unlockPassword').style.borderColor = ''; }, 1500);
-    }
-  } catch (err) {
-    console.error('tryUnlock error:', err);
+  if (ok) {
+    isKiosk = false;
+    hideUnlockOverlay();
+    // Show change room button + allow normal browsing
+    document.getElementById('kioskUnlockBtn').style.display = 'none';
+  } else {
+    document.getElementById('unlockPassword').value = '';
+    document.getElementById('unlockPassword').style.borderColor = 'var(--nogo)';
+    setTimeout(() => { document.getElementById('unlockPassword').style.borderColor = ''; }, 1500);
   }
 }
 
