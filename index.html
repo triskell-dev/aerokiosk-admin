@@ -175,9 +175,8 @@
             <select class="planning-filter-select" id="planningFilterType" onchange="renderPlanning()">
               <option value="" data-i18n="rooms.filterAllTypes">Tous les types</option>
               <option value="briefing" data-i18n="rooms.typeBriefing">Briefing</option>
+              <option value="simulateur" data-i18n="rooms.typeSimulateur">Simulateur</option>
               <option value="cours" data-i18n="rooms.typeCours">Cours</option>
-              <option value="revisions" data-i18n="rooms.typeRevisions">Revisions</option>
-              <option value="vpt" data-i18n="rooms.typeVpt">VPT</option>
               <option value="autre" data-i18n="rooms.typeAutre">Autre</option>
             </select>
             <select class="planning-filter-select" id="planningFilterSource" onchange="renderPlanning()">
@@ -324,17 +323,44 @@
       </div>
       <div class="form-group">
         <label data-i18n="rooms.type">Type</label>
-        <select class="form-select" id="roomType">
+        <select class="form-select" id="roomType" onchange="onRoomTypeChange()">
           <option value="briefing" data-i18n="rooms.typeBriefing">Briefing</option>
+          <option value="simulateur" data-i18n="rooms.typeSimulateur">Simulateur</option>
           <option value="cours" data-i18n="rooms.typeCours">Cours</option>
-          <option value="revisions" data-i18n="rooms.typeRevisions">Revisions</option>
-          <option value="vpt" data-i18n="rooms.typeVpt">VPT</option>
           <option value="autre" data-i18n="rooms.typeAutre">Autre</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="roomCapacityGroup">
         <label data-i18n="rooms.capacity">Capacite</label>
         <input type="number" class="form-input" id="roomCapacity" min="1" max="50" placeholder="ex: 6">
+      </div>
+      <div class="form-group" id="roomCertificationsGroup" style="display:none;">
+        <label data-i18n="rooms.certifications">Certifications</label>
+        <div style="display:flex;gap:12px;margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+            <input type="checkbox" id="roomCertMCC" value="MCC"> <span data-i18n="rooms.certMCC">MCC</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+            <input type="checkbox" id="roomCertQT" value="QT"> <span data-i18n="rooms.certQT">QT</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group" id="roomSimTypeGroup" style="display:none;">
+        <label data-i18n="rooms.simType">Type de simulateur</label>
+        <select class="form-select" id="roomSimType">
+          <option value="VPT" data-i18n="rooms.simVPT">VPT</option>
+          <option value="FNPT-I" data-i18n="rooms.simFNPT1">FNPT-I</option>
+          <option value="FNPT-II" data-i18n="rooms.simFNPT2">FNPT-II</option>
+          <option value="FTD" data-i18n="rooms.simFTD">FTD</option>
+          <option value="FFS" data-i18n="rooms.simFFS">FFS</option>
+        </select>
+      </div>
+      <div class="form-group" id="roomBriefingAreaGroup" style="display:none;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="roomHasBriefingArea">
+          <span data-i18n="rooms.hasBriefingArea">Brief intégré</span>
+        </label>
+        <small style="color:var(--text-dim);margin-top:2px;" data-i18n="rooms.hasBriefingAreaHint">La salle dispose d'un espace briefing intégré</small>
       </div>
       <div class="modal-actions">
         <button class="btn-submit" id="roomModalSave" onclick="saveRoom()" data-i18n="common.save">Enregistrer</button>

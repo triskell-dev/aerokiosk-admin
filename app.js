@@ -274,11 +274,23 @@ const TRANSLATIONS = {
     'rooms.namePlaceholder': 'ex: Salle A',
     'rooms.type': 'Type',
     'rooms.typeBriefing': 'Briefing',
+    'rooms.typeSimulateur': 'Simulateur',
     'rooms.typeCours': 'Cours',
-    'rooms.typeRevisions': 'Revisions',
-    'rooms.typeVpt': 'VPT',
     'rooms.typeAutre': 'Autre',
     'rooms.capacity': 'Capacite',
+    'rooms.certifications': 'Certifications',
+    'rooms.certMCC': 'MCC',
+    'rooms.certQT': 'QT',
+    'rooms.simType': 'Type de simulateur',
+    'rooms.simVPT': 'VPT',
+    'rooms.simFNPT1': 'FNPT-I',
+    'rooms.simFNPT2': 'FNPT-II',
+    'rooms.simFTD': 'FTD',
+    'rooms.simFFS': 'FFS',
+    'rooms.hasBriefingArea': 'Brief integre',
+    'rooms.hasBriefingAreaHint': 'La salle dispose d\'un espace briefing integre',
+    'rooms.autoBookBriefForSim': 'Brief auto pour simu',
+    'rooms.autoBookBriefForSimHint': 'Reserver automatiquement une salle de brief pour les seances simulateur sans brief integre',
     'rooms.places': 'places',
     'rooms.confirmDelete': 'Supprimer cette salle ?',
     'rooms.tabManage': 'Gestion',
@@ -596,11 +608,16 @@ const TRANSLATIONS = {
     'rooms.namePlaceholder': 'z.B.: Raum A',
     'rooms.type': 'Typ',
     'rooms.typeBriefing': 'Briefing',
+    'rooms.typeSimulateur': 'Simulator',
     'rooms.typeCours': 'Unterricht',
-    'rooms.typeRevisions': 'Wiederholung',
-    'rooms.typeVpt': 'VPT',
     'rooms.typeAutre': 'Sonstige',
     'rooms.capacity': 'Kapazität',
+    'rooms.certifications': 'Zertifizierungen',
+    'rooms.certMCC': 'MCC',
+    'rooms.certQT': 'QT',
+    'rooms.simType': 'Simulatortyp',
+    'rooms.hasBriefingArea': 'Integrierter Briefing-Bereich',
+    'rooms.autoBookBriefForSim': 'Auto-Briefing für Simulator',
     'rooms.places': 'Plätze',
     'rooms.confirmDelete': 'Diesen Raum löschen?',
     'rooms.tabManage': 'Verwaltung',
@@ -918,11 +935,16 @@ const TRANSLATIONS = {
     'rooms.namePlaceholder': 'es: Sala A',
     'rooms.type': 'Tipo',
     'rooms.typeBriefing': 'Briefing',
+    'rooms.typeSimulateur': 'Simulatore',
     'rooms.typeCours': 'Corso',
-    'rooms.typeRevisions': 'Revisione',
-    'rooms.typeVpt': 'VPT',
     'rooms.typeAutre': 'Altro',
     'rooms.capacity': 'Capacità',
+    'rooms.certifications': 'Certificazioni',
+    'rooms.certMCC': 'MCC',
+    'rooms.certQT': 'QT',
+    'rooms.simType': 'Tipo di simulatore',
+    'rooms.hasBriefingArea': 'Area briefing integrata',
+    'rooms.autoBookBriefForSim': 'Briefing auto per simulatore',
     'rooms.places': 'posti',
     'rooms.confirmDelete': 'Eliminare questa sala?',
     'rooms.tabManage': 'Gestione',
@@ -1240,11 +1262,16 @@ const TRANSLATIONS = {
     'rooms.namePlaceholder': 'ej: Sala A',
     'rooms.type': 'Tipo',
     'rooms.typeBriefing': 'Briefing',
+    'rooms.typeSimulateur': 'Simulador',
     'rooms.typeCours': 'Clase',
-    'rooms.typeRevisions': 'Revisión',
-    'rooms.typeVpt': 'VPT',
     'rooms.typeAutre': 'Otro',
     'rooms.capacity': 'Capacidad',
+    'rooms.certifications': 'Certificaciones',
+    'rooms.certMCC': 'MCC',
+    'rooms.certQT': 'QT',
+    'rooms.simType': 'Tipo de simulador',
+    'rooms.hasBriefingArea': 'Área de briefing integrada',
+    'rooms.autoBookBriefForSim': 'Briefing auto para simulador',
     'rooms.places': 'plazas',
     'rooms.confirmDelete': '¿Eliminar esta sala?',
     'rooms.tabManage': 'Gestión',
@@ -1562,11 +1589,16 @@ const TRANSLATIONS = {
     'rooms.namePlaceholder': 'e.g.: Room A',
     'rooms.type': 'Type',
     'rooms.typeBriefing': 'Briefing',
+    'rooms.typeSimulateur': 'Simulator',
     'rooms.typeCours': 'Classroom',
-    'rooms.typeRevisions': 'Study',
-    'rooms.typeVpt': 'VPT',
     'rooms.typeAutre': 'Other',
     'rooms.capacity': 'Capacity',
+    'rooms.certifications': 'Certifications',
+    'rooms.certMCC': 'MCC',
+    'rooms.certQT': 'QT',
+    'rooms.simType': 'Simulator type',
+    'rooms.hasBriefingArea': 'Built-in briefing area',
+    'rooms.autoBookBriefForSim': 'Auto-book brief for sim',
     'rooms.places': 'seats',
     'rooms.confirmDelete': 'Delete this room?',
     'rooms.tabManage': 'Manage',
@@ -3046,11 +3078,15 @@ function renderRoomsList() {
   const sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
   container.innerHTML = sorted.map(room => {
     const typeBadge = t('rooms.type' + room.type.charAt(0).toUpperCase() + room.type.slice(1)) || room.type;
+    let detail = '';
+    if (room.type === 'simulateur' && room.sim_type) detail += ' ' + room.sim_type;
+    if (room.type === 'simulateur' && room.has_briefing_area) detail += ' (' + (t('rooms.hasBriefingArea') || 'Brief intégré') + ')';
+    if (room.type === 'briefing' && room.certifications && room.certifications.length) detail += ' [' + room.certifications.join(', ') + ']';
     const capText = room.capacity ? ` — ${room.capacity} ${t('rooms.places') || 'places'}` : '';
     return `<div class="fleet-card" data-id="${room.id}">
       <div class="fleet-card-header">
         <div class="fleet-reg">${escHtml(room.name)}</div>
-        <div class="fleet-type">${escHtml(typeBadge)}${capText}</div>
+        <div class="fleet-type">${escHtml(typeBadge + detail)}${capText}</div>
       </div>
       <div class="fleet-card-actions">
         <button class="btn-ghost" onclick="openRoomModal(roomsList.find(r=>r.id==='${room.id}'))">✏️</button>
@@ -3066,12 +3102,28 @@ function escHtml(s) {
   return d.innerHTML;
 }
 
+function onRoomTypeChange() {
+  const type = document.getElementById('roomType').value;
+  document.getElementById('roomCapacityGroup').style.display = (type === 'briefing' || type === 'cours') ? '' : 'none';
+  document.getElementById('roomCertificationsGroup').style.display = type === 'briefing' ? '' : 'none';
+  document.getElementById('roomSimTypeGroup').style.display = type === 'simulateur' ? '' : 'none';
+  document.getElementById('roomBriefingAreaGroup').style.display = type === 'simulateur' ? '' : 'none';
+}
+
 function openRoomModal(room) {
   editingRoomId = room ? room.id : null;
   document.getElementById('roomModalTitle').textContent = room ? (t('rooms.edit') || 'Modifier la salle') : (t('rooms.add') || 'Ajouter une salle');
   document.getElementById('roomName').value = room ? room.name : '';
   document.getElementById('roomType').value = room ? room.type : 'briefing';
   document.getElementById('roomCapacity').value = room ? (room.capacity || '') : '';
+  // Certifications (briefing)
+  const certs = room && Array.isArray(room.certifications) ? room.certifications : [];
+  document.getElementById('roomCertMCC').checked = certs.includes('MCC');
+  document.getElementById('roomCertQT').checked = certs.includes('QT');
+  // Simulateur
+  document.getElementById('roomSimType').value = room && room.sim_type ? room.sim_type : 'VPT';
+  document.getElementById('roomHasBriefingArea').checked = room ? !!room.has_briefing_area : false;
+  onRoomTypeChange();
   document.getElementById('roomModalOverlay').style.display = 'flex';
 }
 
@@ -3083,10 +3135,14 @@ function closeRoomModal() {
 async function saveRoom() {
   const name = document.getElementById('roomName').value.trim();
   if (!name) return;
+  const type = document.getElementById('roomType').value;
   const data = {
     name,
-    type: document.getElementById('roomType').value,
-    capacity: parseInt(document.getElementById('roomCapacity').value) || null
+    type,
+    capacity: (type === 'briefing' || type === 'cours') ? (parseInt(document.getElementById('roomCapacity').value) || null) : null,
+    certifications: type === 'briefing' ? ['MCC', 'QT'].filter(c => document.getElementById('roomCert' + c).checked) : [],
+    sim_type: type === 'simulateur' ? document.getElementById('roomSimType').value : null,
+    has_briefing_area: type === 'simulateur' ? document.getElementById('roomHasBriefingArea').checked : false
   };
 
   try {
