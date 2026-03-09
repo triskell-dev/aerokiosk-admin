@@ -166,6 +166,53 @@ html, body {
 .timeline-source.src-admin { background: rgba(0,212,255,0.15); color: var(--accent); }
 .timeline-source.src-tablet { background: rgba(148,163,184,0.15); color: #94a3b8; }
 .timeline-source.src-api { background: rgba(59,130,246,0.15); color: #93bbfd; }
+.timeline-source.src-auto { background: rgba(34,197,94,0.15); color: #4ade80; }
+.timeline-actions {
+  display: flex; gap: 6px; flex-shrink: 0; margin-left: 8px;
+}
+.timeline-actions button {
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-dim); padding: 4px 10px; font-size: 12px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.timeline-actions button:hover { color: var(--text); border-color: var(--text); }
+.timeline-actions .btn-cancel { color: var(--nogo); border-color: var(--nogo); }
+.timeline-actions .btn-cancel:hover { background: var(--nogo-bg); }
+.dur-alert {
+  color: var(--nogo); font-size: clamp(12px, 2.2vw, 15px); font-weight: 600;
+  margin-bottom: 10px; padding: 8px 12px;
+  background: var(--nogo-bg); border-radius: 8px;
+  display: none;
+}
+/* ── EDIT MODAL ── */
+.edit-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+}
+.edit-overlay.hidden { display: none; }
+.edit-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: clamp(16px, 3vw, 24px); width: min(90vw, 420px);
+}
+.edit-card h3 { margin: 0 0 16px; font-size: clamp(16px, 3vw, 22px); }
+.edit-card label { display: block; color: var(--text-dim); font-size: 13px; margin-bottom: 4px; }
+.edit-card input, .edit-card select {
+  width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit; margin-bottom: 12px; outline: none; box-sizing: border-box;
+}
+.edit-card input:focus { border-color: var(--accent); }
+.edit-card .edit-row { display: flex; gap: 8px; }
+.edit-card .edit-row > * { flex: 1; }
+.edit-actions { display: flex; gap: 8px; margin-top: 8px; }
+.edit-actions button {
+  flex: 1; padding: 12px; border: none; border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 18px); font-weight: 700; cursor: pointer;
+}
+.edit-actions .btn-save { background: var(--accent); color: #000; }
+.edit-actions .btn-delete { background: var(--nogo); color: #fff; }
+.edit-actions .btn-close { background: var(--border); color: var(--text); }
 
 /* ── QUICK BOOKING ── */
 .quick-booking {
@@ -460,6 +507,7 @@ html, body {
   <!-- Quick booking -->
   <div class="quick-booking" id="quickBooking">
     <div class="quick-title" id="quickTitle">Reserver maintenant</div>
+    <div class="dur-alert" id="durAlert"></div>
     <div class="quick-durations" id="quickDurations">
       <button class="dur-btn" data-dur="15" onclick="selectDuration(15)">15 min</button>
       <button class="dur-btn selected" data-dur="30" onclick="selectDuration(30)">30 min</button>
@@ -472,6 +520,33 @@ html, body {
     </div>
     <div class="quick-error" id="quickError"></div>
     <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Reserver</button>
+  </div>
+</div>
+
+<!-- Edit booking modal -->
+<div class="edit-overlay hidden" id="editOverlay">
+  <div class="edit-card">
+    <h3 id="editModalTitle">Modifier</h3>
+    <label id="editLabelTitle">Titre</label>
+    <input type="text" id="editTitle">
+    <label id="editLabelName">Nom</label>
+    <input type="text" id="editName">
+    <div class="edit-row">
+      <div>
+        <label id="editLabelStart">D\u00e9but</label>
+        <input type="time" id="editStart" step="900">
+      </div>
+      <div>
+        <label id="editLabelEnd">Fin</label>
+        <input type="time" id="editEnd" step="900">
+      </div>
+    </div>
+    <div class="quick-error" id="editError" style="display:none;"></div>
+    <div class="edit-actions">
+      <button class="btn-save" id="editSaveBtn" onclick="saveEditBooking()">Enregistrer</button>
+      <button class="btn-delete" id="editDeleteBtn" onclick="confirmDeleteBooking()">Supprimer</button>
+      <button class="btn-close" onclick="closeEditModal()">Annuler</button>
+    </div>
   </div>
 </div>
 
@@ -508,6 +583,7 @@ let mode = 'local'; // 'local' or 'cloud'
 let licenseKey = '';
 let pollTimer = null;
 let isKiosk = true;
+let editingBooking = null;
 
 // ── i18n ──
 const LABELS = {
@@ -529,7 +605,15 @@ const LABELS = {
     setupNext: 'Suivant',
     setupPickRoom: 'Choisir la salle :',
     setupKeyError: 'Cl\u00e9 invalide ou aucune salle trouv\u00e9e.',
-    changeRoom: 'Changer de salle'
+    changeRoom: 'Changer de salle',
+    durAlert: 'Dur\u00e9e impossible : prochaine r\u00e9servation dans {0} min (max {1} min).',
+    durAlertOccupied: 'Salle actuellement occup\u00e9e.',
+    editBooking: 'Modifier la r\u00e9servation',
+    editTitle: 'Titre', editName: 'Nom', editStart: 'D\u00e9but', editEnd: 'Fin',
+    editSave: 'Enregistrer', editDelete: 'Supprimer',
+    confirmDelete: '\u00cates-vous s\u00fbr de vouloir supprimer cette r\u00e9servation ?',
+    editErrorOverlap: 'Chevauchement avec une autre r\u00e9servation.',
+    editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but."
   },
   en: {
     libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
@@ -549,7 +633,15 @@ const LABELS = {
     setupNext: 'Next',
     setupPickRoom: 'Choose the room:',
     setupKeyError: 'Invalid key or no rooms found.',
-    changeRoom: 'Change room'
+    changeRoom: 'Change room',
+    durAlert: 'Duration not possible: next booking in {0} min (max {1} min).',
+    durAlertOccupied: 'Room currently occupied.',
+    editBooking: 'Edit booking',
+    editTitle: 'Title', editName: 'Name', editStart: 'Start', editEnd: 'End',
+    editSave: 'Save', editDelete: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this booking?',
+    editErrorOverlap: 'Overlaps with another booking.',
+    editErrorTime: 'End time must be after start time.'
   },
   de: {
     libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
@@ -569,7 +661,15 @@ const LABELS = {
     setupNext: 'Weiter',
     setupPickRoom: 'Raum wahlen:',
     setupKeyError: 'Ungultiger Schlussel oder keine Raume gefunden.',
-    changeRoom: 'Raum wechseln'
+    changeRoom: 'Raum wechseln',
+    durAlert: 'Dauer nicht m\u00f6glich: n\u00e4chste Reservierung in {0} Min (max {1} Min).',
+    durAlertOccupied: 'Raum derzeit belegt.',
+    editBooking: 'Reservierung bearbeiten',
+    editTitle: 'Titel', editName: 'Name', editStart: 'Beginn', editEnd: 'Ende',
+    editSave: 'Speichern', editDelete: 'L\u00f6schen',
+    confirmDelete: 'M\u00f6chten Sie diese Reservierung wirklich l\u00f6schen?',
+    editErrorOverlap: '\u00dcberschneidung mit einer anderen Reservierung.',
+    editErrorTime: 'Endzeit muss nach Startzeit liegen.'
   },
   it: {
     libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
@@ -589,7 +689,15 @@ const LABELS = {
     setupNext: 'Avanti',
     setupPickRoom: 'Scegli la sala:',
     setupKeyError: 'Chiave non valida o nessuna sala trovata.',
-    changeRoom: 'Cambia sala'
+    changeRoom: 'Cambia sala',
+    durAlert: 'Durata non possibile: prossima prenotazione tra {0} min (max {1} min).',
+    durAlertOccupied: 'Sala attualmente occupata.',
+    editBooking: 'Modifica prenotazione',
+    editTitle: 'Titolo', editName: 'Nome', editStart: 'Inizio', editEnd: 'Fine',
+    editSave: 'Salva', editDelete: 'Elimina',
+    confirmDelete: 'Sei sicuro di voler eliminare questa prenotazione?',
+    editErrorOverlap: 'Sovrapposizione con un\'altra prenotazione.',
+    editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio."
   },
   es: {
     libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
@@ -609,7 +717,15 @@ const LABELS = {
     setupNext: 'Siguiente',
     setupPickRoom: 'Elegir la sala:',
     setupKeyError: 'Clave invalida o sin salas.',
-    changeRoom: 'Cambiar de sala'
+    changeRoom: 'Cambiar de sala',
+    durAlert: 'Duraci\u00f3n no posible: pr\u00f3xima reserva en {0} min (m\u00e1x {1} min).',
+    durAlertOccupied: 'Sala actualmente ocupada.',
+    editBooking: 'Editar reserva',
+    editTitle: 'T\u00edtulo', editName: 'Nombre', editStart: 'Inicio', editEnd: 'Fin',
+    editSave: 'Guardar', editDelete: 'Eliminar',
+    confirmDelete: '\u00bfEst\u00e1 seguro de que desea eliminar esta reserva?',
+    editErrorOverlap: 'Se superpone con otra reserva.',
+    editErrorTime: 'La hora de fin debe ser posterior a la de inicio.'
   }
 };
 let lang = 'fr';
@@ -977,11 +1093,22 @@ function renderTimeline() {
     const s = timeToMinutes(bk.start_time);
     const e = timeToMinutes(bk.end_time);
     let cls = 'timeline-item';
-    if (nowMins >= s && nowMins < e) cls += ' current';
-    else if (nowMins >= e) cls += ' past';
+    const isCurrent = nowMins >= s && nowMins < e;
+    const isPast = nowMins >= e;
+    if (isCurrent) cls += ' current';
+    else if (isPast) cls += ' past';
 
-    const timeLabel = (bk.start_time || '').slice(0, 5) + ' – ' + (bk.end_time || '').slice(0, 5);
+    const timeLabel = (bk.start_time || '').slice(0, 5) + ' \u2013 ' + (bk.end_time || '').slice(0, 5);
     const srcClass = 'src-' + (bk.source || 'admin');
+
+    // Show edit/cancel buttons for non-past bookings (tablet or admin source)
+    const canEdit = !isPast && (bk.source === 'tablet' || bk.source === 'admin');
+    const actions = canEdit
+      ? '<div class="timeline-actions">' +
+          '<button onclick="openEditModal(\'' + bk.id + '\')">\u270f\ufe0f</button>' +
+          '<button class="btn-cancel" onclick="quickDelete(\'' + bk.id + '\')">\u2715</button>' +
+        '</div>'
+      : '';
 
     return '<div class="' + cls + '">' +
       '<div class="timeline-time">' + timeLabel + '</div>' +
@@ -990,6 +1117,7 @@ function renderTimeline() {
         (bk.booked_by ? '<div class="timeline-by">' + L('by') + ' ' + esc(bk.booked_by) + '</div>' : '') +
       '</div>' +
       '<div class="timeline-source ' + srcClass + '">' + (bk.source || 'admin') + '</div>' +
+      actions +
     '</div>';
   }).join('');
 }
@@ -1007,19 +1135,35 @@ function renderQuickBooking() {
     return nowMins >= s && nowMins < e;
   });
 
+  const alertEl = document.getElementById('durAlert');
+
   if (current) {
     qb.classList.add('hidden');
+    alertEl.style.display = 'none';
   } else {
     qb.classList.remove('hidden');
     // Check max duration until next booking
-    const next = bookings.find(b => timeToMinutes(b.start_time) > nowMins);
-    const maxMins = next ? timeToMinutes(next.start_time) - nowMins : 120;
+    const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15;
+    const next = bookings.find(b => timeToMinutes(b.start_time) > startMins);
+    const maxMins = next ? timeToMinutes(next.start_time) - startMins : 120;
+
+    // Show alert if selected duration exceeds max
+    const allDisabled = maxMins < 15;
+    if (allDisabled) {
+      alertEl.textContent = L('durAlertOccupied');
+      alertEl.style.display = '';
+    } else if (selectedDuration > maxMins) {
+      const msg = L('durAlert').replace('{0}', String(maxMins)).replace('{1}', String(maxMins));
+      alertEl.textContent = msg;
+      alertEl.style.display = '';
+    } else {
+      alertEl.style.display = 'none';
+    }
 
     document.querySelectorAll('.dur-btn').forEach(btn => {
       const dur = parseInt(btn.dataset.dur);
       btn.disabled = dur > maxMins;
       if (dur > maxMins && dur === selectedDuration) {
-        // Select largest valid
         selectedDuration = [60, 45, 30, 15].find(d => d <= maxMins) || 15;
       }
     });
@@ -1027,6 +1171,9 @@ function renderQuickBooking() {
     document.querySelectorAll('.dur-btn').forEach(btn => {
       btn.classList.toggle('selected', parseInt(btn.dataset.dur) === selectedDuration);
     });
+
+    // Hide submit if nothing possible
+    document.getElementById('quickSubmit').disabled = allDisabled;
   }
 }
 
@@ -1092,6 +1239,134 @@ async function submitQuickBooking() {
   }
 
   document.getElementById('quickSubmit').disabled = false;
+}
+
+// ── UPDATE / DELETE BOOKING API ──
+async function updateBooking(id, data) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+      {
+        method: 'PATCH',
+        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+      }
+    );
+    const rows = await resp.json();
+    return rows[0] || null;
+  }
+}
+
+async function deleteBooking(id) {
+  if (mode === 'local') {
+    await fetch('/api/room-bookings/' + id, { method: 'DELETE' });
+  } else {
+    await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+      { method: 'DELETE', headers: supabaseHeaders() }
+    );
+  }
+}
+
+// ── EDIT MODAL ──
+function openEditModal(bookingId) {
+  const bk = bookings.find(b => b.id === bookingId);
+  if (!bk) return;
+  editingBooking = bk;
+
+  document.getElementById('editModalTitle').textContent = L('editBooking');
+  document.getElementById('editLabelTitle').textContent = L('editTitle');
+  document.getElementById('editLabelName').textContent = L('editName');
+  document.getElementById('editLabelStart').textContent = L('editStart');
+  document.getElementById('editLabelEnd').textContent = L('editEnd');
+  document.getElementById('editSaveBtn').textContent = L('editSave');
+  document.getElementById('editDeleteBtn').textContent = L('editDelete');
+
+  document.getElementById('editTitle').value = bk.title || '';
+  document.getElementById('editName').value = bk.booked_by || '';
+  document.getElementById('editStart').value = (bk.start_time || '').slice(0, 5);
+  document.getElementById('editEnd').value = (bk.end_time || '').slice(0, 5);
+  document.getElementById('editError').style.display = 'none';
+
+  document.getElementById('editOverlay').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('editOverlay').classList.add('hidden');
+  editingBooking = null;
+}
+
+async function saveEditBooking() {
+  if (!editingBooking) return;
+  const errEl = document.getElementById('editError');
+  errEl.style.display = 'none';
+
+  const title = document.getElementById('editTitle').value.trim();
+  const name = document.getElementById('editName').value.trim();
+  const startTime = document.getElementById('editStart').value + ':00';
+  const endTime = document.getElementById('editEnd').value + ':00';
+
+  const startMins = timeToMinutes(startTime);
+  const endMins = timeToMinutes(endTime);
+
+  if (endMins <= startMins) {
+    errEl.textContent = L('editErrorTime');
+    errEl.style.display = '';
+    return;
+  }
+
+  // Overlap check (exclude current booking)
+  const overlap = bookings.find(b =>
+    b.id !== editingBooking.id &&
+    timeToMinutes(b.start_time) < endMins &&
+    timeToMinutes(b.end_time) > startMins
+  );
+  if (overlap) {
+    errEl.textContent = L('editErrorOverlap');
+    errEl.style.display = '';
+    return;
+  }
+
+  try {
+    await updateBooking(editingBooking.id, {
+      title, booked_by: name, start_time: startTime, end_time: endTime
+    });
+    closeEditModal();
+    await refreshData();
+  } catch (err) {
+    errEl.textContent = L('errorSave');
+    errEl.style.display = '';
+  }
+}
+
+function confirmDeleteBooking() {
+  if (!editingBooking) return;
+  if (confirm(L('confirmDelete'))) {
+    doDeleteBooking(editingBooking.id);
+  }
+}
+
+function quickDelete(bookingId) {
+  if (confirm(L('confirmDelete'))) {
+    doDeleteBooking(bookingId);
+  }
+}
+
+async function doDeleteBooking(id) {
+  try {
+    await deleteBooking(id);
+    closeEditModal();
+    await refreshData();
+  } catch (err) {
+    console.error('deleteBooking error:', err);
+  }
 }
 
 // ── KIOSK FULLSCREEN ──
