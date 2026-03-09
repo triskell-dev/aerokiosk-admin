@@ -780,6 +780,275 @@ body {
 }
 .mel-remove:hover { color: var(--danger); }
 
+/* ── ROOMS SUB-TABS ── */
+.rooms-subtabs {
+  display: flex; gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+.rooms-subtab {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px 6px 0 0;
+  color: var(--text-dim);
+  font-size: 13px; font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.rooms-subtab:hover { color: var(--text); border-color: var(--text-dim); }
+.rooms-subtab.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0,212,255,0.06);
+}
+
+/* ── PLANNING TOOLBAR ── */
+.planning-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.planning-nav {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.planning-filters {
+  display: flex; gap: 8px;
+  flex-wrap: wrap;
+}
+.planning-filter-select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+  padding: 6px 8px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+.planning-filter-select:focus { border-color: var(--accent); }
+.planning-nav-btn {
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+}
+.planning-date-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  padding: 6px 10px;
+  font-family: inherit;
+  outline: none;
+}
+.planning-date-input:focus { border-color: var(--accent); }
+
+/* ── PLANNING GRID ── */
+.planning-grid-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.planning-grid {
+  position: relative;
+  min-width: fit-content;
+}
+.planning-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  min-height: 48px;
+}
+.planning-row:last-child { border-bottom: none; }
+.planning-header {
+  position: sticky; top: 0;
+  background: var(--panel);
+  z-index: 3;
+  min-height: 32px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* Room label column */
+.planning-label {
+  position: sticky; left: 0;
+  background: var(--panel);
+  z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 4px 10px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.planning-label-name {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.planning-label-type {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Slots area */
+.planning-slots {
+  position: relative;
+  flex: 1;
+  min-height: 48px;
+}
+.planning-header .planning-slots {
+  display: flex;
+  min-height: 32px;
+}
+.planning-hour-mark {
+  display: flex; align-items: center;
+  padding-left: 6px;
+  border-left: 1px solid var(--border);
+}
+
+/* Grid cells (background, clickable) */
+.planning-cell {
+  position: absolute; top: 0; bottom: 0;
+  border-right: 1px solid rgba(255,255,255,0.03);
+}
+.planning-cell.hour-mark {
+  border-left: 1px solid var(--border);
+}
+.planning-cell.clickable {
+  cursor: pointer;
+  z-index: 0;
+}
+.planning-cell.clickable:hover {
+  background: rgba(0,212,255,0.06);
+}
+
+/* Booking blocks */
+.planning-block {
+  position: absolute;
+  top: 4px; bottom: 4px;
+  border-radius: 5px;
+  padding: 2px 6px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  min-width: 24px;
+  transition: filter 0.15s;
+}
+.planning-block:hover { filter: brightness(1.2); }
+.planning-block-time {
+  font-size: 10px; font-weight: 600;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.planning-block-title {
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+/* Source colors */
+.planning-block.source-api {
+  background: rgba(59,130,246,0.25);
+  border: 1px solid rgba(59,130,246,0.5);
+  color: #93bbfd;
+}
+.planning-block.source-admin {
+  background: rgba(0,212,255,0.2);
+  border: 1px solid rgba(0,212,255,0.45);
+  color: var(--accent);
+}
+.planning-block.source-tablet {
+  background: rgba(148,163,184,0.2);
+  border: 1px solid rgba(148,163,184,0.4);
+  color: #94a3b8;
+}
+
+/* Now line */
+.planning-now {
+  position: absolute; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--danger);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Booking modal */
+.booking-modal .form-row {
+  display: flex; gap: 12px;
+}
+.booking-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  background: rgba(239,68,68,0.1);
+  border-radius: 4px;
+}
+.btn-danger {
+  color: var(--danger) !important;
+  border-color: var(--danger) !important;
+}
+.btn-danger:hover { background: rgba(239,68,68,0.1) !important; }
+
+/* Planning empty state */
+.planning-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-dim);
+}
+.planning-empty .icon { font-size: 32px; margin-bottom: 8px; }
+
+/* ── FLIGHTS TABLE ── */
+.flights-table-wrapper { margin-top: 8px; overflow-x: auto; }
+.flights-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.flights-table th {
+  text-align: left; padding: 8px 12px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-dim); border-bottom: 2px solid var(--border);
+}
+.flights-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.flights-table tr:hover td { background: rgba(0,212,255,0.04); }
+.flights-table .flight-reg {
+  font-weight: 700; font-family: 'JetBrains Mono', monospace;
+}
+.flights-table .flight-time {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+}
+.flights-table .flight-type-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  background: rgba(0,212,255,0.1); color: var(--accent);
+}
+.flights-table .flight-actions { text-align: right; white-space: nowrap; }
+.flights-table .flight-actions button {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-dim); font-size: 14px; padding: 4px 6px;
+}
+.flights-table .flight-actions button:hover { color: var(--accent); }
+.flights-empty {
+  text-align: center; padding: 40px 20px; color: var(--text-dim);
+}
+.flight-error {
+  color: var(--danger); font-size: 12px; margin-bottom: 8px;
+  padding: 6px 10px; background: rgba(239,68,68,0.1); border-radius: 4px;
+}
+
 /* ── GOD MODE ── */
 .god-tab {
   background: linear-gradient(135deg, #7c3aed, #db2777) !important;

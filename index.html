@@ -82,6 +82,9 @@
     <button class="nav-tab" data-view="fleet" onclick="switchView('fleet')">
       <span class="nav-icon">✈</span> <span data-i18n="nav.fleet">Flotte</span>
     </button>
+    <button class="nav-tab" data-view="rooms" onclick="switchView('rooms')">
+      <span class="nav-icon">🚪</span> <span data-i18n="nav.rooms">Salles</span>
+    </button>
     <button class="nav-tab" data-view="config" onclick="switchView('config')">
       <span class="nav-icon">⚙</span> <span data-i18n="nav.config">Configuration</span>
     </button>
@@ -123,6 +126,219 @@
           <div class="icon">✈</div>
           <p data-i18n="fleet.empty">Aucun aéronef configuré.</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VUE SALLES ── -->
+  <div id="viewRooms" style="display:none;">
+    <div class="content">
+      <!-- Sous-onglets Gestion / Planning -->
+      <div class="rooms-subtabs">
+        <button class="rooms-subtab active" data-subtab="manage" onclick="switchRoomsSubtab('manage')">
+          <span data-i18n="rooms.tabManage">Gestion</span>
+        </button>
+        <button class="rooms-subtab" data-subtab="planning" onclick="switchRoomsSubtab('planning')">
+          <span data-i18n="rooms.tabPlanning">Planning</span>
+        </button>
+        <button class="rooms-subtab" data-subtab="flights" onclick="switchRoomsSubtab('flights')">
+          <span data-i18n="rooms.tabFlights">Vols</span>
+        </button>
+      </div>
+
+      <!-- Sous-vue Gestion (existante) -->
+      <div id="roomsManageView">
+        <div class="add-bar">
+          <button class="btn-add" onclick="openRoomModal()">
+            <span class="icon">+</span> <span data-i18n="rooms.add">Ajouter une salle</span>
+          </button>
+        </div>
+        <div class="fleet-list" id="roomsList">
+          <div class="empty-state">
+            <div class="icon">🚪</div>
+            <p data-i18n="rooms.empty">Aucune salle configuree.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sous-vue Planning (nouvelle) -->
+      <div id="roomsPlanningView" style="display:none;">
+        <!-- Navigation date + filtres -->
+        <div class="planning-toolbar">
+          <div class="planning-nav">
+            <button class="btn-ghost planning-nav-btn" onclick="planningPrevDay()" title="Jour precedent">&larr;</button>
+            <button class="btn-ghost planning-nav-btn" onclick="planningToday()" data-i18n="rooms.today">Aujourd'hui</button>
+            <input type="date" class="planning-date-input" id="planningDateInput" onchange="planningSetDate(this.value)">
+            <button class="btn-ghost planning-nav-btn" onclick="planningNextDay()" title="Jour suivant">&rarr;</button>
+          </div>
+          <div class="planning-filters">
+            <select class="planning-filter-select" id="planningFilterType" onchange="renderPlanning()">
+              <option value="" data-i18n="rooms.filterAllTypes">Tous les types</option>
+              <option value="briefing" data-i18n="rooms.typeBriefing">Briefing</option>
+              <option value="cours" data-i18n="rooms.typeCours">Cours</option>
+              <option value="revisions" data-i18n="rooms.typeRevisions">Revisions</option>
+              <option value="vpt" data-i18n="rooms.typeVpt">VPT</option>
+              <option value="autre" data-i18n="rooms.typeAutre">Autre</option>
+            </select>
+            <select class="planning-filter-select" id="planningFilterSource" onchange="renderPlanning()">
+              <option value="" data-i18n="rooms.filterAllSources">Toutes les sources</option>
+              <option value="admin" data-i18n="rooms.sourceAdmin">Admin</option>
+              <option value="tablet" data-i18n="rooms.sourceTablet">Tablette</option>
+              <option value="api" data-i18n="rooms.sourceApi">API</option>
+            </select>
+          </div>
+        </div>
+        <!-- Grille Gantt -->
+        <div class="planning-grid-wrapper" id="planningGridWrapper">
+          <div class="planning-empty" id="planningEmpty">
+            <div class="icon">📅</div>
+            <p data-i18n="rooms.planningEmpty">Aucune salle configuree.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sous-vue Vols -->
+      <div id="roomsFlightsView" style="display:none;">
+        <div class="planning-toolbar">
+          <div class="planning-nav">
+            <button class="btn-ghost planning-nav-btn" onclick="flightsPrevDay()">&larr;</button>
+            <button class="btn-ghost planning-nav-btn" onclick="flightsToday()" data-i18n="rooms.today">Aujourd'hui</button>
+            <input type="date" class="planning-date-input" id="flightsDateInput" onchange="flightsSetDate(this.value)">
+            <button class="btn-ghost planning-nav-btn" onclick="flightsNextDay()">&rarr;</button>
+          </div>
+          <button class="btn-add" onclick="openFlightModal()">
+            <span class="icon">+</span> <span data-i18n="flights.add">Ajouter un vol</span>
+          </button>
+        </div>
+        <div class="flights-table-wrapper" id="flightsTableWrapper">
+          <table class="flights-table" id="flightsTable">
+            <thead>
+              <tr>
+                <th data-i18n="flights.aircraft">Immat.</th>
+                <th data-i18n="flights.start">Debut</th>
+                <th data-i18n="flights.end">Fin</th>
+                <th data-i18n="flights.pilot">Pilote</th>
+                <th data-i18n="flights.instructor">Instructeur</th>
+                <th data-i18n="flights.type">Type</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="flightsBody"></tbody>
+          </table>
+          <div class="flights-empty" id="flightsEmpty" style="display:none;">
+            <p data-i18n="flights.empty">Aucun vol ce jour.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL SALLE ── -->
+
+  <!-- ── MODAL VOL ── -->
+  <div class="slide-modal-overlay" id="flightModalOverlay" style="display:none;" onclick="if(event.target===this)closeFlightModal()">
+    <div class="slide-modal booking-modal">
+      <h3 id="flightModalTitle" data-i18n="flights.add">Ajouter un vol</h3>
+      <div class="form-group">
+        <label data-i18n="flights.aircraft">Immatriculation</label>
+        <input type="text" class="form-input" id="flightAircraft" placeholder="F-HPYB" style="text-transform:uppercase;">
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="flights.start">Debut</label>
+          <input type="time" class="form-input" id="flightStart" step="900">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="flights.end">Fin</label>
+          <input type="time" class="form-input" id="flightEnd" step="900">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="flights.pilot">Pilote</label>
+        <input type="text" class="form-input" id="flightPilot" placeholder="Nom du pilote">
+      </div>
+      <div class="form-group">
+        <label data-i18n="flights.instructor">Instructeur</label>
+        <input type="text" class="form-input" id="flightInstructor" placeholder="(optionnel)">
+      </div>
+      <div class="form-group">
+        <label data-i18n="flights.type">Type de vol</label>
+        <select class="form-select" id="flightType">
+          <option value="local">Local</option>
+          <option value="nav">Navigation</option>
+          <option value="double">Double</option>
+          <option value="solo">Solo</option>
+          <option value="examen">Examen</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="flight-error" id="flightError" style="display:none;"></div>
+      <div class="modal-actions">
+        <button class="btn-submit" onclick="saveFlight()" data-i18n="slides.save">Enregistrer</button>
+        <button class="btn-ghost btn-danger" id="flightDeleteBtn" onclick="deleteFlight()" style="display:none;" data-i18n="booking.delete">Supprimer</button>
+        <button class="btn-ghost" onclick="closeFlightModal()" data-i18n="slides.cancel">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL RESERVATION ── -->
+  <div class="slide-modal-overlay" id="bookingModalOverlay" style="display:none;" onclick="if(event.target===this)closeBookingModal()">
+    <div class="slide-modal booking-modal">
+      <h3 id="bookingModalTitle" data-i18n="booking.add">Ajouter une reservation</h3>
+      <div class="form-group">
+        <label data-i18n="booking.room">Salle</label>
+        <select class="form-select" id="bookingRoom"></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="booking.start">Debut</label>
+          <input type="time" class="form-input" id="bookingStart" step="900">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label data-i18n="booking.end">Fin</label>
+          <input type="time" class="form-input" id="bookingEnd" step="900">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="booking.title">Titre</label>
+        <input type="text" class="form-input" id="bookingTitle" placeholder="Briefing, Cours nav..." data-i18n-placeholder="booking.titlePlaceholder">
+      </div>
+      <div class="form-group">
+        <label data-i18n="booking.bookedBy">Reserve par</label>
+        <input type="text" class="form-input" id="bookingBy" placeholder="Nom" data-i18n-placeholder="booking.byPlaceholder">
+      </div>
+      <div class="booking-error" id="bookingError" style="display:none;"></div>
+      <div class="modal-actions">
+        <button class="btn-submit" onclick="saveBooking()" data-i18n="slides.save">Enregistrer</button>
+        <button class="btn-ghost btn-danger" id="bookingDeleteBtn" onclick="deleteBooking()" style="display:none;" data-i18n="booking.delete">Supprimer</button>
+        <button class="btn-ghost" onclick="closeBookingModal()" data-i18n="slides.cancel">Annuler</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide-modal-overlay" id="roomModalOverlay" style="display:none;" onclick="if(event.target===this)closeRoomModal()">
+    <div class="slide-modal">
+      <h3 id="roomModalTitle" data-i18n="rooms.add">Ajouter une salle</h3>
+      <div class="form-group">
+        <label data-i18n="rooms.name">Nom</label>
+        <input type="text" class="form-input" id="roomName" placeholder="ex: Salle A" data-i18n-placeholder="rooms.namePlaceholder">
+      </div>
+      <div class="form-group">
+        <label data-i18n="rooms.type">Type</label>
+        <select class="form-select" id="roomType">
+          <option value="briefing" data-i18n="rooms.typeBriefing">Briefing</option>
+          <option value="cours" data-i18n="rooms.typeCours">Cours</option>
+          <option value="revisions" data-i18n="rooms.typeRevisions">Revisions</option>
+          <option value="vpt" data-i18n="rooms.typeVpt">VPT</option>
+          <option value="autre" data-i18n="rooms.typeAutre">Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-i18n="rooms.capacity">Capacite</label>
+        <input type="number" class="form-input" id="roomCapacity" min="1" max="50" placeholder="ex: 6">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-submit" id="roomModalSave" onclick="saveRoom()" data-i18n="slides.save">Enregistrer</button>
+        <button class="btn-ghost" onclick="closeRoomModal()" data-i18n="slides.cancel">Annuler</button>
       </div>
     </div>
   </div>

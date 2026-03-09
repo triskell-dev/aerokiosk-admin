@@ -244,6 +244,8 @@ const TRANSLATIONS = {
     'cfg.screens.viewWeather': 'Météo seule (sidebar)',
     'cfg.screens.viewFleet': 'Flotte',
     'cfg.screens.viewClub': 'Contenu club',
+    'cfg.screens.viewPlanning': 'Planning (avions + salles)',
+    'cfg.screens.viewBriefing': 'Salles de briefing',
     // ── Contenu club ──
     'cfg.clubDisplay.title': 'Affichage club',
     'cfg.clubDisplay.enabled': 'Activer l\'affichage club',
@@ -258,6 +260,60 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.defaultDuration': 'Durée par défaut (s)',
     // ── Flotte ──
     'nav.fleet': 'Flotte',
+    'nav.rooms': 'Salles',
+    'rooms.add': 'Ajouter une salle',
+    'rooms.edit': 'Modifier la salle',
+    'rooms.empty': 'Aucune salle configuree.',
+    'rooms.name': 'Nom',
+    'rooms.namePlaceholder': 'ex: Salle A',
+    'rooms.type': 'Type',
+    'rooms.typeBriefing': 'Briefing',
+    'rooms.typeCours': 'Cours',
+    'rooms.typeRevisions': 'Revisions',
+    'rooms.typeVpt': 'VPT',
+    'rooms.typeAutre': 'Autre',
+    'rooms.capacity': 'Capacite',
+    'rooms.places': 'places',
+    'rooms.confirmDelete': 'Supprimer cette salle ?',
+    'rooms.tabManage': 'Gestion',
+    'rooms.tabPlanning': 'Planning',
+    'rooms.today': "Aujourd'hui",
+    'rooms.planningEmpty': 'Aucune salle configuree. Ajoutez des salles dans l\'onglet Gestion.',
+    'rooms.filterAllTypes': 'Tous les types',
+    'rooms.filterAllSources': 'Toutes les sources',
+    'rooms.sourceAdmin': 'Admin',
+    'rooms.sourceTablet': 'Tablette',
+    'rooms.sourceApi': 'API',
+    'booking.add': 'Ajouter une reservation',
+    'booking.edit': 'Modifier la reservation',
+    'booking.room': 'Salle',
+    'booking.start': 'Debut',
+    'booking.end': 'Fin',
+    'booking.title': 'Titre',
+    'booking.titlePlaceholder': 'Briefing, Cours nav...',
+    'booking.bookedBy': 'Reserve par',
+    'booking.byPlaceholder': 'Nom',
+    'booking.delete': 'Supprimer',
+    'booking.confirmDelete': 'Supprimer cette reservation ?',
+    'booking.defaultTitle': 'Reservation',
+    'booking.errorRequired': 'Salle, debut et fin sont obligatoires.',
+    'booking.errorEndBeforeStart': 'L\'heure de fin doit etre apres le debut.',
+    'booking.errorOverlap': 'Ce creneau chevauche une reservation existante.',
+    'booking.errorSave': 'Erreur lors de l\'enregistrement.',
+    'rooms.tabFlights': 'Vols',
+    'flights.add': 'Ajouter un vol',
+    'flights.edit': 'Modifier le vol',
+    'flights.empty': 'Aucun vol ce jour.',
+    'flights.aircraft': 'Immatriculation',
+    'flights.start': 'Debut',
+    'flights.end': 'Fin',
+    'flights.pilot': 'Pilote',
+    'flights.instructor': 'Instructeur',
+    'flights.type': 'Type de vol',
+    'flights.confirmDelete': 'Supprimer ce vol ?',
+    'flights.errorRequired': 'Immatriculation, horaires et pilote requis.',
+    'flights.errorTime': 'L\'heure de fin doit etre apres le debut.',
+    'flights.errorSave': 'Erreur lors de l\'enregistrement.',
     'fleet.add': 'Ajouter un aéronef',
     'fleet.empty': 'Aucun aéronef configuré.',
     'fleet.registration': 'Immatriculation',
@@ -506,6 +562,8 @@ const TRANSLATIONS = {
     'cfg.screens.viewWeather': 'Nur Wetter (Sidebar)',
     'cfg.screens.viewFleet': 'Flotte',
     'cfg.screens.viewClub': 'Club-Inhalte',
+    'cfg.screens.viewPlanning': 'Planung (Flugzeuge + Räume)',
+    'cfg.screens.viewBriefing': 'Briefing-Räume',
     'cfg.clubDisplay.title': 'Club-Anzeige',
     'cfg.clubDisplay.enabled': 'Club-Anzeige aktivieren',
     'cfg.clubDisplay.enabledHint': 'Eigene Inhalte im Wechsel mit Wetter auf dem Kiosk anzeigen.',
@@ -518,6 +576,60 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementOnly': 'Nur Club-Inhalte',
     'cfg.clubDisplay.defaultDuration': 'Standarddauer (s)',
     'nav.fleet': 'Flotte',
+    'nav.rooms': 'Räume',
+    'rooms.add': 'Raum hinzufügen',
+    'rooms.edit': 'Raum bearbeiten',
+    'rooms.empty': 'Keine Räume konfiguriert.',
+    'rooms.name': 'Name',
+    'rooms.namePlaceholder': 'z.B.: Raum A',
+    'rooms.type': 'Typ',
+    'rooms.typeBriefing': 'Briefing',
+    'rooms.typeCours': 'Unterricht',
+    'rooms.typeRevisions': 'Wiederholung',
+    'rooms.typeVpt': 'VPT',
+    'rooms.typeAutre': 'Sonstige',
+    'rooms.capacity': 'Kapazität',
+    'rooms.places': 'Plätze',
+    'rooms.confirmDelete': 'Diesen Raum löschen?',
+    'rooms.tabManage': 'Verwaltung',
+    'rooms.tabPlanning': 'Planung',
+    'rooms.today': 'Heute',
+    'rooms.planningEmpty': 'Keine Räume konfiguriert. Fügen Sie Räume im Tab Verwaltung hinzu.',
+    'rooms.filterAllTypes': 'Alle Typen',
+    'rooms.filterAllSources': 'Alle Quellen',
+    'rooms.sourceAdmin': 'Admin',
+    'rooms.sourceTablet': 'Tablet',
+    'rooms.sourceApi': 'API',
+    'booking.add': 'Reservierung hinzufügen',
+    'booking.edit': 'Reservierung bearbeiten',
+    'booking.room': 'Raum',
+    'booking.start': 'Beginn',
+    'booking.end': 'Ende',
+    'booking.title': 'Titel',
+    'booking.titlePlaceholder': 'Briefing, Navigation...',
+    'booking.bookedBy': 'Reserviert von',
+    'booking.byPlaceholder': 'Name',
+    'booking.delete': 'Löschen',
+    'booking.confirmDelete': 'Diese Reservierung löschen?',
+    'booking.defaultTitle': 'Reservierung',
+    'booking.errorRequired': 'Raum, Beginn und Ende sind Pflichtfelder.',
+    'booking.errorEndBeforeStart': 'Die Endzeit muss nach der Startzeit liegen.',
+    'booking.errorOverlap': 'Dieser Zeitraum überschneidet sich mit einer bestehenden Reservierung.',
+    'booking.errorSave': 'Fehler beim Speichern.',
+    'rooms.tabFlights': 'Flüge',
+    'flights.add': 'Flug hinzufügen',
+    'flights.edit': 'Flug bearbeiten',
+    'flights.empty': 'Keine Flüge an diesem Tag.',
+    'flights.aircraft': 'Kennzeichen',
+    'flights.start': 'Beginn',
+    'flights.end': 'Ende',
+    'flights.pilot': 'Pilot',
+    'flights.instructor': 'Fluglehrer',
+    'flights.type': 'Flugart',
+    'flights.confirmDelete': 'Diesen Flug löschen?',
+    'flights.errorRequired': 'Kennzeichen, Zeiten und Pilot sind erforderlich.',
+    'flights.errorTime': 'Die Endzeit muss nach der Startzeit liegen.',
+    'flights.errorSave': 'Fehler beim Speichern.',
     'fleet.add': 'Luftfahrzeug hinzufügen',
     'fleet.empty': 'Keine Luftfahrzeuge konfiguriert.',
     'fleet.registration': 'Kennzeichen',
@@ -766,6 +878,8 @@ const TRANSLATIONS = {
     'cfg.screens.viewWeather': 'Solo meteo (sidebar)',
     'cfg.screens.viewFleet': 'Flotta',
     'cfg.screens.viewClub': 'Contenuto club',
+    'cfg.screens.viewPlanning': 'Pianificazione (aerei + sale)',
+    'cfg.screens.viewBriefing': 'Sale briefing',
     'cfg.clubDisplay.title': 'Display club',
     'cfg.clubDisplay.enabled': 'Attiva display club',
     'cfg.clubDisplay.enabledHint': 'Mostra contenuti personalizzati sul chiosco in rotazione con il meteo.',
@@ -778,6 +892,60 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementOnly': 'Solo contenuto club',
     'cfg.clubDisplay.defaultDuration': 'Durata predefinita (s)',
     'nav.fleet': 'Flotta',
+    'nav.rooms': 'Sale',
+    'rooms.add': 'Aggiungi sala',
+    'rooms.edit': 'Modifica sala',
+    'rooms.empty': 'Nessuna sala configurata.',
+    'rooms.name': 'Nome',
+    'rooms.namePlaceholder': 'es: Sala A',
+    'rooms.type': 'Tipo',
+    'rooms.typeBriefing': 'Briefing',
+    'rooms.typeCours': 'Corso',
+    'rooms.typeRevisions': 'Revisione',
+    'rooms.typeVpt': 'VPT',
+    'rooms.typeAutre': 'Altro',
+    'rooms.capacity': 'Capacità',
+    'rooms.places': 'posti',
+    'rooms.confirmDelete': 'Eliminare questa sala?',
+    'rooms.tabManage': 'Gestione',
+    'rooms.tabPlanning': 'Planning',
+    'rooms.today': 'Oggi',
+    'rooms.planningEmpty': 'Nessuna sala configurata. Aggiungere sale nella scheda Gestione.',
+    'rooms.filterAllTypes': 'Tutti i tipi',
+    'rooms.filterAllSources': 'Tutte le fonti',
+    'rooms.sourceAdmin': 'Admin',
+    'rooms.sourceTablet': 'Tablet',
+    'rooms.sourceApi': 'API',
+    'booking.add': 'Aggiungi prenotazione',
+    'booking.edit': 'Modifica prenotazione',
+    'booking.room': 'Sala',
+    'booking.start': 'Inizio',
+    'booking.end': 'Fine',
+    'booking.title': 'Titolo',
+    'booking.titlePlaceholder': 'Briefing, Corso nav...',
+    'booking.bookedBy': 'Prenotato da',
+    'booking.byPlaceholder': 'Nome',
+    'booking.delete': 'Elimina',
+    'booking.confirmDelete': 'Eliminare questa prenotazione?',
+    'booking.defaultTitle': 'Prenotazione',
+    'booking.errorRequired': 'Sala, inizio e fine sono obbligatori.',
+    'booking.errorEndBeforeStart': 'L\'orario di fine deve essere dopo l\'inizio.',
+    'booking.errorOverlap': 'Questo orario si sovrappone a una prenotazione esistente.',
+    'booking.errorSave': 'Errore durante il salvataggio.',
+    'rooms.tabFlights': 'Voli',
+    'flights.add': 'Aggiungi volo',
+    'flights.edit': 'Modifica volo',
+    'flights.empty': 'Nessun volo in questo giorno.',
+    'flights.aircraft': 'Immatricolazione',
+    'flights.start': 'Inizio',
+    'flights.end': 'Fine',
+    'flights.pilot': 'Pilota',
+    'flights.instructor': 'Istruttore',
+    'flights.type': 'Tipo di volo',
+    'flights.confirmDelete': 'Eliminare questo volo?',
+    'flights.errorRequired': 'Immatricolazione, orari e pilota sono obbligatori.',
+    'flights.errorTime': 'L\'ora di fine deve essere dopo l\'inizio.',
+    'flights.errorSave': 'Errore durante il salvataggio.',
     'fleet.add': 'Aggiungi aeromobile',
     'fleet.empty': 'Nessun aeromobile configurato.',
     'fleet.registration': 'Immatricolazione',
@@ -1026,6 +1194,8 @@ const TRANSLATIONS = {
     'cfg.screens.viewWeather': 'Solo meteorología (sidebar)',
     'cfg.screens.viewFleet': 'Flota',
     'cfg.screens.viewClub': 'Contenido club',
+    'cfg.screens.viewPlanning': 'Planificación (aviones + salas)',
+    'cfg.screens.viewBriefing': 'Salas de briefing',
     'cfg.clubDisplay.title': 'Pantalla del club',
     'cfg.clubDisplay.enabled': 'Activar pantalla del club',
     'cfg.clubDisplay.enabledHint': 'Mostrar contenido personalizado en el quiosco en rotación con el tiempo.',
@@ -1038,6 +1208,60 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementOnly': 'Solo contenido club',
     'cfg.clubDisplay.defaultDuration': 'Duración predeterminada (s)',
     'nav.fleet': 'Flota',
+    'nav.rooms': 'Salas',
+    'rooms.add': 'Añadir sala',
+    'rooms.edit': 'Modificar sala',
+    'rooms.empty': 'Ninguna sala configurada.',
+    'rooms.name': 'Nombre',
+    'rooms.namePlaceholder': 'ej: Sala A',
+    'rooms.type': 'Tipo',
+    'rooms.typeBriefing': 'Briefing',
+    'rooms.typeCours': 'Clase',
+    'rooms.typeRevisions': 'Revisión',
+    'rooms.typeVpt': 'VPT',
+    'rooms.typeAutre': 'Otro',
+    'rooms.capacity': 'Capacidad',
+    'rooms.places': 'plazas',
+    'rooms.confirmDelete': '¿Eliminar esta sala?',
+    'rooms.tabManage': 'Gestión',
+    'rooms.tabPlanning': 'Planificación',
+    'rooms.today': 'Hoy',
+    'rooms.planningEmpty': 'No hay salas configuradas. Añada salas en la pestaña Gestión.',
+    'rooms.filterAllTypes': 'Todos los tipos',
+    'rooms.filterAllSources': 'Todas las fuentes',
+    'rooms.sourceAdmin': 'Admin',
+    'rooms.sourceTablet': 'Tablet',
+    'rooms.sourceApi': 'API',
+    'booking.add': 'Añadir reserva',
+    'booking.edit': 'Modificar reserva',
+    'booking.room': 'Sala',
+    'booking.start': 'Inicio',
+    'booking.end': 'Fin',
+    'booking.title': 'Título',
+    'booking.titlePlaceholder': 'Briefing, Curso nav...',
+    'booking.bookedBy': 'Reservado por',
+    'booking.byPlaceholder': 'Nombre',
+    'booking.delete': 'Eliminar',
+    'booking.confirmDelete': '¿Eliminar esta reserva?',
+    'booking.defaultTitle': 'Reserva',
+    'booking.errorRequired': 'Sala, inicio y fin son obligatorios.',
+    'booking.errorEndBeforeStart': 'La hora de fin debe ser posterior al inicio.',
+    'booking.errorOverlap': 'Este horario se solapa con una reserva existente.',
+    'booking.errorSave': 'Error al guardar.',
+    'rooms.tabFlights': 'Vuelos',
+    'flights.add': 'Añadir vuelo',
+    'flights.edit': 'Modificar vuelo',
+    'flights.empty': 'Sin vuelos este día.',
+    'flights.aircraft': 'Matrícula',
+    'flights.start': 'Inicio',
+    'flights.end': 'Fin',
+    'flights.pilot': 'Piloto',
+    'flights.instructor': 'Instructor',
+    'flights.type': 'Tipo de vuelo',
+    'flights.confirmDelete': '¿Eliminar este vuelo?',
+    'flights.errorRequired': 'Matrícula, horarios y piloto son obligatorios.',
+    'flights.errorTime': 'La hora de fin debe ser posterior al inicio.',
+    'flights.errorSave': 'Error al guardar.',
     'fleet.add': 'Añadir aeronave',
     'fleet.empty': 'Ninguna aeronave configurada.',
     'fleet.registration': 'Matrícula',
@@ -1286,6 +1510,8 @@ const TRANSLATIONS = {
     'cfg.screens.viewWeather': 'Weather only (sidebar)',
     'cfg.screens.viewFleet': 'Fleet',
     'cfg.screens.viewClub': 'Club content',
+    'cfg.screens.viewPlanning': 'Planning (aircraft + rooms)',
+    'cfg.screens.viewBriefing': 'Briefing rooms',
     'cfg.clubDisplay.title': 'Club display',
     'cfg.clubDisplay.enabled': 'Enable club display',
     'cfg.clubDisplay.enabledHint': 'Show custom content on the kiosk rotating with weather.',
@@ -1298,6 +1524,60 @@ const TRANSLATIONS = {
     'cfg.clubDisplay.placementOnly': 'Club content only',
     'cfg.clubDisplay.defaultDuration': 'Default duration (s)',
     'nav.fleet': 'Fleet',
+    'nav.rooms': 'Rooms',
+    'rooms.add': 'Add a room',
+    'rooms.edit': 'Edit room',
+    'rooms.empty': 'No rooms configured.',
+    'rooms.name': 'Name',
+    'rooms.namePlaceholder': 'e.g.: Room A',
+    'rooms.type': 'Type',
+    'rooms.typeBriefing': 'Briefing',
+    'rooms.typeCours': 'Classroom',
+    'rooms.typeRevisions': 'Study',
+    'rooms.typeVpt': 'VPT',
+    'rooms.typeAutre': 'Other',
+    'rooms.capacity': 'Capacity',
+    'rooms.places': 'seats',
+    'rooms.confirmDelete': 'Delete this room?',
+    'rooms.tabManage': 'Manage',
+    'rooms.tabPlanning': 'Planning',
+    'rooms.today': 'Today',
+    'rooms.planningEmpty': 'No rooms configured. Add rooms in the Manage tab.',
+    'rooms.filterAllTypes': 'All types',
+    'rooms.filterAllSources': 'All sources',
+    'rooms.sourceAdmin': 'Admin',
+    'rooms.sourceTablet': 'Tablet',
+    'rooms.sourceApi': 'API',
+    'booking.add': 'Add booking',
+    'booking.edit': 'Edit booking',
+    'booking.room': 'Room',
+    'booking.start': 'Start',
+    'booking.end': 'End',
+    'booking.title': 'Title',
+    'booking.titlePlaceholder': 'Briefing, Nav course...',
+    'booking.bookedBy': 'Booked by',
+    'booking.byPlaceholder': 'Name',
+    'booking.delete': 'Delete',
+    'booking.confirmDelete': 'Delete this booking?',
+    'booking.defaultTitle': 'Booking',
+    'booking.errorRequired': 'Room, start and end are required.',
+    'booking.errorEndBeforeStart': 'End time must be after start time.',
+    'booking.errorOverlap': 'This slot overlaps with an existing booking.',
+    'booking.errorSave': 'Error saving booking.',
+    'rooms.tabFlights': 'Flights',
+    'flights.add': 'Add flight',
+    'flights.edit': 'Edit flight',
+    'flights.empty': 'No flights on this day.',
+    'flights.aircraft': 'Registration',
+    'flights.start': 'Start',
+    'flights.end': 'End',
+    'flights.pilot': 'Pilot',
+    'flights.instructor': 'Instructor',
+    'flights.type': 'Flight type',
+    'flights.confirmDelete': 'Delete this flight?',
+    'flights.errorRequired': 'Registration, times and pilot are required.',
+    'flights.errorTime': 'End time must be after start time.',
+    'flights.errorSave': 'Error saving flight.',
     'fleet.add': 'Add aircraft',
     'fleet.empty': 'No aircraft configured.',
     'fleet.registration': 'Registration',
@@ -1767,6 +2047,216 @@ class ApiClient {
     } else {
       const resp = await fetch(
         SUPABASE_URL + '/rest/v1/club_fleet?id=eq.' + encodeURIComponent(id),
+        { method: 'DELETE', headers: supabaseHeaders() }
+      );
+      return { success: resp.ok };
+    }
+  }
+
+  // ── ROOMS CRUD ──
+
+  async getRooms() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/rooms');
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/rooms?license_key=eq.' + encodeURIComponent(this.licenseKey) + '&order=display_order.asc,name.asc',
+        { headers: supabaseHeaders() }
+      );
+      return resp.json();
+    }
+  }
+
+  async createRoom(data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/rooms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/rooms', {
+        method: 'POST',
+        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        body: JSON.stringify(payload)
+      });
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async updateRoom(id, data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/rooms/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/rooms?id=eq.' + encodeURIComponent(id),
+        {
+          method: 'PATCH',
+          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+        }
+      );
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async deleteRoom(id) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/rooms/' + id, { method: 'DELETE' });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/rooms?id=eq.' + encodeURIComponent(id),
+        { method: 'DELETE', headers: supabaseHeaders() }
+      );
+      return { success: resp.ok };
+    }
+  }
+
+  // ── ROOM BOOKINGS CRUD ──
+
+  async getBookings(date) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/room-bookings?date=' + encodeURIComponent(date));
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/room_bookings?license_key=eq.' + encodeURIComponent(this.licenseKey) + '&date=eq.' + date + '&order=start_time.asc',
+        { headers: supabaseHeaders() }
+      );
+      return resp.json();
+    }
+  }
+
+  async createBooking(data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/room-bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/room_bookings', {
+        method: 'POST',
+        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        body: JSON.stringify(payload)
+      });
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async updateBooking(id, data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/room-bookings/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+        {
+          method: 'PATCH',
+          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+        }
+      );
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async deleteBooking(id) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/room-bookings/' + id, { method: 'DELETE' });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+        { method: 'DELETE', headers: supabaseHeaders() }
+      );
+      return { success: resp.ok };
+    }
+  }
+
+  // ── FLIGHT BOOKINGS CRUD ──
+
+  async getFlights(date) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/flight-bookings?date=' + encodeURIComponent(date));
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/flight_bookings?license_key=eq.' + encodeURIComponent(this.licenseKey) + '&date=eq.' + date + '&order=start_time.asc',
+        { headers: supabaseHeaders() }
+      );
+      return resp.json();
+    }
+  }
+
+  async createFlight(data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/flight-bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/flight_bookings', {
+        method: 'POST',
+        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        body: JSON.stringify(payload)
+      });
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async updateFlight(id, data) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/flight-bookings/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/flight_bookings?id=eq.' + encodeURIComponent(id),
+        {
+          method: 'PATCH',
+          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+        }
+      );
+      const rows = await resp.json();
+      return rows[0] || null;
+    }
+  }
+
+  async deleteFlight(id) {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/flight-bookings/' + id, { method: 'DELETE' });
+      return resp.json();
+    } else {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/flight_bookings?id=eq.' + encodeURIComponent(id),
         { method: 'DELETE', headers: supabaseHeaders() }
       );
       return { success: resp.ok };
@@ -2502,6 +2992,595 @@ async function deleteFleetItem(id) {
 
 // ── CONFIG STATE ──
 let currentView = 'content';
+// ── ROOMS STATE ──
+let roomsList = [];
+let editingRoomId = null;
+
+async function refreshRooms() {
+  try {
+    const res = await api.getRooms();
+    roomsList = res || [];
+    renderRoomsList();
+  } catch (err) {
+    console.error('refreshRooms error:', err);
+  }
+}
+
+function renderRoomsList() {
+  const container = document.getElementById('roomsList');
+  if (!roomsList.length) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">🚪</div><p>${t('rooms.empty')}</p></div>`;
+    return;
+  }
+  // Sort by display_order
+  const sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  container.innerHTML = sorted.map(room => {
+    const typeBadge = t('rooms.type' + room.type.charAt(0).toUpperCase() + room.type.slice(1)) || room.type;
+    const capText = room.capacity ? ` — ${room.capacity} ${t('rooms.places') || 'places'}` : '';
+    return `<div class="fleet-card" data-id="${room.id}">
+      <div class="fleet-card-header">
+        <div class="fleet-reg">${escHtml(room.name)}</div>
+        <div class="fleet-type">${escHtml(typeBadge)}${capText}</div>
+      </div>
+      <div class="fleet-card-actions">
+        <button class="btn-ghost" onclick="openRoomModal(roomsList.find(r=>r.id==='${room.id}'))">✏️</button>
+        <button class="btn-ghost" onclick="deleteRoom('${room.id}')" style="color:var(--danger);">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+function openRoomModal(room) {
+  editingRoomId = room ? room.id : null;
+  document.getElementById('roomModalTitle').textContent = room ? (t('rooms.edit') || 'Modifier la salle') : (t('rooms.add') || 'Ajouter une salle');
+  document.getElementById('roomName').value = room ? room.name : '';
+  document.getElementById('roomType').value = room ? room.type : 'briefing';
+  document.getElementById('roomCapacity').value = room ? (room.capacity || '') : '';
+  document.getElementById('roomModalOverlay').style.display = 'flex';
+}
+
+function closeRoomModal() {
+  document.getElementById('roomModalOverlay').style.display = 'none';
+  editingRoomId = null;
+}
+
+async function saveRoom() {
+  const name = document.getElementById('roomName').value.trim();
+  if (!name) return;
+  const data = {
+    name,
+    type: document.getElementById('roomType').value,
+    capacity: parseInt(document.getElementById('roomCapacity').value) || null
+  };
+
+  try {
+    if (editingRoomId) {
+      await api.updateRoom(editingRoomId, data);
+    } else {
+      await api.createRoom(data);
+    }
+    closeRoomModal();
+    refreshRooms();
+  } catch (err) {
+    console.error('saveRoom error:', err);
+  }
+}
+
+async function deleteRoom(id) {
+  if (!confirm(t('rooms.confirmDelete') || 'Supprimer cette salle ?')) return;
+  try {
+    await api.deleteRoom(id);
+    refreshRooms();
+  } catch (err) {
+    console.error('deleteRoom error:', err);
+  }
+}
+
+// ── PLANNING STATE ──
+let planningDate = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+let bookingsList = [];
+let currentRoomsSubtab = 'manage';
+
+function switchRoomsSubtab(tab) {
+  currentRoomsSubtab = tab;
+  document.querySelectorAll('.rooms-subtab').forEach(b =>
+    b.classList.toggle('active', b.dataset.subtab === tab));
+  document.getElementById('roomsManageView').style.display = tab === 'manage' ? '' : 'none';
+  document.getElementById('roomsPlanningView').style.display = tab === 'planning' ? '' : 'none';
+  document.getElementById('roomsFlightsView').style.display = tab === 'flights' ? '' : 'none';
+  if (tab === 'planning') refreshPlanning();
+  if (tab === 'manage') refreshRooms();
+  if (tab === 'flights') refreshFlights();
+}
+
+function planningPrevDay() {
+  const d = new Date(planningDate);
+  d.setDate(d.getDate() - 1);
+  planningDate = d.toISOString().slice(0, 10);
+  refreshPlanning();
+}
+
+function planningNextDay() {
+  const d = new Date(planningDate);
+  d.setDate(d.getDate() + 1);
+  planningDate = d.toISOString().slice(0, 10);
+  refreshPlanning();
+}
+
+function planningToday() {
+  planningDate = new Date().toISOString().slice(0, 10);
+  refreshPlanning();
+}
+
+function planningSetDate(dateStr) {
+  if (!dateStr) return;
+  planningDate = dateStr;
+  refreshPlanning();
+}
+
+async function refreshPlanning() {
+  document.getElementById('planningDateInput').value = planningDate;
+  // Fetch rooms + bookings in parallel
+  try {
+    const [rooms, bookings] = await Promise.all([
+      api.getRooms(),
+      api.getBookings(planningDate)
+    ]);
+    roomsList = rooms || [];
+    bookingsList = bookings || [];
+    renderPlanning();
+  } catch (err) {
+    console.error('refreshPlanning error:', err);
+  }
+}
+
+function renderPlanning() {
+  const wrapper = document.getElementById('planningGridWrapper');
+  const emptyEl = document.getElementById('planningEmpty');
+
+  // Apply type filter on rooms
+  const filterType = document.getElementById('planningFilterType').value;
+  const filterSource = document.getElementById('planningFilterSource').value;
+
+  let sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  if (filterType) sorted = sorted.filter(r => r.type === filterType);
+
+  if (!sorted.length) {
+    emptyEl.style.display = '';
+    const oldGrid = wrapper.querySelector('.planning-grid');
+    if (oldGrid) oldGrid.remove();
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+
+  // Constants
+  const START_HOUR = 7;
+  const END_HOUR = 21;
+  const TOTAL_SLOTS = (END_HOUR - START_HOUR) * 4;
+  const SLOT_WIDTH = 48;
+  const LABEL_WIDTH = 120;
+
+  let html = '<div class="planning-grid">';
+
+  // Header row
+  html += '<div class="planning-row planning-header">';
+  html += `<div class="planning-label" style="width:${LABEL_WIDTH}px;min-width:${LABEL_WIDTH}px;"></div>`;
+  html += '<div class="planning-slots">';
+  for (let h = START_HOUR; h < END_HOUR; h++) {
+    const label = String(h).padStart(2, '0') + 'h';
+    html += `<div class="planning-hour-mark" style="width:${SLOT_WIDTH * 4}px;min-width:${SLOT_WIDTH * 4}px;">${label}</div>`;
+  }
+  html += '</div></div>';
+
+  // Now line position
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0, 10);
+  let nowPx = -1;
+  if (planningDate === todayStr) {
+    const mins = (now.getHours() - START_HOUR) * 60 + now.getMinutes();
+    if (mins >= 0 && mins < (END_HOUR - START_HOUR) * 60) {
+      nowPx = (mins / 15) * SLOT_WIDTH;
+    }
+  }
+
+  // Room rows
+  sorted.forEach(room => {
+    let roomBookings = bookingsList.filter(b => b.room_id === room.id);
+    if (filterSource) roomBookings = roomBookings.filter(b => b.source === filterSource);
+    const typeBadge = t('rooms.type' + room.type.charAt(0).toUpperCase() + room.type.slice(1)) || room.type;
+
+    html += '<div class="planning-row">';
+    html += `<div class="planning-label" style="width:${LABEL_WIDTH}px;min-width:${LABEL_WIDTH}px;" title="${escHtml(typeBadge)}">`;
+    html += `<span class="planning-label-name">${escHtml(room.name)}</span>`;
+    html += `<span class="planning-label-type">${escHtml(typeBadge)}</span>`;
+    html += '</div>';
+
+    html += `<div class="planning-slots" data-room-id="${room.id}" style="width:${SLOT_WIDTH * TOTAL_SLOTS}px;">`;
+
+    // Background cells (clickable)
+    for (let i = 0; i < TOTAL_SLOTS; i++) {
+      const isHour = i % 4 === 0;
+      const slotMins = START_HOUR * 60 + i * 15;
+      const hh = String(Math.floor(slotMins / 60)).padStart(2, '0');
+      const mm = String(slotMins % 60).padStart(2, '0');
+      html += `<div class="planning-cell clickable${isHour ? ' hour-mark' : ''}" data-time="${hh}:${mm}" style="left:${i * SLOT_WIDTH}px;width:${SLOT_WIDTH}px;"></div>`;
+    }
+
+    // Booking blocks (clickable)
+    roomBookings.forEach(bk => {
+      const startMins = timeToMinutes(bk.start_time) - START_HOUR * 60;
+      const endMins = timeToMinutes(bk.end_time) - START_HOUR * 60;
+      if (endMins <= 0 || startMins >= (END_HOUR - START_HOUR) * 60) return;
+
+      const leftPx = Math.max(0, (startMins / 15) * SLOT_WIDTH);
+      const widthPx = ((endMins - Math.max(0, startMins)) / 15) * SLOT_WIDTH;
+      const sourceClass = 'source-' + (bk.source || 'admin');
+      const titleAttr = escHtml(bk.title || '') + (bk.booked_by ? ' — ' + escHtml(bk.booked_by) : '');
+      const timeLabel = (bk.start_time || '').slice(0, 5) + '–' + (bk.end_time || '').slice(0, 5);
+
+      html += `<div class="planning-block ${sourceClass}" data-booking-id="${bk.id}" style="left:${leftPx}px;width:${widthPx}px;" title="${titleAttr}">`;
+      html += `<span class="planning-block-time">${timeLabel}</span>`;
+      html += `<span class="planning-block-title">${escHtml(bk.title || '')}</span>`;
+      html += '</div>';
+    });
+
+    // Now line
+    if (nowPx >= 0) {
+      html += `<div class="planning-now" style="left:${nowPx}px;"></div>`;
+    }
+
+    html += '</div>';
+    html += '</div>';
+  });
+
+  html += '</div>';
+
+  // Replace grid
+  const oldGrid = wrapper.querySelector('.planning-grid');
+  if (oldGrid) oldGrid.remove();
+  wrapper.insertAdjacentHTML('beforeend', html);
+
+  // Attach click handlers
+  wrapper.querySelectorAll('.planning-cell.clickable').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const roomId = cell.closest('.planning-slots').dataset.roomId;
+      const time = cell.dataset.time;
+      openBookingModal(null, roomId, time);
+    });
+  });
+  wrapper.querySelectorAll('.planning-block[data-booking-id]').forEach(block => {
+    block.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const bk = bookingsList.find(b => b.id === block.dataset.bookingId);
+      if (bk) openBookingModal(bk);
+    });
+  });
+
+  // Auto-scroll to now
+  if (nowPx >= 0) {
+    wrapper.scrollLeft = Math.max(0, nowPx - wrapper.clientWidth / 2 + LABEL_WIDTH);
+  }
+}
+
+function timeToMinutes(timeStr) {
+  if (!timeStr) return 0;
+  const parts = timeStr.split(':');
+  return parseInt(parts[0]) * 60 + parseInt(parts[1] || 0);
+}
+
+function minutesToTime(mins) {
+  const hh = String(Math.floor(mins / 60)).padStart(2, '0');
+  const mm = String(mins % 60).padStart(2, '0');
+  return hh + ':' + mm;
+}
+
+// ── BOOKING MODAL ──
+let editingBookingId = null;
+
+function openBookingModal(booking, roomId, startTime) {
+  editingBookingId = booking ? booking.id : null;
+
+  // Title
+  document.getElementById('bookingModalTitle').textContent =
+    booking ? (t('booking.edit') || 'Modifier la reservation') : (t('booking.add') || 'Ajouter une reservation');
+
+  // Populate room select
+  const roomSelect = document.getElementById('bookingRoom');
+  const sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  roomSelect.innerHTML = sorted.map(r =>
+    `<option value="${r.id}">${escHtml(r.name)}</option>`
+  ).join('');
+
+  // Fill fields
+  if (booking) {
+    roomSelect.value = booking.room_id;
+    document.getElementById('bookingStart').value = (booking.start_time || '').slice(0, 5);
+    document.getElementById('bookingEnd').value = (booking.end_time || '').slice(0, 5);
+    document.getElementById('bookingTitle').value = booking.title || '';
+    document.getElementById('bookingBy').value = booking.booked_by || '';
+  } else {
+    if (roomId) roomSelect.value = roomId;
+    document.getElementById('bookingStart').value = startTime || '08:00';
+    // Default end = start + 30min
+    const startMins = timeToMinutes(startTime || '08:00');
+    document.getElementById('bookingEnd').value = minutesToTime(startMins + 30);
+    document.getElementById('bookingTitle').value = '';
+    document.getElementById('bookingBy').value = '';
+  }
+
+  // Show/hide delete button
+  document.getElementById('bookingDeleteBtn').style.display = booking ? '' : 'none';
+
+  // Clear error
+  document.getElementById('bookingError').style.display = 'none';
+
+  document.getElementById('bookingModalOverlay').style.display = 'flex';
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModalOverlay').style.display = 'none';
+  editingBookingId = null;
+}
+
+function checkBookingOverlap(roomId, startTime, endTime, excludeId) {
+  const startMins = timeToMinutes(startTime);
+  const endMins = timeToMinutes(endTime);
+  return bookingsList.find(b =>
+    b.room_id === roomId &&
+    b.id !== excludeId &&
+    b.date === planningDate &&
+    timeToMinutes(b.start_time) < endMins &&
+    timeToMinutes(b.end_time) > startMins
+  );
+}
+
+async function saveBooking() {
+  const roomId = document.getElementById('bookingRoom').value;
+  const startTime = document.getElementById('bookingStart').value;
+  const endTime = document.getElementById('bookingEnd').value;
+  const title = document.getElementById('bookingTitle').value.trim();
+  const bookedBy = document.getElementById('bookingBy').value.trim();
+  const errEl = document.getElementById('bookingError');
+
+  // Validation
+  if (!roomId || !startTime || !endTime) {
+    errEl.textContent = t('booking.errorRequired') || 'Salle, debut et fin sont obligatoires.';
+    errEl.style.display = '';
+    return;
+  }
+  if (timeToMinutes(endTime) <= timeToMinutes(startTime)) {
+    errEl.textContent = t('booking.errorEndBeforeStart') || 'L\'heure de fin doit etre apres le debut.';
+    errEl.style.display = '';
+    return;
+  }
+
+  // Overlap check
+  const overlap = checkBookingOverlap(roomId, startTime, endTime, editingBookingId);
+  if (overlap) {
+    errEl.textContent = t('booking.errorOverlap') || 'Ce creneau chevauche une reservation existante.';
+    errEl.style.display = '';
+    return;
+  }
+
+  const data = {
+    room_id: roomId,
+    date: planningDate,
+    start_time: startTime,
+    end_time: endTime,
+    title: title || (t('booking.defaultTitle') || 'Reservation'),
+    booked_by: bookedBy,
+    source: 'admin'
+  };
+
+  try {
+    if (editingBookingId) {
+      await api.updateBooking(editingBookingId, data);
+    } else {
+      await api.createBooking(data);
+    }
+    closeBookingModal();
+    refreshPlanning();
+  } catch (err) {
+    console.error('saveBooking error:', err);
+    errEl.textContent = t('booking.errorSave') || 'Erreur lors de l\'enregistrement.';
+    errEl.style.display = '';
+  }
+}
+
+async function deleteBooking() {
+  if (!editingBookingId) return;
+  if (!confirm(t('booking.confirmDelete') || 'Supprimer cette reservation ?')) return;
+  try {
+    await api.deleteBooking(editingBookingId);
+    closeBookingModal();
+    refreshPlanning();
+  } catch (err) {
+    console.error('deleteBooking error:', err);
+  }
+}
+
+// ── FLIGHTS STATE ──
+let flightsDate = new Date().toISOString().slice(0, 10);
+let flightsList = [];
+let editingFlightId = null;
+
+function flightsPrevDay() {
+  const d = new Date(flightsDate);
+  d.setDate(d.getDate() - 1);
+  flightsDate = d.toISOString().slice(0, 10);
+  refreshFlights();
+}
+function flightsNextDay() {
+  const d = new Date(flightsDate);
+  d.setDate(d.getDate() + 1);
+  flightsDate = d.toISOString().slice(0, 10);
+  refreshFlights();
+}
+function flightsToday() {
+  flightsDate = new Date().toISOString().slice(0, 10);
+  refreshFlights();
+}
+function flightsSetDate(val) {
+  if (val) { flightsDate = val; refreshFlights(); }
+}
+
+async function refreshFlights() {
+  document.getElementById('flightsDateInput').value = flightsDate;
+  try {
+    flightsList = await api.getFlights(flightsDate) || [];
+  } catch (err) {
+    console.error('refreshFlights error:', err);
+    flightsList = [];
+  }
+  renderFlights();
+}
+
+function renderFlights() {
+  const tbody = document.getElementById('flightsBody');
+  const empty = document.getElementById('flightsEmpty');
+  const table = document.getElementById('flightsTable');
+
+  if (flightsList.length === 0) {
+    table.style.display = 'none';
+    empty.style.display = '';
+    return;
+  }
+  table.style.display = '';
+  empty.style.display = 'none';
+
+  tbody.innerHTML = flightsList.map(f => {
+    return '<tr>'
+      + '<td class="flight-reg">' + esc(f.aircraft_reg || '') + '</td>'
+      + '<td class="flight-time">' + esc(f.start_time || '') + '</td>'
+      + '<td class="flight-time">' + esc(f.end_time || '') + '</td>'
+      + '<td>' + esc(f.pilot || '') + '</td>'
+      + '<td>' + esc(f.instructor || '—') + '</td>'
+      + '<td><span class="flight-type-badge">' + esc(f.flight_type || '') + '</span></td>'
+      + '<td class="flight-actions">'
+      + '<button onclick="openFlightModal(\'' + f.id + '\')" title="Modifier">&#9998;</button>'
+      + '<button onclick="confirmDeleteFlight(\'' + f.id + '\')" title="Supprimer">&#10005;</button>'
+      + '</td>'
+      + '</tr>';
+  }).join('');
+}
+
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function openFlightModal(id) {
+  editingFlightId = id || null;
+  const title = document.getElementById('flightModalTitle');
+  const deleteBtn = document.getElementById('flightDeleteBtn');
+  document.getElementById('flightError').style.display = 'none';
+
+  if (id) {
+    const f = flightsList.find(fl => fl.id === id);
+    if (!f) return;
+    title.textContent = t('flights.edit') || 'Modifier le vol';
+    document.getElementById('flightAircraft').value = f.aircraft_reg || '';
+    document.getElementById('flightStart').value = f.start_time || '';
+    document.getElementById('flightEnd').value = f.end_time || '';
+    document.getElementById('flightPilot').value = f.pilot || '';
+    document.getElementById('flightInstructor').value = f.instructor || '';
+    document.getElementById('flightType').value = f.flight_type || 'local';
+    deleteBtn.style.display = '';
+  } else {
+    title.textContent = t('flights.add') || 'Ajouter un vol';
+    document.getElementById('flightAircraft').value = '';
+    document.getElementById('flightStart').value = '';
+    document.getElementById('flightEnd').value = '';
+    document.getElementById('flightPilot').value = '';
+    document.getElementById('flightInstructor').value = '';
+    document.getElementById('flightType').value = 'local';
+    deleteBtn.style.display = 'none';
+  }
+  document.getElementById('flightModalOverlay').style.display = 'flex';
+}
+
+function closeFlightModal() {
+  document.getElementById('flightModalOverlay').style.display = 'none';
+  editingFlightId = null;
+}
+
+async function saveFlight() {
+  const aircraft = document.getElementById('flightAircraft').value.trim().toUpperCase();
+  const start = document.getElementById('flightStart').value;
+  const end = document.getElementById('flightEnd').value;
+  const pilot = document.getElementById('flightPilot').value.trim();
+  const instructor = document.getElementById('flightInstructor').value.trim();
+  const flightType = document.getElementById('flightType').value;
+  const errorEl = document.getElementById('flightError');
+
+  // Validation
+  if (!aircraft || !start || !end || !pilot) {
+    errorEl.textContent = t('flights.errorRequired') || 'Immatriculation, horaires et pilote requis.';
+    errorEl.style.display = '';
+    return;
+  }
+  if (end <= start) {
+    errorEl.textContent = t('flights.errorTime') || 'L\'heure de fin doit etre apres le debut.';
+    errorEl.style.display = '';
+    return;
+  }
+
+  const data = {
+    aircraft_reg: aircraft,
+    date: flightsDate,
+    start_time: start,
+    end_time: end,
+    pilot: pilot,
+    instructor: instructor || null,
+    flight_type: flightType,
+    source: 'admin'
+  };
+
+  try {
+    if (editingFlightId) {
+      await api.updateFlight(editingFlightId, data);
+    } else {
+      await api.createFlight(data);
+    }
+    closeFlightModal();
+    refreshFlights();
+  } catch (err) {
+    errorEl.textContent = t('flights.errorSave') || 'Erreur lors de l\'enregistrement.';
+    errorEl.style.display = '';
+    console.error('saveFlight error:', err);
+  }
+}
+
+async function deleteFlight() {
+  if (!editingFlightId) return;
+  if (!confirm(t('flights.confirmDelete') || 'Supprimer ce vol ?')) return;
+  try {
+    await api.deleteFlight(editingFlightId);
+    closeFlightModal();
+    refreshFlights();
+  } catch (err) {
+    console.error('deleteFlight error:', err);
+  }
+}
+
+async function confirmDeleteFlight(id) {
+  if (!confirm(t('flights.confirmDelete') || 'Supprimer ce vol ?')) return;
+  try {
+    await api.deleteFlight(id);
+    refreshFlights();
+  } catch (err) {
+    console.error('confirmDeleteFlight error:', err);
+  }
+}
+
+// ── CONFIG STATE ──
 let currentConfigTab = 'aerodrome';
 let fullConfig = null;
 let originalFullConfig = null;
@@ -2516,8 +3595,13 @@ function switchView(view) {
     t.classList.toggle('active', t.dataset.view === view));
   document.getElementById('viewContent').style.display = view === 'content' ? '' : 'none';
   document.getElementById('viewFleet').style.display = view === 'fleet' ? '' : 'none';
+  document.getElementById('viewRooms').style.display = view === 'rooms' ? '' : 'none';
   document.getElementById('viewConfig').style.display = view === 'config' ? '' : 'none';
   if (view === 'fleet') refreshFleet();
+  if (view === 'rooms') {
+    if (currentRoomsSubtab === 'planning') refreshPlanning();
+    else refreshRooms();
+  }
   if (view === 'config' && !fullConfig) loadFullConfig();
 }
 
@@ -2721,7 +3805,9 @@ function cfgAddScreenRow(container, scr) {
     { value: 'map', label: t('cfg.screens.viewMap') || 'Carte seule' },
     { value: 'weather', label: t('cfg.screens.viewWeather') || 'Météo seule' },
     { value: 'fleet', label: t('cfg.screens.viewFleet') || 'Flotte' },
-    { value: 'club', label: t('cfg.screens.viewClub') || 'Contenu club' }
+    { value: 'club', label: t('cfg.screens.viewClub') || 'Contenu club' },
+    { value: 'planning', label: t('cfg.screens.viewPlanning') || 'Planning' },
+    { value: 'briefing', label: t('cfg.screens.viewBriefing') || 'Salles briefing' }
   ];
   views.forEach(v => {
     const opt = document.createElement('option');
