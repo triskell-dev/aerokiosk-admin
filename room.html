@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>AeroKiosk — Salle</title>
+<style>
+:root {
+  --bg: #0a0e14;
+  --panel: #111820;
+  --border: #1e2a36;
+  --text: #e2e8f0;
+  --text-dim: #6b7f94;
+  --accent: #00d4ff;
+  --go: #22c55e;
+  --go-bg: rgba(34,197,94,0.12);
+  --nogo: #ef4444;
+  --nogo-bg: rgba(239,68,68,0.12);
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%; width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+}
+
+/* ── LAYOUT ── */
+.room-page {
+  display: flex; flex-direction: column;
+  height: 100vh;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* ── HEADER ── */
+.room-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.room-header-left h1 {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.room-header-left .room-meta {
+  font-size: clamp(13px, 2.5vw, 18px);
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+.room-date {
+  font-size: clamp(16px, 3vw, 24px);
+  color: var(--text-dim);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── STATUS BANNER ── */
+.status-banner {
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  padding: clamp(14px, 3vw, 24px) clamp(16px, 3vw, 28px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.status-banner.libre {
+  background: var(--go-bg);
+  border: 2px solid var(--go);
+}
+.status-banner.occupe {
+  background: var(--nogo-bg);
+  border: 2px solid var(--nogo);
+}
+.status-label {
+  font-size: clamp(28px, 6vw, 56px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.status-banner.libre .status-label { color: var(--go); }
+.status-banner.occupe .status-label { color: var(--nogo); }
+.status-detail {
+  font-size: clamp(14px, 2.8vw, 22px);
+  color: var(--text);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ── TIMELINE ── */
+.timeline-section {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.timeline-header {
+  position: sticky; top: 0;
+  background: var(--panel);
+  padding: 10px 16px;
+  font-size: clamp(13px, 2.5vw, 18px);
+  font-weight: 700;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.timeline-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: clamp(14px, 2.5vw, 18px);
+}
+.timeline-item {
+  display: flex; align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+  transition: background 0.2s;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item.current {
+  background: rgba(0,212,255,0.08);
+  border-left: 4px solid var(--accent);
+}
+.timeline-item.past { opacity: 0.45; }
+.timeline-time {
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  white-space: nowrap;
+  min-width: 120px;
+}
+.timeline-info {
+  flex: 1;
+  min-width: 0;
+}
+.timeline-title {
+  font-size: clamp(15px, 2.8vw, 22px);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.timeline-by {
+  font-size: clamp(12px, 2.2vw, 16px);
+  color: var(--text-dim);
+}
+.timeline-source {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.timeline-source.src-admin { background: rgba(0,212,255,0.15); color: var(--accent); }
+.timeline-source.src-tablet { background: rgba(148,163,184,0.15); color: #94a3b8; }
+.timeline-source.src-api { background: rgba(59,130,246,0.15); color: #93bbfd; }
+
+/* ── QUICK BOOKING ── */
+.quick-booking {
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(12px, 2.5vw, 20px);
+  background: var(--panel);
+}
+.quick-booking.hidden { display: none; }
+.quick-title {
+  font-size: clamp(15px, 2.8vw, 20px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.quick-durations {
+  display: flex; gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.dur-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: clamp(10px, 2vw, 16px) 8px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  text-align: center;
+}
+.dur-btn:hover, .dur-btn.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.quick-fields {
+  display: flex; gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.quick-fields input {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-fields input:focus { border-color: var(--accent); }
+.quick-fields input::placeholder { color: var(--text-dim); }
+.quick-error {
+  color: var(--nogo);
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: none;
+}
+.quick-submit {
+  width: 100%;
+  padding: clamp(12px, 2.5vw, 18px);
+  background: var(--go);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+.quick-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.quick-submit:not(:disabled):hover { opacity: 0.9; }
+
+/* ── KIOSK LOCK ── */
+.kiosk-unlock-btn {
+  position: fixed;
+  bottom: 4px; right: 4px;
+  width: 32px; height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.08;
+  font-size: 14px;
+  color: var(--text-dim);
+  z-index: 100;
+}
+.kiosk-unlock-btn:hover { opacity: 0.3; }
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.overlay.hidden { display: none; }
+.overlay-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 320px; max-width: 90vw;
+  text-align: center;
+}
+.overlay-card h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+.overlay-card input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 16px;
+  margin-bottom: 12px;
+  outline: none;
+}
+.overlay-card input:focus { border-color: var(--accent); }
+.overlay-actions {
+  display: flex; gap: 8px;
+}
+.overlay-actions button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text);
+}
+.overlay-actions button.primary {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ── LOADING ── */
+.loading-screen {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh;
+  font-size: 20px;
+  color: var(--text-dim);
+}
+
+/* ── SETUP SCREEN ── */
+.setup-screen {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+.setup-screen.hidden { display: none; }
+.setup-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  width: 100%; max-width: 440px;
+  text-align: center;
+}
+.setup-card h1 {
+  font-size: 22px; font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.setup-card .setup-subtitle {
+  font-size: 14px; color: var(--text-dim);
+  margin-bottom: 20px;
+}
+.setup-card input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.setup-card input:focus { border-color: var(--accent); }
+.setup-card .setup-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.setup-error {
+  color: var(--nogo);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.setup-rooms-list {
+  display: flex; flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.setup-room-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  text-align: left;
+}
+.setup-room-btn:hover { border-color: var(--accent); }
+.setup-room-type {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+@media (orientation: landscape) {
+  .room-page { padding: 12px 20px; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">Chargement...</div>
+
+<!-- Setup screen (choix de salle) -->
+<div class="setup-screen hidden" id="setupScreen">
+  <div class="setup-card">
+    <h1>AEROKIOSK</h1>
+    <p class="setup-subtitle" id="setupSubtitle">Configuration de la tablette</p>
+    <!-- Step 1: license key (cloud only) -->
+    <div id="setupKeyStep" style="display:none;">
+      <input type="text" id="setupKeyInput" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off">
+      <div class="setup-error" id="setupKeyError" style="display:none;"></div>
+      <button class="setup-btn" onclick="setupLoadRooms()">Suivant</button>
+    </div>
+    <!-- Step 2: pick room -->
+    <div id="setupRoomStep" style="display:none;">
+      <p class="setup-subtitle" id="setupRoomLabel">Choisir la salle :</p>
+      <div class="setup-rooms-list" id="setupRoomsList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="room-page" id="roomPage" style="display:none;">
+  <!-- Header -->
+  <div class="room-header">
+    <div class="room-header-left">
+      <h1 id="roomName">—</h1>
+      <div class="room-meta" id="roomMeta"></div>
+    </div>
+    <div class="room-date" id="roomDate"></div>
+  </div>
+
+  <!-- Status banner -->
+  <div class="status-banner libre" id="statusBanner">
+    <div class="status-label" id="statusLabel">LIBRE</div>
+    <div class="status-detail" id="statusDetail"></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-section">
+    <div class="timeline-header" id="timelineHeader">Aujourd'hui</div>
+    <div id="timelineList"></div>
+  </div>
+
+  <!-- Quick booking -->
+  <div class="quick-booking" id="quickBooking">
+    <div class="quick-title" id="quickTitle">Reserver maintenant</div>
+    <div class="quick-durations" id="quickDurations">
+      <button class="dur-btn" data-dur="15" onclick="selectDuration(15)">15 min</button>
+      <button class="dur-btn selected" data-dur="30" onclick="selectDuration(30)">30 min</button>
+      <button class="dur-btn" data-dur="45" onclick="selectDuration(45)">45 min</button>
+      <button class="dur-btn" data-dur="60" onclick="selectDuration(60)">60 min</button>
+    </div>
+    <div class="quick-fields">
+      <input type="text" id="quickName" placeholder="Votre nom (obligatoire)" autocomplete="off">
+      <input type="text" id="quickTitleInput" placeholder="Titre (optionnel)">
+    </div>
+    <div class="quick-error" id="quickError"></div>
+    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Reserver</button>
+  </div>
+</div>
+
+<!-- Kiosk unlock button -->
+<button class="kiosk-unlock-btn" id="kioskUnlockBtn" onclick="showUnlockOverlay()">&#128274;</button>
+
+<!-- Unlock overlay -->
+<div class="overlay hidden" id="unlockOverlay">
+  <div class="overlay-card">
+    <h3 id="unlockTitle">Mode administrateur</h3>
+    <input type="password" id="unlockPassword" placeholder="Mot de passe admin">
+    <div class="overlay-actions">
+      <button class="primary" onclick="tryUnlock()">OK</button>
+      <button onclick="hideUnlockOverlay()">Annuler</button>
+    </div>
+    <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+      <button style="width:100%; padding:10px; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text-dim); font-size:13px; cursor:pointer;" onclick="tryChangeRoom()">Changer de salle</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const POLL_INTERVAL = 30000; // 30s
+const SUPABASE_URL = 'https://kbicscaxtbszgmsifahe.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiaWNzY2F4dGJzemdtc2lmYWhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMTY2NjMsImV4cCI6MjA1NTg5MjY2M30.aDNTtKHmNj3WPJuy-G9dB0YpWBtuUQadPyGjLuOzJHI';
+
+// ── STATE ──
+let roomId = null;
+let roomData = null;
+let bookings = [];
+let selectedDuration = 30;
+let mode = 'local'; // 'local' or 'cloud'
+let licenseKey = '';
+let pollTimer = null;
+let isKiosk = true;
+
+// ── i18n ──
+const LABELS = {
+  fr: {
+    libre: 'LIBRE', occupe: 'OCCUPE', today: "Aujourd'hui",
+    nextAt: 'Prochaine resa a', until: 'jusqu\'a', by: 'par',
+    bookNow: 'Reserver maintenant', yourName: 'Votre nom (obligatoire)',
+    titleOpt: 'Titre (optionnel)', book: 'Reserver',
+    noBookings: 'Aucune reservation aujourd\'hui',
+    errorName: 'Le nom est obligatoire.',
+    errorOverlap: 'Chevauchement avec la reservation suivante.',
+    errorSave: 'Erreur lors de l\'enregistrement.',
+    admin: 'Mode administrateur', password: 'Mot de passe admin',
+    ok: 'OK', cancel: 'Annuler', loading: 'Chargement...',
+    typeBriefing: 'Briefing', typeCours: 'Cours', typeRevisions: 'Revisions',
+    typeVpt: 'VPT', typeAutre: 'Autre',
+    setupTitle: 'Configuration de la tablette',
+    setupKey: 'Cle de licence',
+    setupNext: 'Suivant',
+    setupPickRoom: 'Choisir la salle :',
+    setupKeyError: 'Cle invalide ou aucune salle trouvee.',
+    changeRoom: 'Changer de salle'
+  },
+  en: {
+    libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
+    nextAt: 'Next booking at', until: 'until', by: 'by',
+    bookNow: 'Book now', yourName: 'Your name (required)',
+    titleOpt: 'Title (optional)', book: 'Book',
+    noBookings: 'No bookings today',
+    errorName: 'Name is required.',
+    errorOverlap: 'Overlaps with the next booking.',
+    errorSave: 'Error saving booking.',
+    admin: 'Admin mode', password: 'Admin password',
+    ok: 'OK', cancel: 'Cancel', loading: 'Loading...',
+    typeBriefing: 'Briefing', typeCours: 'Classroom', typeRevisions: 'Study',
+    typeVpt: 'VPT', typeAutre: 'Other',
+    setupTitle: 'Tablet setup',
+    setupKey: 'License key',
+    setupNext: 'Next',
+    setupPickRoom: 'Choose the room:',
+    setupKeyError: 'Invalid key or no rooms found.',
+    changeRoom: 'Change room'
+  },
+  de: {
+    libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
+    nextAt: 'Nachste Reservierung um', until: 'bis', by: 'von',
+    bookNow: 'Jetzt buchen', yourName: 'Ihr Name (Pflicht)',
+    titleOpt: 'Titel (optional)', book: 'Buchen',
+    noBookings: 'Keine Reservierungen heute',
+    errorName: 'Name ist Pflicht.',
+    errorOverlap: 'Uberschneidung mit der nachsten Reservierung.',
+    errorSave: 'Fehler beim Speichern.',
+    admin: 'Admin-Modus', password: 'Admin-Passwort',
+    ok: 'OK', cancel: 'Abbrechen', loading: 'Laden...',
+    typeBriefing: 'Briefing', typeCours: 'Unterricht', typeRevisions: 'Wiederholung',
+    typeVpt: 'VPT', typeAutre: 'Sonstige',
+    setupTitle: 'Tablet einrichten',
+    setupKey: 'Lizenzschlussel',
+    setupNext: 'Weiter',
+    setupPickRoom: 'Raum wahlen:',
+    setupKeyError: 'Ungultiger Schlussel oder keine Raume gefunden.',
+    changeRoom: 'Raum wechseln'
+  },
+  it: {
+    libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
+    nextAt: 'Prossima prenotazione alle', until: 'fino alle', by: 'da',
+    bookNow: 'Prenota ora', yourName: 'Il tuo nome (obbligatorio)',
+    titleOpt: 'Titolo (opzionale)', book: 'Prenota',
+    noBookings: 'Nessuna prenotazione oggi',
+    errorName: 'Il nome e obbligatorio.',
+    errorOverlap: 'Sovrapposizione con la prenotazione successiva.',
+    errorSave: 'Errore durante il salvataggio.',
+    admin: 'Modalita admin', password: 'Password admin',
+    ok: 'OK', cancel: 'Annulla', loading: 'Caricamento...',
+    typeBriefing: 'Briefing', typeCours: 'Corso', typeRevisions: 'Revisione',
+    typeVpt: 'VPT', typeAutre: 'Altro',
+    setupTitle: 'Configurazione tablet',
+    setupKey: 'Chiave di licenza',
+    setupNext: 'Avanti',
+    setupPickRoom: 'Scegli la sala:',
+    setupKeyError: 'Chiave non valida o nessuna sala trovata.',
+    changeRoom: 'Cambia sala'
+  },
+  es: {
+    libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
+    nextAt: 'Proxima reserva a las', until: 'hasta', by: 'por',
+    bookNow: 'Reservar ahora', yourName: 'Tu nombre (obligatorio)',
+    titleOpt: 'Titulo (opcional)', book: 'Reservar',
+    noBookings: 'Sin reservas hoy',
+    errorName: 'El nombre es obligatorio.',
+    errorOverlap: 'Solapa con la siguiente reserva.',
+    errorSave: 'Error al guardar.',
+    admin: 'Modo admin', password: 'Contrasena admin',
+    ok: 'OK', cancel: 'Cancelar', loading: 'Cargando...',
+    typeBriefing: 'Briefing', typeCours: 'Clase', typeRevisions: 'Revision',
+    typeVpt: 'VPT', typeAutre: 'Otro',
+    setupTitle: 'Configuracion de tableta',
+    setupKey: 'Clave de licencia',
+    setupNext: 'Siguiente',
+    setupPickRoom: 'Elegir la sala:',
+    setupKeyError: 'Clave invalida o sin salas.',
+    changeRoom: 'Cambiar de sala'
+  }
+};
+let lang = 'fr';
+function L(key) { return (LABELS[lang] || LABELS.fr)[key] || key; }
+
+// ── INIT ──
+async function init() {
+  // Language
+  const urlParams = new URLSearchParams(window.location.search);
+  lang = urlParams.get('lang') || navigator.language.slice(0, 2) || 'fr';
+  if (!LABELS[lang]) lang = 'fr';
+
+  // Detect mode: local if served from port 3000 / Electron, cloud otherwise
+  const isLocal = window.location.port === '3000' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  mode = isLocal ? 'local' : 'cloud';
+
+  // Check URL path for direct room ID: /room/<id>
+  const pathParts = window.location.pathname.split('/');
+  const roomIdx = pathParts.indexOf('room');
+  const pathRoomId = (roomIdx >= 0 && pathParts[roomIdx + 1]) ? pathParts[roomIdx + 1] : null;
+
+  // Check localStorage for saved config
+  const saved = loadSavedConfig();
+
+  if (pathRoomId) {
+    // Direct URL with room ID — use it
+    roomId = pathRoomId;
+    if (saved && saved.licenseKey) licenseKey = saved.licenseKey;
+  } else if (saved && saved.roomId) {
+    // Saved from previous setup
+    roomId = saved.roomId;
+    licenseKey = saved.licenseKey || '';
+  } else {
+    // No room ID — show setup screen
+    document.getElementById('loadingScreen').style.display = 'none';
+    showSetupScreen();
+    return;
+  }
+
+  await startRoomDisplay();
+}
+
+function loadSavedConfig() {
+  try {
+    const raw = localStorage.getItem('aerokiosk-room-config');
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function saveConfig(cfg) {
+  localStorage.setItem('aerokiosk-room-config', JSON.stringify(cfg));
+}
+
+function clearConfig() {
+  localStorage.removeItem('aerokiosk-room-config');
+}
+
+// ── SETUP SCREEN ──
+let setupRoomsList = [];
+
+function showSetupScreen() {
+  const screen = document.getElementById('setupScreen');
+  screen.classList.remove('hidden');
+  document.getElementById('setupSubtitle').textContent = L('setupTitle');
+  document.getElementById('setupRoomLabel').textContent = L('setupPickRoom');
+
+  if (mode === 'cloud') {
+    // Show license key step first
+    document.getElementById('setupKeyStep').style.display = '';
+    document.getElementById('setupRoomStep').style.display = 'none';
+    document.getElementById('setupKeyInput').placeholder = L('setupKey');
+    document.querySelector('#setupKeyStep .setup-btn').textContent = L('setupNext');
+  } else {
+    // Local: skip key, go directly to room list
+    document.getElementById('setupKeyStep').style.display = 'none';
+    document.getElementById('setupRoomStep').style.display = '';
+    loadSetupRooms();
+  }
+}
+
+async function setupLoadRooms() {
+  // Cloud: validate license key, then load rooms
+  licenseKey = document.getElementById('setupKeyInput').value.trim();
+  if (!licenseKey) return;
+
+  const errEl = document.getElementById('setupKeyError');
+  errEl.style.display = 'none';
+
+  try {
+    const rooms = await fetchRooms();
+    if (!rooms || !rooms.length) {
+      errEl.textContent = L('setupKeyError');
+      errEl.style.display = '';
+      return;
+    }
+    setupRoomsList = rooms;
+    document.getElementById('setupKeyStep').style.display = 'none';
+    document.getElementById('setupRoomStep').style.display = '';
+    renderSetupRooms();
+  } catch (err) {
+    errEl.textContent = L('setupKeyError');
+    errEl.style.display = '';
+  }
+}
+
+async function loadSetupRooms() {
+  try {
+    setupRoomsList = await fetchRooms();
+    renderSetupRooms();
+  } catch (err) {
+    document.getElementById('setupRoomsList').innerHTML = '<p style="color:var(--nogo);">Error: ' + esc(err.message) + '</p>';
+  }
+}
+
+function renderSetupRooms() {
+  const container = document.getElementById('setupRoomsList');
+  if (!setupRoomsList.length) {
+    container.innerHTML = '<p style="color:var(--text-dim);">Aucune salle</p>';
+    return;
+  }
+  const sorted = [...setupRoomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  container.innerHTML = sorted.map(r => {
+    const typeKey = 'type' + r.type.charAt(0).toUpperCase() + r.type.slice(1);
+    return '<button class="setup-room-btn" onclick="pickRoom(\'' + r.id + '\')">' +
+      '<span>' + esc(r.name) + '</span>' +
+      '<span class="setup-room-type">' + L(typeKey) + '</span>' +
+    '</button>';
+  }).join('');
+}
+
+async function pickRoom(id) {
+  roomId = id;
+  saveConfig({ roomId: id, licenseKey: licenseKey, mode: mode });
+
+  // Hide setup, show room
+  document.getElementById('setupScreen').classList.add('hidden');
+  await startRoomDisplay();
+}
+
+// ── START ROOM DISPLAY ──
+async function startRoomDisplay() {
+  document.getElementById('loadingScreen').style.display = '';
+  document.getElementById('loadingScreen').textContent = L('loading');
+
+  try {
+    const rooms = await fetchRooms();
+    roomData = rooms.find(r => r.id === roomId);
+    if (!roomData) {
+      document.getElementById('loadingScreen').textContent = 'Room not found';
+      return;
+    }
+  } catch (err) {
+    document.getElementById('loadingScreen').textContent = 'Error: ' + err.message;
+    return;
+  }
+
+  document.getElementById('loadingScreen').style.display = 'none';
+  document.getElementById('roomPage').style.display = '';
+
+  applyLabels();
+  await refreshData();
+
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(refreshData, POLL_INTERVAL);
+
+  document.addEventListener('click', enterFullscreen, { once: true });
+  document.addEventListener('fullscreenchange', onFullscreenChange);
+}
+
+// ── CHANGE ROOM (from unlock overlay) ──
+function tryChangeRoom() {
+  hideUnlockOverlay();
+  if (pollTimer) clearInterval(pollTimer);
+  clearConfig();
+  roomId = null;
+  roomData = null;
+  bookings = [];
+  document.getElementById('roomPage').style.display = 'none';
+  showSetupScreen();
+}
+
+function applyLabels() {
+  document.getElementById('roomName').textContent = roomData.name;
+  const typeKey = 'type' + roomData.type.charAt(0).toUpperCase() + roomData.type.slice(1);
+  const typeLabel = L(typeKey);
+  const capText = roomData.capacity ? ' — ' + roomData.capacity + ' places' : '';
+  document.getElementById('roomMeta').textContent = typeLabel + capText;
+  document.getElementById('timelineHeader').textContent = L('today');
+  document.getElementById('quickTitle').textContent = L('bookNow');
+  document.getElementById('quickName').placeholder = L('yourName');
+  document.getElementById('quickTitleInput').placeholder = L('titleOpt');
+  document.getElementById('quickSubmit').textContent = L('book');
+
+  // Date
+  const now = new Date();
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  document.getElementById('roomDate').textContent = now.toLocaleDateString(lang, opts);
+}
+
+// ── DATA FETCH ──
+async function fetchRooms() {
+  if (mode === 'local') {
+    const resp = await fetch('/api/rooms');
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/rooms?license_key=eq.' + encodeURIComponent(licenseKey) + '&order=display_order.asc',
+      { headers: supabaseHeaders() }
+    );
+    return resp.json();
+  }
+}
+
+async function fetchBookings(date) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings?date=' + date);
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?license_key=eq.' + encodeURIComponent(licenseKey) +
+      '&room_id=eq.' + encodeURIComponent(roomId) + '&date=eq.' + date + '&order=start_time.asc',
+      { headers: supabaseHeaders() }
+    );
+    return resp.json();
+  }
+}
+
+async function createBooking(data) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return resp.json();
+  } else {
+    const payload = { ...data, license_key: licenseKey };
+    const resp = await fetch(SUPABASE_URL + '/rest/v1/room_bookings', {
+      method: 'POST',
+      headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+      body: JSON.stringify(payload)
+    });
+    const rows = await resp.json();
+    return rows[0] || null;
+  }
+}
+
+function supabaseHeaders(extra) {
+  return {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json',
+    ...extra
+  };
+}
+
+// ── REFRESH ──
+async function refreshData() {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const all = await fetchBookings(today);
+    bookings = (all || []).filter(b => b.room_id === roomId);
+    bookings.sort((a, b) => (a.start_time || '').localeCompare(b.start_time || ''));
+  } catch (err) {
+    console.error('refreshData error:', err);
+  }
+  renderStatus();
+  renderTimeline();
+  renderQuickBooking();
+
+  // Update date
+  const now = new Date();
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  document.getElementById('roomDate').textContent = now.toLocaleDateString(lang, opts);
+}
+
+// ── RENDER STATUS ──
+function renderStatus() {
+  const banner = document.getElementById('statusBanner');
+  const label = document.getElementById('statusLabel');
+  const detail = document.getElementById('statusDetail');
+
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  // Find current booking
+  const current = bookings.find(b => {
+    const s = timeToMinutes(b.start_time);
+    const e = timeToMinutes(b.end_time);
+    return nowMins >= s && nowMins < e;
+  });
+
+  if (current) {
+    banner.className = 'status-banner occupe';
+    label.textContent = L('occupe');
+    const endLabel = (current.end_time || '').slice(0, 5);
+    const byLabel = current.booked_by ? ' — ' + current.booked_by : '';
+    detail.innerHTML = L('until') + ' <strong>' + endLabel + '</strong>' + byLabel;
+  } else {
+    banner.className = 'status-banner libre';
+    label.textContent = L('libre');
+    // Find next booking
+    const next = bookings.find(b => timeToMinutes(b.start_time) > nowMins);
+    if (next) {
+      const startLabel = (next.start_time || '').slice(0, 5);
+      detail.innerHTML = L('nextAt') + ' <strong>' + startLabel + '</strong>';
+    } else {
+      detail.textContent = '';
+    }
+  }
+}
+
+// ── RENDER TIMELINE ──
+function renderTimeline() {
+  const container = document.getElementById('timelineList');
+  if (!bookings.length) {
+    container.innerHTML = '<div class="timeline-empty">' + L('noBookings') + '</div>';
+    return;
+  }
+
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  container.innerHTML = bookings.map(bk => {
+    const s = timeToMinutes(bk.start_time);
+    const e = timeToMinutes(bk.end_time);
+    let cls = 'timeline-item';
+    if (nowMins >= s && nowMins < e) cls += ' current';
+    else if (nowMins >= e) cls += ' past';
+
+    const timeLabel = (bk.start_time || '').slice(0, 5) + ' – ' + (bk.end_time || '').slice(0, 5);
+    const srcClass = 'src-' + (bk.source || 'admin');
+
+    return '<div class="' + cls + '">' +
+      '<div class="timeline-time">' + timeLabel + '</div>' +
+      '<div class="timeline-info">' +
+        '<div class="timeline-title">' + esc(bk.title || '') + '</div>' +
+        (bk.booked_by ? '<div class="timeline-by">' + L('by') + ' ' + esc(bk.booked_by) + '</div>' : '') +
+      '</div>' +
+      '<div class="timeline-source ' + srcClass + '">' + (bk.source || 'admin') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── RENDER QUICK BOOKING ──
+function renderQuickBooking() {
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  const qb = document.getElementById('quickBooking');
+
+  // Only show if currently libre
+  const current = bookings.find(b => {
+    const s = timeToMinutes(b.start_time);
+    const e = timeToMinutes(b.end_time);
+    return nowMins >= s && nowMins < e;
+  });
+
+  if (current) {
+    qb.classList.add('hidden');
+  } else {
+    qb.classList.remove('hidden');
+    // Check max duration until next booking
+    const next = bookings.find(b => timeToMinutes(b.start_time) > nowMins);
+    const maxMins = next ? timeToMinutes(next.start_time) - nowMins : 120;
+
+    document.querySelectorAll('.dur-btn').forEach(btn => {
+      const dur = parseInt(btn.dataset.dur);
+      btn.disabled = dur > maxMins;
+      if (dur > maxMins && dur === selectedDuration) {
+        // Select largest valid
+        selectedDuration = [60, 45, 30, 15].find(d => d <= maxMins) || 15;
+      }
+    });
+    // Update selected state
+    document.querySelectorAll('.dur-btn').forEach(btn => {
+      btn.classList.toggle('selected', parseInt(btn.dataset.dur) === selectedDuration);
+    });
+  }
+}
+
+function selectDuration(mins) {
+  selectedDuration = mins;
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.dur) === mins);
+  });
+}
+
+async function submitQuickBooking() {
+  const name = document.getElementById('quickName').value.trim();
+  const title = document.getElementById('quickTitleInput').value.trim() || 'Reservation sur place';
+  const errEl = document.getElementById('quickError');
+
+  if (!name) {
+    errEl.textContent = L('errorName');
+    errEl.style.display = '';
+    return;
+  }
+
+  const now = new Date();
+  const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15; // Round up to next 15min
+  const endMins = startMins + selectedDuration;
+
+  const startTime = minutesToTime(startMins);
+  const endTime = minutesToTime(endMins);
+
+  // Overlap check
+  const overlap = bookings.find(b =>
+    timeToMinutes(b.start_time) < endMins && timeToMinutes(b.end_time) > startMins
+  );
+  if (overlap) {
+    errEl.textContent = L('errorOverlap');
+    errEl.style.display = '';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  document.getElementById('quickSubmit').disabled = true;
+
+  try {
+    await createBooking({
+      room_id: roomId,
+      date: now.toISOString().slice(0, 10),
+      start_time: startTime,
+      end_time: endTime,
+      title: title,
+      booked_by: name,
+      source: 'tablet'
+    });
+
+    // Clear fields
+    document.getElementById('quickName').value = '';
+    document.getElementById('quickTitleInput').value = '';
+
+    // Refresh immediately
+    await refreshData();
+  } catch (err) {
+    errEl.textContent = L('errorSave');
+    errEl.style.display = '';
+    console.error('submitQuickBooking error:', err);
+  }
+
+  document.getElementById('quickSubmit').disabled = false;
+}
+
+// ── KIOSK FULLSCREEN ──
+function enterFullscreen() {
+  if (!isKiosk) return;
+  const el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+}
+
+function onFullscreenChange() {
+  if (!isKiosk) return;
+  // Re-enter fullscreen if exited
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    setTimeout(enterFullscreen, 500);
+  }
+}
+
+// ── KIOSK UNLOCK ──
+function showUnlockOverlay() {
+  document.getElementById('unlockOverlay').classList.remove('hidden');
+  document.getElementById('unlockPassword').value = '';
+  document.getElementById('unlockPassword').focus();
+}
+
+function hideUnlockOverlay() {
+  document.getElementById('unlockOverlay').classList.add('hidden');
+}
+
+async function tryUnlock() {
+  const pw = document.getElementById('unlockPassword').value;
+  if (!pw) return;
+
+  try {
+    let ok = false;
+    if (mode === 'local') {
+      const resp = await fetch('/api/verify-god-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      });
+      const data = await resp.json();
+      ok = data.ok;
+    } else {
+      // Cloud: use license key as fallback unlock
+      ok = (pw === licenseKey);
+    }
+
+    if (ok) {
+      isKiosk = false;
+      hideUnlockOverlay();
+      // Exit fullscreen
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } else {
+      document.getElementById('unlockPassword').value = '';
+      document.getElementById('unlockPassword').style.borderColor = 'var(--nogo)';
+      setTimeout(() => { document.getElementById('unlockPassword').style.borderColor = ''; }, 1500);
+    }
+  } catch (err) {
+    console.error('tryUnlock error:', err);
+  }
+}
+
+// Enter on password field
+document.getElementById('unlockPassword').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+// ── UTILS ──
+function timeToMinutes(str) {
+  if (!str) return 0;
+  const p = str.split(':');
+  return parseInt(p[0]) * 60 + parseInt(p[1] || 0);
+}
+
+function minutesToTime(mins) {
+  return String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+// ── START ──
+init();
+</script>
+</body>
+</html>
