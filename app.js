@@ -87,6 +87,20 @@ const TRANSLATIONS = {
     'cfg.tabSections': 'Sections',
     'cfg.tabAppearance': 'Apparence',
     'cfg.tabClubDisplay': 'Contenu club',
+    'cfg.tabSystem': 'Système',
+    'cfg.system.languageTitle': 'Langue',
+    'cfg.system.passwordTitle': 'Mot de passe admin',
+    'cfg.system.currentPassword': 'Mot de passe actuel',
+    'cfg.system.newPassword': 'Nouveau mot de passe',
+    'cfg.system.confirmPassword': 'Confirmer',
+    'cfg.system.savePassword': 'Enregistrer le mot de passe',
+    'cfg.system.removePassword': 'Supprimer le mot de passe',
+    'cfg.system.passwordStatusSet': 'Un mot de passe admin est défini.',
+    'cfg.system.passwordStatusNone': 'Aucun mot de passe admin défini.',
+    'cfg.system.passwordOldIncorrect': 'Mot de passe actuel incorrect.',
+    'cfg.system.passwordNewRequired': 'Entrez un nouveau mot de passe.',
+    'cfg.system.passwordMismatch': 'Les mots de passe ne correspondent pas.',
+    'cfg.system.roomsTitle': 'Planification',
     // ── Aérodrome ──
     'cfg.station.icaoLabel': 'Code OACI ou nom',
     'cfg.station.searchPlaceholder': 'Rechercher un aérodrome...',
@@ -430,6 +444,20 @@ const TRANSLATIONS = {
     'cfg.tabSections': 'Bereiche',
     'cfg.tabAppearance': 'Aussehen',
     'cfg.tabClubDisplay': 'Club-Inhalte',
+    'cfg.tabSystem': 'System',
+    'cfg.system.languageTitle': 'Sprache',
+    'cfg.system.passwordTitle': 'Admin-Passwort',
+    'cfg.system.currentPassword': 'Aktuelles Passwort',
+    'cfg.system.newPassword': 'Neues Passwort',
+    'cfg.system.confirmPassword': 'Bestätigen',
+    'cfg.system.savePassword': 'Passwort speichern',
+    'cfg.system.removePassword': 'Passwort entfernen',
+    'cfg.system.passwordStatusSet': 'Ein Admin-Passwort ist gesetzt.',
+    'cfg.system.passwordStatusNone': 'Kein Admin-Passwort gesetzt.',
+    'cfg.system.passwordOldIncorrect': 'Aktuelles Passwort falsch.',
+    'cfg.system.passwordNewRequired': 'Bitte neues Passwort eingeben.',
+    'cfg.system.passwordMismatch': 'Passwörter stimmen nicht überein.',
+    'cfg.system.roomsTitle': 'Planung',
     'cfg.station.icaoLabel': 'ICAO-Code oder Name',
     'cfg.station.searchPlaceholder': 'Flugplatz suchen...',
     'cfg.station.displayName': 'Anzeigename',
@@ -757,6 +785,20 @@ const TRANSLATIONS = {
     'cfg.tabSections': 'Sezioni',
     'cfg.tabAppearance': 'Aspetto',
     'cfg.tabClubDisplay': 'Contenuto club',
+    'cfg.tabSystem': 'Sistema',
+    'cfg.system.languageTitle': 'Lingua',
+    'cfg.system.passwordTitle': 'Password admin',
+    'cfg.system.currentPassword': 'Password attuale',
+    'cfg.system.newPassword': 'Nuova password',
+    'cfg.system.confirmPassword': 'Conferma',
+    'cfg.system.savePassword': 'Salva password',
+    'cfg.system.removePassword': 'Rimuovi password',
+    'cfg.system.passwordStatusSet': 'Una password admin è impostata.',
+    'cfg.system.passwordStatusNone': 'Nessuna password admin impostata.',
+    'cfg.system.passwordOldIncorrect': 'Password attuale errata.',
+    'cfg.system.passwordNewRequired': 'Inserire una nuova password.',
+    'cfg.system.passwordMismatch': 'Le password non corrispondono.',
+    'cfg.system.roomsTitle': 'Pianificazione',
     'cfg.station.icaoLabel': 'Codice ICAO o nome',
     'cfg.station.searchPlaceholder': 'Cerca un aeroporto...',
     'cfg.station.displayName': 'Nome visualizzato',
@@ -1084,6 +1126,20 @@ const TRANSLATIONS = {
     'cfg.tabSections': 'Secciones',
     'cfg.tabAppearance': 'Apariencia',
     'cfg.tabClubDisplay': 'Contenido club',
+    'cfg.tabSystem': 'Sistema',
+    'cfg.system.languageTitle': 'Idioma',
+    'cfg.system.passwordTitle': 'Contraseña admin',
+    'cfg.system.currentPassword': 'Contraseña actual',
+    'cfg.system.newPassword': 'Nueva contraseña',
+    'cfg.system.confirmPassword': 'Confirmar',
+    'cfg.system.savePassword': 'Guardar contraseña',
+    'cfg.system.removePassword': 'Eliminar contraseña',
+    'cfg.system.passwordStatusSet': 'Se ha definido una contraseña admin.',
+    'cfg.system.passwordStatusNone': 'No se ha definido contraseña admin.',
+    'cfg.system.passwordOldIncorrect': 'Contraseña actual incorrecta.',
+    'cfg.system.passwordNewRequired': 'Introduzca una nueva contraseña.',
+    'cfg.system.passwordMismatch': 'Las contraseñas no coinciden.',
+    'cfg.system.roomsTitle': 'Planificación',
     'cfg.station.icaoLabel': 'Código OACI o nombre',
     'cfg.station.searchPlaceholder': 'Buscar un aeródromo...',
     'cfg.station.displayName': 'Nombre mostrado',
@@ -1411,6 +1467,20 @@ const TRANSLATIONS = {
     'cfg.tabSections': 'Sections',
     'cfg.tabAppearance': 'Appearance',
     'cfg.tabClubDisplay': 'Club content',
+    'cfg.tabSystem': 'System',
+    'cfg.system.languageTitle': 'Language',
+    'cfg.system.passwordTitle': 'Admin password',
+    'cfg.system.currentPassword': 'Current password',
+    'cfg.system.newPassword': 'New password',
+    'cfg.system.confirmPassword': 'Confirm',
+    'cfg.system.savePassword': 'Save password',
+    'cfg.system.removePassword': 'Remove password',
+    'cfg.system.passwordStatusSet': 'An admin password is set.',
+    'cfg.system.passwordStatusNone': 'No admin password set.',
+    'cfg.system.passwordOldIncorrect': 'Current password incorrect.',
+    'cfg.system.passwordNewRequired': 'Enter a new password.',
+    'cfg.system.passwordMismatch': 'Passwords do not match.',
+    'cfg.system.roomsTitle': 'Planning',
     'cfg.station.icaoLabel': 'ICAO code or name',
     'cfg.station.searchPlaceholder': 'Search an aerodrome...',
     'cfg.station.displayName': 'Display name',
@@ -3854,6 +3924,11 @@ function populateConfigTabs() {
   document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
   cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', c.clubDisplay?.defaultDuration ?? 15);
 
+  // -- Système --
+  document.getElementById('cfgLanguage').value = c.language || 'fr';
+  cfgPopulatePasswordStatus();
+  document.getElementById('cfgAutoBookBriefForSim').checked = c.rooms?.autoBookBriefForSim !== false;
+
   // -- God mode (si actif) --
   if (godModeActive) populateGodModeTab();
 }
@@ -3928,6 +4003,71 @@ function cfgCollectScreens() {
     displayIndex: parseInt(row.querySelector('.cfg-screen-display').value) || 0,
     view: row.querySelector('.cfg-screen-view').value || 'full'
   }));
+}
+
+// ── SYSTÈME : MOT DE PASSE ADMIN ──
+function cfgPopulatePasswordStatus() {
+  const hasPassword = !!fullConfig?.admin?.passwordHash;
+  const statusEl = document.getElementById('cfgPasswordStatus');
+  statusEl.textContent = hasPassword
+    ? (t('cfg.system.passwordStatusSet') || 'Un mot de passe admin est défini.')
+    : (t('cfg.system.passwordStatusNone') || 'Aucun mot de passe admin défini.');
+  document.getElementById('cfgOldPasswordGroup').style.display = hasPassword ? '' : 'none';
+  document.getElementById('cfgRemovePasswordBtn').style.display = hasPassword ? '' : 'none';
+  document.getElementById('cfgOldPassword').value = '';
+  document.getElementById('cfgNewPassword').value = '';
+  document.getElementById('cfgConfirmPassword').value = '';
+  document.getElementById('cfgPasswordError').style.display = 'none';
+}
+
+async function cfgSavePassword() {
+  const errEl = document.getElementById('cfgPasswordError');
+  errEl.style.display = 'none';
+  const hasPassword = !!fullConfig?.admin?.passwordHash;
+  const oldPw = document.getElementById('cfgOldPassword').value;
+  const newPw = document.getElementById('cfgNewPassword').value;
+  const confirmPw = document.getElementById('cfgConfirmPassword').value;
+
+  if (hasPassword) {
+    const ok = await verifyHashClient(oldPw, fullConfig.admin.passwordHash);
+    if (!ok) {
+      errEl.textContent = t('cfg.system.passwordOldIncorrect') || 'Mot de passe actuel incorrect.';
+      errEl.style.display = '';
+      return;
+    }
+  }
+  if (!newPw) {
+    errEl.textContent = t('cfg.system.passwordNewRequired') || 'Entrez un nouveau mot de passe.';
+    errEl.style.display = '';
+    return;
+  }
+  if (newPw !== confirmPw) {
+    errEl.textContent = t('cfg.system.passwordMismatch') || 'Les mots de passe ne correspondent pas.';
+    errEl.style.display = '';
+    return;
+  }
+  const hash = await hashPasswordClient(newPw);
+  if (!fullConfig.admin) fullConfig.admin = {};
+  fullConfig.admin.passwordHash = hash;
+  await saveConfig();
+  cfgPopulatePasswordStatus();
+}
+
+async function cfgRemovePassword() {
+  const errEl = document.getElementById('cfgPasswordError');
+  errEl.style.display = 'none';
+  const oldPw = document.getElementById('cfgOldPassword').value;
+  if (fullConfig?.admin?.passwordHash) {
+    const ok = await verifyHashClient(oldPw, fullConfig.admin.passwordHash);
+    if (!ok) {
+      errEl.textContent = t('cfg.system.passwordOldIncorrect') || 'Mot de passe actuel incorrect.';
+      errEl.style.display = '';
+      return;
+    }
+  }
+  fullConfig.admin.passwordHash = '';
+  await saveConfig();
+  cfgPopulatePasswordStatus();
 }
 
 // ── COLLECT CONFIG VALUES ──
@@ -4062,6 +4202,10 @@ function collectConfigValues() {
   // Thème écran salle
   if (!c.rooms) c.rooms = {};
   c.rooms.screenTheme = document.getElementById('cfgRoomScreenTheme').value || 'dark';
+  c.rooms.autoBookBriefForSim = document.getElementById('cfgAutoBookBriefForSim').checked;
+
+  // Langue
+  c.language = document.getElementById('cfgLanguage').value || 'fr';
 
   // God mode
   if (godModeActive) collectGodModeValues();
