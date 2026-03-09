@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>AeroKiosk — Salle</title>
 <style>
 :root {
@@ -772,7 +775,18 @@ async function startRoomDisplay() {
   if (pollTimer) clearInterval(pollTimer);
   pollTimer = setInterval(refreshData, POLL_INTERVAL);
 
-  document.addEventListener('click', enterFullscreen, { once: true });
+  // Auto fullscreen: show tap prompt, then go fullscreen on first interaction
+  if (!window.navigator.standalone) {
+    const tapOverlay = document.createElement('div');
+    tapOverlay.id = 'tapOverlay';
+    tapOverlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;cursor:pointer;';
+    tapOverlay.innerHTML = '<div style="text-align:center;color:#e2e8f0;font-size:1.5rem;">Touchez pour passer en plein ecran</div>';
+    document.body.appendChild(tapOverlay);
+    tapOverlay.addEventListener('click', () => {
+      tapOverlay.remove();
+      enterFullscreen();
+    }, { once: true });
+  }
   document.addEventListener('fullscreenchange', onFullscreenChange);
 }
 
