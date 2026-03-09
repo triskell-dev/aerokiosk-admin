@@ -11,6 +11,8 @@
 
 const TRANSLATIONS = {
   fr: {
+    'common.save': 'Enregistrer',
+    'common.cancel': 'Annuler',
     'pageTitle': 'AeroKiosk — Gestion affichage',
     'login.subtitle': 'Gestion de l\'affichage club',
     'login.licenseKey': 'Clé de licence',
@@ -339,6 +341,8 @@ const TRANSLATIONS = {
   },
 
   de: {
+    'common.save': 'Speichern',
+    'common.cancel': 'Abbrechen',
     'pageTitle': 'AeroKiosk — Anzeigeverwaltung',
     'login.subtitle': 'Club-Anzeige verwalten',
     'login.licenseKey': 'Lizenzschlüssel',
@@ -655,6 +659,8 @@ const TRANSLATIONS = {
   },
 
   it: {
+    'common.save': 'Salva',
+    'common.cancel': 'Annulla',
     'pageTitle': 'AeroKiosk — Gestione display',
     'login.subtitle': 'Gestione display del club',
     'login.licenseKey': 'Chiave di licenza',
@@ -971,6 +977,8 @@ const TRANSLATIONS = {
   },
 
   es: {
+    'common.save': 'Guardar',
+    'common.cancel': 'Cancelar',
     'pageTitle': 'AeroKiosk — Gestión de pantalla',
     'login.subtitle': 'Gestión de la pantalla del club',
     'login.licenseKey': 'Clave de licencia',
@@ -1287,6 +1295,8 @@ const TRANSLATIONS = {
   },
 
   en: {
+    'common.save': 'Save',
+    'common.cancel': 'Cancel',
     'pageTitle': 'AeroKiosk — Display management',
     'login.subtitle': 'Club display management',
     'login.licenseKey': 'License key',
