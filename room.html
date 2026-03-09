@@ -1148,24 +1148,24 @@ function renderQuickBooking() {
   const now = new Date();
   const nowMins = now.getHours() * 60 + now.getMinutes();
   const qb = document.getElementById('quickBooking');
+  const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15;
 
-  // Only show if currently libre
-  const current = bookings.find(b => {
+  // Occupied = any booking covering now OR starting at the next rounded slot
+  const occupied = bookings.find(b => {
     const s = timeToMinutes(b.start_time);
     const e = timeToMinutes(b.end_time);
-    return nowMins >= s && nowMins < e;
+    return (nowMins >= s && nowMins < e) || (s >= nowMins && s <= startMins);
   });
 
   const alertEl = document.getElementById('durAlert');
 
-  if (current) {
+  if (occupied) {
     qb.classList.add('hidden');
     alertEl.style.display = 'none';
   } else {
     qb.classList.remove('hidden');
     // Check max duration until next booking
-    const startMins = now.getHours() * 60 + Math.ceil(now.getMinutes() / 15) * 15;
-    const next = bookings.find(b => timeToMinutes(b.start_time) > startMins);
+    const next = bookings.find(b => timeToMinutes(b.start_time) >= startMins);
     const maxMins = next ? timeToMinutes(next.start_time) - startMins : 120;
 
     // Show alert if selected duration exceeds max
