@@ -709,7 +709,7 @@ async function setupLoadRooms() {
     document.getElementById('setupRoomStep').style.display = '';
     renderSetupRooms();
   } catch (err) {
-    console.error('[room.html] setupLoadRooms error:', err);
+    alert('ERROR: ' + err.message + '\n\nStack: ' + err.stack);
     errEl.textContent = L('setupKeyError') + ' — ' + err.message;
     errEl.style.display = '';
   }
@@ -815,11 +815,12 @@ async function fetchRooms() {
     const resp = await fetch('/api/rooms');
     return resp.json();
   } else {
-    const resp = await fetch(
-      SUPABASE_URL + '/rest/v1/rooms?license_key=eq.' + encodeURIComponent(licenseKey) + '&order=display_order.asc',
-      { headers: supabaseHeaders() }
-    );
-    return resp.json();
+    const url = SUPABASE_URL + '/rest/v1/rooms?license_key=eq.' + encodeURIComponent(licenseKey) + '&order=display_order.asc';
+    alert('FETCH URL: ' + url);
+    const resp = await fetch(url, { headers: supabaseHeaders() });
+    const text = await resp.text();
+    alert('RESPONSE ' + resp.status + ': ' + text.substring(0, 300));
+    return JSON.parse(text);
   }
 }
 
