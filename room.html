@@ -512,23 +512,23 @@ let isKiosk = true;
 // ── i18n ──
 const LABELS = {
   fr: {
-    libre: 'LIBRE', occupe: 'OCCUPE', today: "Aujourd'hui",
-    nextAt: 'Prochaine resa a', until: 'jusqu\'a', by: 'par',
-    bookNow: 'Reserver maintenant', yourName: 'Votre nom (obligatoire)',
-    titleOpt: 'Titre (optionnel)', book: 'Reserver',
-    noBookings: 'Aucune reservation aujourd\'hui',
+    libre: 'LIBRE', occupe: 'OCCUP\u00c9E', today: "Aujourd'hui",
+    nextAt: 'Prochaine r\u00e9sa \u00e0', until: 'jusqu\'\u00e0', by: 'par',
+    bookNow: 'R\u00e9server maintenant', yourName: 'Votre nom (obligatoire)',
+    titleOpt: 'Titre (optionnel)', book: 'R\u00e9server',
+    noBookings: 'Aucune r\u00e9servation aujourd\'hui',
     errorName: 'Le nom est obligatoire.',
-    errorOverlap: 'Chevauchement avec la reservation suivante.',
+    errorOverlap: 'Chevauchement avec la r\u00e9servation suivante.',
     errorSave: 'Erreur lors de l\'enregistrement.',
     admin: 'Mode administrateur', password: 'Mot de passe admin',
     ok: 'OK', cancel: 'Annuler', loading: 'Chargement...',
-    typeBriefing: 'Briefing', typeCours: 'Cours', typeRevisions: 'Revisions',
+    typeBriefing: 'Briefing', typeCours: 'Cours', typeRevisions: 'R\u00e9visions',
     typeVpt: 'VPT', typeAutre: 'Autre',
     setupTitle: 'Configuration de la tablette',
-    setupKey: 'Cle de licence',
+    setupKey: 'Cl\u00e9 de licence',
     setupNext: 'Suivant',
     setupPickRoom: 'Choisir la salle :',
-    setupKeyError: 'Cle invalide ou aucune salle trouvee.',
+    setupKeyError: 'Cl\u00e9 invalide ou aucune salle trouv\u00e9e.',
     changeRoom: 'Changer de salle'
   },
   en: {
@@ -615,9 +615,33 @@ const LABELS = {
 let lang = 'fr';
 function L(key) { return (LABELS[lang] || LABELS.fr)[key] || key; }
 
+// ── FETCH CLUB LANGUAGE ──
+async function fetchClubLanguage() {
+  try {
+    if (mode === 'local') {
+      const resp = await fetch('/api/config');
+      if (resp.ok) {
+        const cfg = await resp.json();
+        if (cfg.language && LABELS[cfg.language]) { lang = cfg.language; }
+      }
+    } else if (licenseKey) {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_config?license_key=eq.' + encodeURIComponent(licenseKey) + '&select=config',
+        { headers: supabaseHeaders() }
+      );
+      if (resp.ok) {
+        const rows = await resp.json();
+        if (rows.length && rows[0].config && rows[0].config.language && LABELS[rows[0].config.language]) {
+          lang = rows[0].config.language;
+        }
+      }
+    }
+  } catch (e) { /* keep current lang */ }
+}
+
 // ── INIT ──
 async function init() {
-  // Language
+  // Language: default from URL or browser, overridden later by club config
   const urlParams = new URLSearchParams(window.location.search);
   lang = urlParams.get('lang') || navigator.language.slice(0, 2) || 'fr';
   if (!LABELS[lang]) lang = 'fr';
@@ -645,9 +669,13 @@ async function init() {
   } else {
     // No room ID — show setup screen
     document.getElementById('loadingScreen').style.display = 'none';
+    await fetchClubLanguage();
     showSetupScreen();
     return;
   }
+
+  // Fetch club language before display
+  await fetchClubLanguage();
 
   await startRoomDisplay();
 }
@@ -699,6 +727,7 @@ async function setupLoadRooms() {
   errEl.style.display = 'none';
 
   try {
+    await fetchClubLanguage();
     const rooms = await fetchRooms();
     if (!rooms || !rooms.length) {
       errEl.textContent = L('setupKeyError');
