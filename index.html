@@ -820,6 +820,40 @@
             <option value="light" data-i18n="cfg.rooms.themeLight">Clair</option>
           </select>
         </div>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.rooms.gearupTitle">Connecteur GearUp</div>
+        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.rooms.gearupHint">Connecter AeroKiosk au logiciel de gestion école GearUp.</div>
+        <div class="form-group">
+          <label data-i18n="cfg.rooms.apiSource">Source des données</label>
+          <select class="form-select" id="cfgRoomsApiSource" onchange="cfgUpdateGearUpVisibility()">
+            <option value="" data-i18n="cfg.rooms.sourceNone">Aucune (saisie manuelle)</option>
+            <option value="gearup" data-i18n="cfg.rooms.sourceGearup">GearUp</option>
+          </select>
+        </div>
+        <div id="cfgGearUpGroup" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="cfg.rooms.apiEndpoint">URL du serveur GearUp</label>
+            <input type="text" class="form-input" id="cfgRoomsApiEndpoint" placeholder="https://gearup.example.com" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.rooms.apiKey">Clé API</label>
+            <input type="text" class="form-input" id="cfgRoomsApiKey" autocomplete="off" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.rooms.pollInterval">Fréquence de polling (secondes)</label>
+            <input type="number" class="form-input" id="cfgRoomsPollSec" min="30" max="600" step="30" value="300" style="width:120px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:12px;">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.rooms.briefingMinutes">Briefing par défaut (min)</label>
+            <input type="number" class="form-input" id="cfgRoomsBriefMin" min="5" max="60" step="5" value="30" style="width:80px;">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.rooms.debriefingMinutes">Débriefing par défaut (min)</label>
+            <input type="number" class="form-input" id="cfgRoomsDebriefMin" min="0" max="60" step="5" value="15" style="width:80px;">
+          </div>
+        </div>
       </div>
 
       <!-- ======== PANNEAU : Contenu club ======== -->

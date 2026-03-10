@@ -282,6 +282,16 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Th\u00e8me de la page salle affich\u00e9e sur tablette.',
     'cfg.rooms.themeDark': 'Sombre',
     'cfg.rooms.themeLight': 'Clair',
+    'cfg.rooms.gearupTitle': 'Connecteur GearUp',
+    'cfg.rooms.gearupHint': 'Connecter AeroKiosk au logiciel de gestion ecole GearUp.',
+    'cfg.rooms.apiSource': 'Source des donnees',
+    'cfg.rooms.sourceNone': 'Aucune (saisie manuelle)',
+    'cfg.rooms.sourceGearup': 'GearUp',
+    'cfg.rooms.apiEndpoint': 'URL du serveur GearUp',
+    'cfg.rooms.apiKey': 'Cle API',
+    'cfg.rooms.pollInterval': 'Frequence de polling (secondes)',
+    'cfg.rooms.briefingMinutes': 'Briefing par defaut (min)',
+    'cfg.rooms.debriefingMinutes': 'Debriefing par defaut (min)',
     'rooms.add': 'Ajouter une salle',
     'rooms.edit': 'Modifier la salle',
     'rooms.empty': 'Aucune salle configuree.',
@@ -641,6 +651,16 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Farbschema der Raumseite auf dem Tablet.',
     'cfg.rooms.themeDark': 'Dunkel',
     'cfg.rooms.themeLight': 'Hell',
+    'cfg.rooms.gearupTitle': 'GearUp-Verbindung',
+    'cfg.rooms.gearupHint': 'AeroKiosk mit der Flugschulverwaltung GearUp verbinden.',
+    'cfg.rooms.apiSource': 'Datenquelle',
+    'cfg.rooms.sourceNone': 'Keine (manuelle Eingabe)',
+    'cfg.rooms.sourceGearup': 'GearUp',
+    'cfg.rooms.apiEndpoint': 'GearUp-Server-URL',
+    'cfg.rooms.apiKey': 'API-Schlüssel',
+    'cfg.rooms.pollInterval': 'Abfrageintervall (Sekunden)',
+    'cfg.rooms.briefingMinutes': 'Briefing Standard (Min)',
+    'cfg.rooms.debriefingMinutes': 'Debriefing Standard (Min)',
     'rooms.add': 'Raum hinzufügen',
     'rooms.edit': 'Raum bearbeiten',
     'rooms.empty': 'Keine Räume konfiguriert.',
@@ -993,6 +1013,16 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Tema della pagina sala visualizzata sul tablet.',
     'cfg.rooms.themeDark': 'Scuro',
     'cfg.rooms.themeLight': 'Chiaro',
+    'cfg.rooms.gearupTitle': 'Connettore GearUp',
+    'cfg.rooms.gearupHint': 'Collegare AeroKiosk al software di gestione scuola GearUp.',
+    'cfg.rooms.apiSource': 'Fonte dati',
+    'cfg.rooms.sourceNone': 'Nessuna (inserimento manuale)',
+    'cfg.rooms.sourceGearup': 'GearUp',
+    'cfg.rooms.apiEndpoint': 'URL server GearUp',
+    'cfg.rooms.apiKey': 'Chiave API',
+    'cfg.rooms.pollInterval': 'Intervallo di polling (secondi)',
+    'cfg.rooms.briefingMinutes': 'Briefing predefinito (min)',
+    'cfg.rooms.debriefingMinutes': 'Debriefing predefinito (min)',
     'rooms.add': 'Aggiungi sala',
     'rooms.edit': 'Modifica sala',
     'rooms.empty': 'Nessuna sala configurata.',
@@ -1345,6 +1375,16 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Tema de la p\u00e1gina de sala en la tableta.',
     'cfg.rooms.themeDark': 'Oscuro',
     'cfg.rooms.themeLight': 'Claro',
+    'cfg.rooms.gearupTitle': 'Conector GearUp',
+    'cfg.rooms.gearupHint': 'Conectar AeroKiosk al software de gestión escuela GearUp.',
+    'cfg.rooms.apiSource': 'Fuente de datos',
+    'cfg.rooms.sourceNone': 'Ninguna (entrada manual)',
+    'cfg.rooms.sourceGearup': 'GearUp',
+    'cfg.rooms.apiEndpoint': 'URL servidor GearUp',
+    'cfg.rooms.apiKey': 'Clave API',
+    'cfg.rooms.pollInterval': 'Intervalo de sondeo (segundos)',
+    'cfg.rooms.briefingMinutes': 'Briefing por defecto (min)',
+    'cfg.rooms.debriefingMinutes': 'Debriefing por defecto (min)',
     'rooms.add': 'Añadir sala',
     'rooms.edit': 'Modificar sala',
     'rooms.empty': 'Ninguna sala configurada.',
@@ -1697,6 +1737,16 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Theme of the room page displayed on tablet.',
     'cfg.rooms.themeDark': 'Dark',
     'cfg.rooms.themeLight': 'Light',
+    'cfg.rooms.gearupTitle': 'GearUp Connector',
+    'cfg.rooms.gearupHint': 'Connect AeroKiosk to GearUp flight school management software.',
+    'cfg.rooms.apiSource': 'Data source',
+    'cfg.rooms.sourceNone': 'None (manual entry)',
+    'cfg.rooms.sourceGearup': 'GearUp',
+    'cfg.rooms.apiEndpoint': 'GearUp server URL',
+    'cfg.rooms.apiKey': 'API key',
+    'cfg.rooms.pollInterval': 'Polling interval (seconds)',
+    'cfg.rooms.briefingMinutes': 'Default briefing (min)',
+    'cfg.rooms.debriefingMinutes': 'Default debriefing (min)',
     'rooms.add': 'Add a room',
     'rooms.edit': 'Edit room',
     'rooms.empty': 'No rooms configured.',
@@ -4050,6 +4100,15 @@ function populateConfigTabs() {
   // -- Thème écran salle --
   document.getElementById('cfgRoomScreenTheme').value = c.rooms?.screenTheme || 'dark';
 
+  // -- Connecteur GearUp --
+  document.getElementById('cfgRoomsApiSource').value = c.rooms?.apiSource || '';
+  document.getElementById('cfgRoomsApiEndpoint').value = c.rooms?.apiEndpoint || '';
+  document.getElementById('cfgRoomsApiKey').value = c.rooms?.apiKey || '';
+  document.getElementById('cfgRoomsPollSec').value = Math.round((c.rooms?.pollIntervalMs || 300000) / 1000);
+  document.getElementById('cfgRoomsBriefMin').value = c.rooms?.defaultBriefingMinutes || 30;
+  document.getElementById('cfgRoomsDebriefMin').value = c.rooms?.defaultDebriefingMinutes ?? 15;
+  cfgUpdateGearUpVisibility();
+
   // -- Contenu club --
   document.getElementById('cfgClubEnabled').checked = c.clubDisplay?.enabled !== false;
   document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
@@ -4212,6 +4271,12 @@ async function cfgSaveAutoBookBrief() {
   await saveConfig();
 }
 
+// ── GEARUP VISIBILITY ──
+function cfgUpdateGearUpVisibility() {
+  const isGearUp = document.getElementById('cfgRoomsApiSource').value === 'gearup';
+  document.getElementById('cfgGearUpGroup').style.display = isGearUp ? '' : 'none';
+}
+
 // ── COLLECT CONFIG VALUES ──
 function collectConfigValues() {
   if (!fullConfig) return;
@@ -4342,10 +4407,16 @@ function collectConfigValues() {
   c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
   c.layout = c.screens[0]?.view === 'map' ? 'mapOnly' : 'full';
 
-  // Thème écran salle
+  // Thème écran salle + connecteur GearUp
   if (!c.rooms) c.rooms = {};
   c.rooms.screenTheme = document.getElementById('cfgRoomScreenTheme').value || 'dark';
   c.rooms.autoBookBriefForSim = document.getElementById('cfgAutoBookBriefForSim').checked;
+  c.rooms.apiSource = document.getElementById('cfgRoomsApiSource').value || '';
+  c.rooms.apiEndpoint = document.getElementById('cfgRoomsApiEndpoint').value.trim();
+  c.rooms.apiKey = document.getElementById('cfgRoomsApiKey').value.trim();
+  c.rooms.pollIntervalMs = parseInt(document.getElementById('cfgRoomsPollSec').value) * 1000 || 300000;
+  c.rooms.defaultBriefingMinutes = parseInt(document.getElementById('cfgRoomsBriefMin').value) || 30;
+  c.rooms.defaultDebriefingMinutes = parseInt(document.getElementById('cfgRoomsDebriefMin').value) ?? 15;
 
   // Langue
   c.language = document.getElementById('cfgLanguage').value || 'fr';
