@@ -256,11 +256,8 @@ const TRANSLATIONS = {
     'cfg.screens.hint': 'Configurez l\'affichage de chaque écran. Les options non personnalisées héritent de la configuration globale.',
     'cfg.screens.add': 'Ajouter un écran',
     'cfg.screens.screen': 'Écran',
-    'cfg.screens.content': 'Contenu',
-    'cfg.screens.contentMap': 'Carte',
-    'cfg.screens.contentPlanning': 'Planning',
-    'cfg.screens.contentBriefing': 'Briefing',
-    'cfg.screens.contentNone': 'Aucun',
+    'cfg.screens.showMap': 'Carte',
+    'cfg.screens.showPlanning': 'Planning',
     'cfg.screens.sidebar': 'Sidebar',
     'cfg.screens.fleet': 'Flotte',
     'cfg.screens.clubDisplay': 'Contenu club',
@@ -629,11 +626,8 @@ const TRANSLATIONS = {
     'cfg.screens.hint': 'Konfigurieren Sie die Anzeige jedes Bildschirms. Nicht gesetzte Optionen erben von den globalen Einstellungen.',
     'cfg.screens.add': 'Bildschirm hinzufügen',
     'cfg.screens.screen': 'Bildschirm',
-    'cfg.screens.content': 'Inhalt',
-    'cfg.screens.contentMap': 'Karte',
-    'cfg.screens.contentPlanning': 'Planung',
-    'cfg.screens.contentBriefing': 'Briefing',
-    'cfg.screens.contentNone': 'Keiner',
+    'cfg.screens.showMap': 'Karte',
+    'cfg.screens.showPlanning': 'Planung',
     'cfg.screens.sidebar': 'Sidebar',
     'cfg.screens.fleet': 'Flotte',
     'cfg.screens.clubDisplay': 'Club-Inhalte',
@@ -993,11 +987,8 @@ const TRANSLATIONS = {
     'cfg.screens.hint': 'Configura la visualizzazione di ogni schermo. Le opzioni non impostate ereditano dalle impostazioni globali.',
     'cfg.screens.add': 'Aggiungi schermo',
     'cfg.screens.screen': 'Schermo',
-    'cfg.screens.content': 'Contenuto',
-    'cfg.screens.contentMap': 'Mappa',
-    'cfg.screens.contentPlanning': 'Pianificazione',
-    'cfg.screens.contentBriefing': 'Briefing',
-    'cfg.screens.contentNone': 'Nessuno',
+    'cfg.screens.showMap': 'Mappa',
+    'cfg.screens.showPlanning': 'Pianificazione',
     'cfg.screens.sidebar': 'Sidebar',
     'cfg.screens.fleet': 'Flotta',
     'cfg.screens.clubDisplay': 'Contenuto club',
@@ -1357,11 +1348,8 @@ const TRANSLATIONS = {
     'cfg.screens.hint': 'Configure la visualización de cada pantalla. Las opciones no configuradas heredan de la configuración global.',
     'cfg.screens.add': 'Añadir pantalla',
     'cfg.screens.screen': 'Pantalla',
-    'cfg.screens.content': 'Contenido',
-    'cfg.screens.contentMap': 'Mapa',
-    'cfg.screens.contentPlanning': 'Planificación',
-    'cfg.screens.contentBriefing': 'Briefing',
-    'cfg.screens.contentNone': 'Ninguno',
+    'cfg.screens.showMap': 'Mapa',
+    'cfg.screens.showPlanning': 'Planificación',
     'cfg.screens.sidebar': 'Sidebar',
     'cfg.screens.fleet': 'Flota',
     'cfg.screens.clubDisplay': 'Contenido club',
@@ -1721,11 +1709,8 @@ const TRANSLATIONS = {
     'cfg.screens.hint': 'Configure each screen\'s display. Unset options inherit from global settings.',
     'cfg.screens.add': 'Add a screen',
     'cfg.screens.screen': 'Screen',
-    'cfg.screens.content': 'Content',
-    'cfg.screens.contentMap': 'Map',
-    'cfg.screens.contentPlanning': 'Planning',
-    'cfg.screens.contentBriefing': 'Briefing',
-    'cfg.screens.contentNone': 'None',
+    'cfg.screens.showMap': 'Map',
+    'cfg.screens.showPlanning': 'Planning',
     'cfg.screens.sidebar': 'Sidebar',
     'cfg.screens.fleet': 'Fleet',
     'cfg.screens.clubDisplay': 'Club content',
@@ -4156,13 +4141,13 @@ function cfgGetSectionLabels() {
 
 function cfgPopulateScreenList() {
   const c = fullConfig;
-  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0, content: 'map', showSidebar: true }];
+  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0, showMap: true, showSidebar: true }];
   const container = document.getElementById('cfgScreenList');
   container.innerHTML = '';
   screens.forEach((scr, i) => cfgAddScreenRow(container, scr));
 
   document.getElementById('cfgBtnAddScreen').onclick = () => {
-    cfgAddScreenRow(container, { displayIndex: container.children.length, content: 'map', showSidebar: true });
+    cfgAddScreenRow(container, { displayIndex: container.children.length, showMap: true, showSidebar: true });
   };
 }
 
@@ -4193,44 +4178,16 @@ function cfgAddScreenRow(container, scr) {
   removeBtn.onclick = () => {
     row.remove();
     if (container.children.length === 0) {
-      cfgAddScreenRow(container, { displayIndex: 0, content: 'map', showSidebar: true });
+      cfgAddScreenRow(container, { displayIndex: 0, showMap: true, showSidebar: true });
     }
   };
 
   line1.appendChild(displaySel);
   line1.appendChild(removeBtn);
 
-  // ── Ligne 2 : dropdown contenu ──
+  // ── Ligne 2 : toggles carte / planning / sidebar / flotte / club ──
   const line2 = document.createElement('div');
-  line2.style.cssText = 'display:flex; gap:8px; align-items:center; margin-bottom:8px;';
-
-  const contentLabel = document.createElement('span');
-  contentLabel.textContent = t('cfg.screens.content') || 'Contenu';
-  contentLabel.style.cssText = 'font-size:12px; color:var(--text-dim); min-width:70px;';
-
-  const contentSel = document.createElement('select');
-  contentSel.className = 'form-select cfg-screen-content';
-  contentSel.style.flex = '1';
-  const currentContent = scr.content || (scr.view || 'map');
-  [
-    { value: 'map', label: t('cfg.screens.contentMap') || 'Carte' },
-    { value: 'planning', label: t('cfg.screens.contentPlanning') || 'Planning' },
-    { value: 'briefing', label: t('cfg.screens.contentBriefing') || 'Briefing' },
-    { value: 'none', label: t('cfg.screens.contentNone') || 'Aucun' }
-  ].forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v.value;
-    opt.textContent = v.label;
-    if (v.value === currentContent) opt.selected = true;
-    contentSel.appendChild(opt);
-  });
-
-  line2.appendChild(contentLabel);
-  line2.appendChild(contentSel);
-
-  // ── Ligne 3 : toggles sidebar / flotte / club ──
-  const line3 = document.createElement('div');
-  line3.style.cssText = 'display:flex; gap:16px; align-items:center; flex-wrap:wrap;';
+  line2.style.cssText = 'display:flex; gap:16px; align-items:center; flex-wrap:wrap;';
 
   function makeToggle(labelText, checked, cls) {
     const wrap = document.createElement('label');
@@ -4247,19 +4204,25 @@ function cfgAddScreenRow(container, scr) {
   }
 
   const globalSections = c.sections || {};
+  const mapChecked = scr.showMap !== false;
+  const planningChecked = scr.showPlanning === true;
   const sidebarChecked = scr.showSidebar !== false;
   const fleetChecked = scr.fleet !== undefined ? scr.fleet : (c.fleet?.enabled !== false);
   const clubChecked = scr.clubDisplay !== undefined ? scr.clubDisplay : (c.clubDisplay?.enabled !== false);
 
+  const mapTgl = makeToggle(t('cfg.screens.showMap') || 'Carte', mapChecked, 'cfg-screen-map');
+  const planningTgl = makeToggle(t('cfg.screens.showPlanning') || 'Planning', planningChecked, 'cfg-screen-planning');
   const sidebarTgl = makeToggle(t('cfg.screens.sidebar') || 'Sidebar', sidebarChecked, 'cfg-screen-sidebar');
   const fleetTgl = makeToggle(t('cfg.screens.fleet') || 'Flotte', fleetChecked, 'cfg-screen-fleet');
   const clubTgl = makeToggle(t('cfg.screens.clubDisplay') || 'Contenu club', clubChecked, 'cfg-screen-club');
 
-  line3.appendChild(sidebarTgl.wrap);
-  line3.appendChild(fleetTgl.wrap);
-  line3.appendChild(clubTgl.wrap);
+  line2.appendChild(mapTgl.wrap);
+  line2.appendChild(planningTgl.wrap);
+  line2.appendChild(sidebarTgl.wrap);
+  line2.appendChild(fleetTgl.wrap);
+  line2.appendChild(clubTgl.wrap);
 
-  // ── Ligne 4 : sections sidebar (visible si sidebar activée) ──
+  // ── Ligne 3 : sections sidebar (visible si sidebar activée) ──
   const sectionsWrap = document.createElement('div');
   sectionsWrap.className = 'cfg-screen-sections-wrap';
   sectionsWrap.style.cssText = 'margin-top:8px; padding:6px 8px; border:1px solid var(--border-color, #333); border-radius:4px; background:rgba(255,255,255,0.03);' + (sidebarChecked ? '' : ' display:none;');
@@ -4290,7 +4253,6 @@ function cfgAddScreenRow(container, scr) {
 
   row.appendChild(line1);
   row.appendChild(line2);
-  row.appendChild(line3);
   row.appendChild(sectionsWrap);
   container.appendChild(row);
 }
@@ -4303,13 +4265,15 @@ function cfgCollectScreens() {
 
   return Array.from(document.getElementById('cfgScreenList').children).map(row => {
     const displayIndex = parseInt(row.querySelector('.cfg-screen-display').value) || 0;
-    const content = row.querySelector('.cfg-screen-content').value || 'map';
+    const showMap = row.querySelector('.cfg-screen-map').checked;
+    const showPlanning = row.querySelector('.cfg-screen-planning').checked;
     const showSidebar = row.querySelector('.cfg-screen-sidebar').checked;
     const fleet = row.querySelector('.cfg-screen-fleet').checked;
     const clubDisplay = row.querySelector('.cfg-screen-club').checked;
 
-    const result = { displayIndex, content, showSidebar };
+    const result = { displayIndex, showMap, showSidebar };
 
+    if (showPlanning) result.showPlanning = true;
     if (fleet !== globalFleet) result.fleet = fleet;
     if (clubDisplay !== globalClub) result.clubDisplay = clubDisplay;
 
@@ -4534,7 +4498,7 @@ function collectConfigValues() {
   if (!c.kiosk) c.kiosk = {};
   c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
   const s0 = c.screens[0];
-  c.layout = (s0?.content === 'map' && s0?.showSidebar === false) ? 'mapOnly' : 'full';
+  c.layout = (s0?.showMap && s0?.showSidebar === false) ? 'mapOnly' : 'full';
 
   // Thème écran salle + connecteur GearUp
   if (!c.rooms) c.rooms = {};
