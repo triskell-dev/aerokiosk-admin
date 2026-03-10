@@ -252,8 +252,10 @@ const TRANSLATIONS = {
     'cfg.appearance.logoNight': 'Logo nuit',
     'cfg.appearance.chooseLogo': 'Choisir...',
     // ── Écrans ──
-    'cfg.screens.title': 'Écrans',
-    'cfg.screens.hint': 'Configurez l\'affichage de chaque écran. Les options non personnalisées héritent de la configuration globale.',
+    'cfg.screens.mainDisplay': 'Écran principal',
+    'cfg.screens.mainHint': 'L\'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).',
+    'cfg.screens.title': 'Écrans supplémentaires',
+    'cfg.screens.hint': 'Configurez l\'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.',
     'cfg.screens.add': 'Ajouter un écran',
     'cfg.screens.screen': 'Écran',
     'cfg.screens.showMap': 'Carte',
@@ -622,8 +624,10 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo Tag',
     'cfg.appearance.logoNight': 'Logo Nacht',
     'cfg.appearance.chooseLogo': 'Auswählen...',
-    'cfg.screens.title': 'Bildschirme',
-    'cfg.screens.hint': 'Konfigurieren Sie die Anzeige jedes Bildschirms. Nicht gesetzte Optionen erben von den globalen Einstellungen.',
+    'cfg.screens.mainDisplay': 'Hauptbildschirm',
+    'cfg.screens.mainHint': 'Der Hauptbildschirm verwendet die globale Konfiguration (Sektionen, Karte, Sidebar, etc.).',
+    'cfg.screens.title': 'Zusätzliche Bildschirme',
+    'cfg.screens.hint': 'Konfigurieren Sie die Anzeige jedes zusätzlichen Bildschirms. Nicht gesetzte Optionen erben von den globalen Einstellungen.',
     'cfg.screens.add': 'Bildschirm hinzufügen',
     'cfg.screens.screen': 'Bildschirm',
     'cfg.screens.showMap': 'Karte',
@@ -983,8 +987,10 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo giorno',
     'cfg.appearance.logoNight': 'Logo notte',
     'cfg.appearance.chooseLogo': 'Scegli...',
-    'cfg.screens.title': 'Schermi',
-    'cfg.screens.hint': 'Configura la visualizzazione di ogni schermo. Le opzioni non impostate ereditano dalle impostazioni globali.',
+    'cfg.screens.mainDisplay': 'Schermo principale',
+    'cfg.screens.mainHint': 'Lo schermo principale utilizza la configurazione globale (sezioni, mappa, sidebar, ecc.).',
+    'cfg.screens.title': 'Schermi aggiuntivi',
+    'cfg.screens.hint': 'Configura la visualizzazione di ogni schermo aggiuntivo. Le opzioni non impostate ereditano dalle impostazioni globali.',
     'cfg.screens.add': 'Aggiungi schermo',
     'cfg.screens.screen': 'Schermo',
     'cfg.screens.showMap': 'Mappa',
@@ -1344,8 +1350,10 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Logo día',
     'cfg.appearance.logoNight': 'Logo noche',
     'cfg.appearance.chooseLogo': 'Elegir...',
-    'cfg.screens.title': 'Pantallas',
-    'cfg.screens.hint': 'Configure la visualización de cada pantalla. Las opciones no configuradas heredan de la configuración global.',
+    'cfg.screens.mainDisplay': 'Pantalla principal',
+    'cfg.screens.mainHint': 'La pantalla principal utiliza la configuración global (secciones, mapa, sidebar, etc.).',
+    'cfg.screens.title': 'Pantallas adicionales',
+    'cfg.screens.hint': 'Configure la visualización de cada pantalla adicional. Las opciones no configuradas heredan de la configuración global.',
     'cfg.screens.add': 'Añadir pantalla',
     'cfg.screens.screen': 'Pantalla',
     'cfg.screens.showMap': 'Mapa',
@@ -1705,8 +1713,10 @@ const TRANSLATIONS = {
     'cfg.appearance.logoDay': 'Day logo',
     'cfg.appearance.logoNight': 'Night logo',
     'cfg.appearance.chooseLogo': 'Choose...',
-    'cfg.screens.title': 'Screens',
-    'cfg.screens.hint': 'Configure each screen\'s display. Unset options inherit from global settings.',
+    'cfg.screens.mainDisplay': 'Main display',
+    'cfg.screens.mainHint': 'The main display uses the global configuration (sections, map, sidebar, etc.).',
+    'cfg.screens.title': 'Additional screens',
+    'cfg.screens.hint': 'Configure each additional screen\'s display. Unset options inherit from global settings.',
     'cfg.screens.add': 'Add a screen',
     'cfg.screens.screen': 'Screen',
     'cfg.screens.showMap': 'Map',
@@ -4141,13 +4151,28 @@ function cfgGetSectionLabels() {
 
 function cfgPopulateScreenList() {
   const c = fullConfig;
-  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0, showMap: true, showSidebar: true }];
+  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0 }];
+
+  // Sélecteur écran principal (screens[0])
+  const mainSel = document.getElementById('cfgMainDisplay');
+  if (mainSel) {
+    mainSel.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${t('cfg.screens.screen') || 'Écran'} ${i + 1}`;
+      if (i === (screens[0]?.displayIndex || 0)) opt.selected = true;
+      mainSel.appendChild(opt);
+    }
+  }
+
+  // Écrans supplémentaires (screens[1+])
   const container = document.getElementById('cfgScreenList');
   container.innerHTML = '';
-  screens.forEach((scr, i) => cfgAddScreenRow(container, scr));
+  screens.slice(1).forEach((scr, i) => cfgAddScreenRow(container, scr));
 
   document.getElementById('cfgBtnAddScreen').onclick = () => {
-    cfgAddScreenRow(container, { displayIndex: container.children.length, showMap: true, showSidebar: true });
+    cfgAddScreenRow(container, { displayIndex: container.children.length + 1, showMap: true, showSidebar: true });
   };
 }
 
@@ -4177,9 +4202,6 @@ function cfgAddScreenRow(container, scr) {
   removeBtn.style.cssText = 'padding:4px 8px; cursor:pointer; border:none; color:var(--text-dim);';
   removeBtn.onclick = () => {
     row.remove();
-    if (container.children.length === 0) {
-      cfgAddScreenRow(container, { displayIndex: 0, showMap: true, showSidebar: true });
-    }
   };
 
   line1.appendChild(displaySel);
@@ -4263,7 +4285,12 @@ function cfgCollectScreens() {
   const globalFleet = c.fleet?.enabled !== false;
   const globalClub = c.clubDisplay?.enabled !== false;
 
-  return Array.from(document.getElementById('cfgScreenList').children).map(row => {
+  // screens[0] = écran principal (juste displayIndex)
+  const mainSel = document.getElementById('cfgMainDisplay');
+  const mainScreen = { displayIndex: parseInt(mainSel?.value || 0) };
+
+  // screens[1+] = écrans supplémentaires
+  const additionalScreens = Array.from(document.getElementById('cfgScreenList').children).map(row => {
     const displayIndex = parseInt(row.querySelector('.cfg-screen-display').value) || 0;
     const showMap = row.querySelector('.cfg-screen-map').checked;
     const showPlanning = row.querySelector('.cfg-screen-planning').checked;
@@ -4288,6 +4315,8 @@ function cfgCollectScreens() {
 
     return result;
   });
+
+  return [mainScreen, ...additionalScreens];
 }
 
 // ── SYSTÈME : MOT DE PASSE ADMIN ──
