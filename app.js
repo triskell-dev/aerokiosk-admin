@@ -170,7 +170,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapAuto': 'Fond auto jour/nuit',
     'cfg.maps.basemapDay': 'Fond de jour',
     'cfg.maps.basemapNight': 'Fond de nuit',
-    'cfg.maps.basemapBrightness': 'Luminosité fond de carte',
+    'cfg.maps.basemapBrightnessDay': 'Luminosité jour',
+    'cfg.maps.basemapBrightnessNight': 'Luminosité nuit',
     'cfg.maps.weatherIntensityDark': 'Intensité couches météo (fond sombre)',
     'cfg.maps.weatherIntensityLight': 'Intensité couches météo (fond clair)',
     'cfg.maps.airportsOnMap': 'Terrains sur la carte',
@@ -524,7 +525,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapAuto': 'Auto Tag/Nacht',
     'cfg.maps.basemapDay': 'Tagkarte',
     'cfg.maps.basemapNight': 'Nachtkarte',
-    'cfg.maps.basemapBrightness': 'Kartenhelligkeit',
+    'cfg.maps.basemapBrightnessDay': 'Helligkeit Tag',
+    'cfg.maps.basemapBrightnessNight': 'Helligkeit Nacht',
     'cfg.maps.weatherIntensityDark': 'Wetterlagen-Intensität (dunkle Karte)',
     'cfg.maps.weatherIntensityLight': 'Wetterlagen-Intensität (helle Karte)',
     'cfg.maps.airportsOnMap': 'Flugplätze auf der Karte',
@@ -865,7 +867,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapAuto': 'Auto giorno/notte',
     'cfg.maps.basemapDay': 'Mappa diurna',
     'cfg.maps.basemapNight': 'Mappa notturna',
-    'cfg.maps.basemapBrightness': 'Luminosità mappa di base',
+    'cfg.maps.basemapBrightnessDay': 'Luminosità giorno',
+    'cfg.maps.basemapBrightnessNight': 'Luminosità notte',
     'cfg.maps.weatherIntensityDark': 'Intensità strati meteo (sfondo scuro)',
     'cfg.maps.weatherIntensityLight': 'Intensità strati meteo (sfondo chiaro)',
     'cfg.maps.airportsOnMap': 'Aeroporti sulla mappa',
@@ -1206,7 +1209,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapAuto': 'Auto día/noche',
     'cfg.maps.basemapDay': 'Mapa diurno',
     'cfg.maps.basemapNight': 'Mapa nocturno',
-    'cfg.maps.basemapBrightness': 'Brillo del mapa base',
+    'cfg.maps.basemapBrightnessDay': 'Brillo de día',
+    'cfg.maps.basemapBrightnessNight': 'Brillo de noche',
     'cfg.maps.weatherIntensityDark': 'Intensidad capas meteorológicas (fondo oscuro)',
     'cfg.maps.weatherIntensityLight': 'Intensidad capas meteorológicas (fondo claro)',
     'cfg.maps.airportsOnMap': 'Aeródromos en el mapa',
@@ -1547,7 +1551,8 @@ const TRANSLATIONS = {
     'cfg.maps.basemapAuto': 'Auto day/night',
     'cfg.maps.basemapDay': 'Day map',
     'cfg.maps.basemapNight': 'Night map',
-    'cfg.maps.basemapBrightness': 'Base map brightness',
+    'cfg.maps.basemapBrightnessDay': 'Day brightness',
+    'cfg.maps.basemapBrightnessNight': 'Night brightness',
     'cfg.maps.weatherIntensityDark': 'Weather layer intensity (dark base)',
     'cfg.maps.weatherIntensityLight': 'Weather layer intensity (light base)',
     'cfg.maps.airportsOnMap': 'Airports on map',
@@ -3867,7 +3872,8 @@ function populateConfigTabs() {
   document.getElementById('cfgMapBasemapNight').value = c.maps?.basemapNight || 'dark';
   cfgToggleBasemapAuto();
   document.getElementById('cfgMapAirports').value = c.maps?.airportDisplay || 'none';
-  cfgSetSlider('cfgMapBrightness', 'cfgMapBrightnessVal', c.maps?.basemapBrightness ?? 52);
+  cfgSetSlider('cfgMapBrightnessDay', 'cfgMapBrightnessDayVal', c.maps?.basemapBrightnessDay ?? c.maps?.basemapBrightness ?? 52);
+  cfgSetSlider('cfgMapBrightnessNight', 'cfgMapBrightnessNightVal', c.maps?.basemapBrightnessNight ?? 37);
   cfgSetSlider('cfgWeatherDark', 'cfgWeatherDarkVal', c.maps?.weatherIntensityDark ?? 250);
   cfgSetSlider('cfgWeatherLight', 'cfgWeatherLightVal', c.maps?.weatherIntensityLight ?? 90);
   cfgSetSlider('cfgMapZoom', 'cfgMapZoomVal', c.maps?.zoom ?? 7);
@@ -4139,7 +4145,8 @@ function collectConfigValues() {
   c.maps.basemapDay = document.getElementById('cfgMapBasemapDay').value;
   c.maps.basemapNight = document.getElementById('cfgMapBasemapNight').value;
   c.maps.airportDisplay = document.getElementById('cfgMapAirports').value;
-  c.maps.basemapBrightness = parseInt(document.getElementById('cfgMapBrightness').value) || 52;
+  c.maps.basemapBrightnessDay = parseInt(document.getElementById('cfgMapBrightnessDay').value) || 52;
+  c.maps.basemapBrightnessNight = parseInt(document.getElementById('cfgMapBrightnessNight').value) || 37;
   c.maps.weatherIntensityDark = parseInt(document.getElementById('cfgWeatherDark').value) || 250;
   c.maps.weatherIntensityLight = parseInt(document.getElementById('cfgWeatherLight').value) || 90;
   c.maps.zoom = parseFloat(document.getElementById('cfgMapZoom').value) || 7;
@@ -4602,7 +4609,8 @@ document.addEventListener('DOMContentLoaded', () => {
   cfgBindSlider('cfgMapOffLat', 'cfgMapOffLatVal');
   cfgBindSlider('cfgMapOffLon', 'cfgMapOffLonVal');
   cfgBindSlider('cfgRotation', 'cfgRotationVal');
-  cfgBindSlider('cfgMapBrightness', 'cfgMapBrightnessVal');
+  cfgBindSlider('cfgMapBrightnessDay', 'cfgMapBrightnessDayVal');
+  cfgBindSlider('cfgMapBrightnessNight', 'cfgMapBrightnessNightVal');
   cfgBindSlider('cfgWeatherDark', 'cfgWeatherDarkVal');
   cfgBindSlider('cfgWeatherLight', 'cfgWeatherLightVal');
   cfgBindSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal');

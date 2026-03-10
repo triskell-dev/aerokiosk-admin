@@ -580,9 +580,15 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label><span data-i18n="cfg.maps.basemapBrightness">Luminosité fond de carte</span> <span class="slider-value" id="cfgMapBrightnessVal">52</span>%</label>
-          <input type="range" class="form-range" id="cfgMapBrightness" min="30" max="100" step="1" value="52">
+        <div class="form-row" style="display:flex; gap:16px;">
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="cfg.maps.basemapBrightnessDay">Luminosité jour</span> <span class="slider-value" id="cfgMapBrightnessDayVal">52</span>%</label>
+            <input type="range" class="form-range" id="cfgMapBrightnessDay" min="30" max="100" step="1" value="52">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label><span data-i18n="cfg.maps.basemapBrightnessNight">Luminosité nuit</span> <span class="slider-value" id="cfgMapBrightnessNightVal">37</span>%</label>
+            <input type="range" class="form-range" id="cfgMapBrightnessNight" min="20" max="100" step="1" value="37">
+          </div>
         </div>
         <div class="form-group">
           <label><span data-i18n="cfg.maps.weatherIntensityDark">Intensité couches météo (fond sombre)</span> <span class="cfg-slider-value" id="cfgWeatherDarkVal">250</span>%</label>
