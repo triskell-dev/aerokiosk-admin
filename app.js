@@ -5188,6 +5188,8 @@ function populateGodModeTab() {
   document.getElementById('cfgFr24Settings').style.display = fr24.enabled ? '' : 'none';
   cfgSetSlider('cfgFr24Refresh', 'cfgFr24RefreshVal', fr24.refreshSeconds || 30, 's');
   updateLightningButton();
+  // Charger la liste des licences
+  loadLicenseList();
 }
 
 function collectGodModeValues() {
@@ -5196,6 +5198,141 @@ function collectGodModeValues() {
   if (!fullConfig.godMode.fr24) fullConfig.godMode.fr24 = {};
   fullConfig.godMode.fr24.enabled = document.getElementById('cfgFr24Enabled').checked;
   fullConfig.godMode.fr24.refreshSeconds = parseInt(document.getElementById('cfgFr24Refresh').value, 10) || 30;
+}
+
+// ── LICENCES (God Mode) ──
+
+async function createLicenseGod() {
+  const icao = (document.getElementById('cfgLicIcao').value || '').trim().toUpperCase();
+  const duration = parseInt(document.getElementById('cfgLicDuration').value, 10) || 365;
+  const label = (document.getElementById('cfgLicLabel').value || '').trim();
+  const btn = document.getElementById('cfgLicCreate');
+  const resultBox = document.getElementById('cfgLicResult');
+
+  btn.disabled = true;
+  btn.textContent = 'Création...';
+  resultBox.style.display = 'none';
+
+  try {
+    const resp = await fetch(SUPABASE_URL + '/rest/v1/rpc/create_license', {
+      method: 'POST',
+      headers: supabaseHeaders(),
+      body: JSON.stringify({
+        p_icao: icao,
+        p_duration_days: duration,
+        p_max_devices: 3,
+        p_label: label
+      })
+    });
+
+    if (!resp.ok) {
+      const errText = await resp.text();
+      throw new Error(errText);
+    }
+
+    const result = await resp.json();
+    document.getElementById('cfgLicResultKey').textContent = result.key;
+    const expDate = new Date(result.expires_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('cfgLicResultInfo').textContent =
+      (result.icao ? result.icao + ' — ' : '') +
+      result.duration_days + ' jours — expire le ' + expDate +
+      (result.label ? ' — ' + result.label : '');
+    resultBox.style.display = '';
+
+    // Rafraîchir la liste
+    loadLicenseList();
+  } catch (e) {
+    alert('Erreur création licence : ' + e.message);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Créer la licence';
+}
+
+function copyLicenseKey() {
+  const key = document.getElementById('cfgLicResultKey').textContent;
+  navigator.clipboard.writeText(key).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copié !';
+    setTimeout(() => { btn.textContent = 'Copier'; }, 1500);
+  }).catch(() => {});
+}
+
+async function loadLicenseList() {
+  const container = document.getElementById('cfgLicList');
+  try {
+    const resp = await fetch(SUPABASE_URL + '/rest/v1/rpc/list_licenses', {
+      method: 'POST',
+      headers: supabaseHeaders(),
+      body: '{}'
+    });
+
+    if (!resp.ok) {
+      container.innerHTML = '<div style="color:#f87171; font-size:12px;">Erreur chargement licences. Vérifiez que les RPC Supabase sont créées (voir scripts/supabase-license-rpc.sql).</div>';
+      return;
+    }
+
+    const licenses = await resp.json();
+
+    if (!licenses || licenses.length === 0) {
+      container.innerHTML = '<div style="color:#64748b; font-size:12px;">Aucune licence.</div>';
+      return;
+    }
+
+    let html = '<table style="width:100%; border-collapse:collapse; font-size:12px;">';
+    html += '<tr style="color:#94a3b8; text-align:left; border-bottom:1px solid #1e293b;">' +
+      '<th style="padding:6px 8px;">Clé</th>' +
+      '<th style="padding:6px 8px;">OACI</th>' +
+      '<th style="padding:6px 8px;">Label</th>' +
+      '<th style="padding:6px 8px;">Expire</th>' +
+      '<th style="padding:6px 8px;">Appareils</th>' +
+      '<th style="padding:6px 8px;">Statut</th>' +
+      '<th style="padding:6px 8px;"></th>' +
+      '</tr>';
+
+    for (const lic of licenses) {
+      const exp = new Date(lic.expires_at);
+      const isExpired = exp < new Date();
+      const isActive = lic.active && !isExpired;
+      const statusColor = isActive ? '#22c55e' : '#f87171';
+      const statusText = !lic.active ? 'Révoquée' : isExpired ? 'Expirée' : 'Active';
+      const expStr = exp.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      html += '<tr style="border-bottom:1px solid #1e293b;">' +
+        '<td style="padding:6px 8px;"><code style="font-size:11px; letter-spacing:0.5px;">' + lic.key + '</code></td>' +
+        '<td style="padding:6px 8px; font-weight:600;">' + (lic.icao || '—') + '</td>' +
+        '<td style="padding:6px 8px; color:#94a3b8;">' + (lic.label || '—') + '</td>' +
+        '<td style="padding:6px 8px;">' + expStr + '</td>' +
+        '<td style="padding:6px 8px;">' + lic.device_count + '/' + lic.max_devices + '</td>' +
+        '<td style="padding:6px 8px; color:' + statusColor + '; font-weight:600;">' + statusText + '</td>' +
+        '<td style="padding:6px 8px;">' +
+          (isActive ? '<button class="btn-cancel" style="font-size:10px; padding:2px 8px;" onclick="revokeLicenseGod(\'' + lic.key + '\')">Révoquer</button>' : '') +
+        '</td>' +
+        '</tr>';
+    }
+
+    html += '</table>';
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = '<div style="color:#f87171; font-size:12px;">Erreur : ' + e.message + '</div>';
+  }
+}
+
+async function revokeLicenseGod(key) {
+  if (!confirm('Révoquer la licence ' + key + ' ? L\'app repassera en mode démo.')) return;
+
+  try {
+    const resp = await fetch(SUPABASE_URL + '/rest/v1/rpc/revoke_license', {
+      method: 'POST',
+      headers: supabaseHeaders(),
+      body: JSON.stringify({ p_key: key })
+    });
+
+    if (!resp.ok) throw new Error(await resp.text());
+    loadLicenseList();
+  } catch (e) {
+    alert('Erreur révocation : ' + e.message);
+  }
 }
 
 // ── AUTO-INIT ──
