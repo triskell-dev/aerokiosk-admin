@@ -780,6 +780,60 @@ body {
 }
 .mel-remove:hover { color: var(--danger); }
 
+/* ── PARTICIPANT ROWS (booking modal) ── */
+.participant-row {
+  display: flex; gap: 8px; margin-bottom: 8px;
+  align-items: center;
+}
+.participant-row input {
+  flex: 1; padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px; font-family: inherit;
+  outline: none;
+}
+.participant-row select {
+  width: 130px; padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px; font-family: inherit;
+  outline: none;
+}
+.participant-row input:focus,
+.participant-row select:focus { border-color: var(--accent); }
+.participant-remove {
+  background: none; border: none;
+  color: var(--text-dim); font-size: 16px;
+  cursor: pointer; padding: 4px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.participant-remove:hover { color: var(--danger); }
+.btn-small {
+  font-size: 12px; padding: 4px 10px;
+  margin-top: 4px;
+}
+
+/* ── STUDENT ROWS (flight modal) ── */
+.student-row {
+  display: flex; gap: 8px; margin-bottom: 8px;
+  align-items: center;
+}
+.student-row input {
+  flex: 1; padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px; font-family: inherit;
+  outline: none;
+}
+.student-row input:focus { border-color: var(--accent); }
+
 /* ── ROOMS SUB-TABS ── */
 .rooms-subtabs {
   display: flex; gap: 4px;

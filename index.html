@@ -225,6 +225,7 @@
                 <th data-i18n="flights.end">Fin</th>
                 <th data-i18n="flights.pilot">Pilote</th>
                 <th data-i18n="flights.instructor">Instructeur</th>
+                <th data-i18n="flights.students">Stagiaires</th>
                 <th data-i18n="flights.type">Type</th>
                 <th></th>
               </tr>
@@ -266,6 +267,11 @@
       <div class="form-group">
         <label data-i18n="flights.instructor">Instructeur</label>
         <input type="text" class="form-input" id="flightInstructor" placeholder="(optionnel)">
+      </div>
+      <div class="form-group">
+        <label data-i18n="flights.students">Stagiaires</label>
+        <div id="flightStudents"></div>
+        <button type="button" class="btn-ghost btn-small" onclick="addStudentRow()" data-i18n="flights.addStudent">+ Ajouter un stagiaire</button>
       </div>
       <div class="form-group">
         <label data-i18n="flights.type">Type de vol</label>
@@ -312,6 +318,11 @@
       <div class="form-group">
         <label data-i18n="booking.bookedBy">Reserve par</label>
         <input type="text" class="form-input" id="bookingBy" placeholder="Nom" data-i18n-placeholder="booking.byPlaceholder">
+      </div>
+      <div class="form-group">
+        <label data-i18n="booking.participants">Participants</label>
+        <div id="bookingParticipants"></div>
+        <button type="button" class="btn-ghost btn-small" onclick="addParticipantRow()" data-i18n="booking.addParticipant">+ Ajouter un participant</button>
       </div>
       <div class="booking-error" id="bookingError" style="display:none;"></div>
       <div class="modal-actions">

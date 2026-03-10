@@ -166,6 +166,10 @@ html, body {
   font-size: clamp(12px, 2.2vw, 16px);
   color: var(--text-dim);
 }
+.timeline-role {
+  font-size: clamp(10px, 1.8vw, 13px);
+  opacity: 0.7;
+}
 .timeline-source {
   font-size: 10px;
   font-weight: 700;
@@ -303,8 +307,62 @@ html, body {
   font-family: inherit;
   outline: none;
 }
-.quick-fields input:focus { border-color: var(--accent); }
+.quick-fields input:focus, .quick-fields select:focus { border-color: var(--accent); }
 .quick-fields input::placeholder { color: var(--text-dim); }
+.quick-role-select {
+  width: 100%;
+  padding: clamp(10px, 2vw, 14px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participants {
+  margin-bottom: 8px;
+}
+.quick-participant-row {
+  display: flex; gap: 8px; margin-bottom: 6px;
+  align-items: center;
+}
+.quick-participant-row input {
+  flex: 1;
+  padding: clamp(8px, 1.5vw, 12px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(13px, 2vw, 16px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participant-row select {
+  width: 120px;
+  padding: clamp(8px, 1.5vw, 12px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(13px, 2vw, 16px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participant-row button {
+  background: none; border: none;
+  color: var(--text-dim); font-size: 20px;
+  cursor: pointer; padding: 4px;
+}
+.quick-participant-row button:hover { color: var(--nogo); }
+.quick-add-participant {
+  background: none; border: none;
+  color: var(--accent); font-size: clamp(13px, 2vw, 15px);
+  cursor: pointer; padding: 4px 0;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+.quick-add-participant:hover { text-decoration: underline; }
 .quick-error {
   color: var(--nogo);
   font-size: 13px;
@@ -600,8 +658,16 @@ html, body {
     </div>
     <div class="quick-fields">
       <input type="text" id="quickName" placeholder="Votre nom (obligatoire)" autocomplete="off">
+      <select id="quickRole" class="quick-role-select">
+        <option value="instructeur">Instructeur</option>
+        <option value="stagiaire" selected>Stagiaire</option>
+        <option value="examinateur">Examinateur</option>
+        <option value="autre">Autre</option>
+      </select>
       <input type="text" id="quickTitleInput" placeholder="Titre (optionnel)">
     </div>
+    <div id="quickParticipants" class="quick-participants"></div>
+    <button type="button" class="quick-add-participant" onclick="addQuickParticipant()">+ Participant</button>
     <div class="quick-error" id="quickError"></div>
     <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Réserver</button>
   </div>
@@ -702,7 +768,13 @@ const LABELS = {
     editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but.",
     pwaHint: "Pour un mode kiosque, ajoutez cette page \u00e0 l'\u00e9cran d'accueil (Partager \u25b6 Sur l'\u00e9cran d'accueil)",
     nightActive: 'NUIT A\u00c9RONAUTIQUE EN COURS',
-    nightWarning: 'NUIT A\u00c9RO DANS {0} MIN'
+    nightWarning: 'NUIT A\u00c9RO DANS {0} MIN',
+    participantName: 'Nom',
+    addParticipant: '+ Participant',
+    role_instructeur: 'Instructeur',
+    role_stagiaire: 'Stagiaire',
+    role_examinateur: 'Examinateur',
+    role_autre: 'Autre'
   },
   en: {
     libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
@@ -734,7 +806,13 @@ const LABELS = {
     editErrorTime: 'End time must be after start time.',
     pwaHint: 'For kiosk mode, add this page to home screen (Share \u25b6 Add to Home Screen)',
     nightActive: 'AERONAUTICAL NIGHT IN PROGRESS',
-    nightWarning: 'AERO NIGHT IN {0} MIN'
+    nightWarning: 'AERO NIGHT IN {0} MIN',
+    participantName: 'Name',
+    addParticipant: '+ Participant',
+    role_instructeur: 'Instructor',
+    role_stagiaire: 'Student',
+    role_examinateur: 'Examiner',
+    role_autre: 'Other'
   },
   de: {
     libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
@@ -766,7 +844,13 @@ const LABELS = {
     editErrorTime: 'Endzeit muss nach Startzeit liegen.',
     pwaHint: 'F\u00fcr Kiosk-Modus: Seite zum Startbildschirm hinzuf\u00fcgen (Teilen \u25b6 Zum Home-Bildschirm)',
     nightActive: 'LUFTFAHRT-NACHT AKTIV',
-    nightWarning: 'LUFTFAHRT-NACHT IN {0} MIN'
+    nightWarning: 'LUFTFAHRT-NACHT IN {0} MIN',
+    participantName: 'Name',
+    addParticipant: '+ Teilnehmer',
+    role_instructeur: 'Fluglehrer',
+    role_stagiaire: 'Flugsch\u00fcler',
+    role_examinateur: 'Pr\u00fcfer',
+    role_autre: 'Andere'
   },
   it: {
     libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
@@ -798,7 +882,13 @@ const LABELS = {
     editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio.",
     pwaHint: "Per modalit\u00e0 kiosk, aggiungi alla schermata iniziale (Condividi \u25b6 Aggiungi alla Home)",
     nightActive: 'NOTTE AERONAUTICA IN CORSO',
-    nightWarning: 'NOTTE AERO TRA {0} MIN'
+    nightWarning: 'NOTTE AERO TRA {0} MIN',
+    participantName: 'Nome',
+    addParticipant: '+ Partecipante',
+    role_instructeur: 'Istruttore',
+    role_stagiaire: 'Allievo',
+    role_examinateur: 'Esaminatore',
+    role_autre: 'Altro'
   },
   es: {
     libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
@@ -830,7 +920,13 @@ const LABELS = {
     editErrorTime: 'La hora de fin debe ser posterior a la de inicio.',
     pwaHint: 'Para modo kiosko, a\u00f1ade esta p\u00e1gina a la pantalla de inicio (Compartir \u25b6 A\u00f1adir a inicio)',
     nightActive: 'NOCHE AERON\u00c1UTICA EN CURSO',
-    nightWarning: 'NOCHE AERO EN {0} MIN'
+    nightWarning: 'NOCHE AERO EN {0} MIN',
+    participantName: 'Nombre',
+    addParticipant: '+ Participante',
+    role_instructeur: 'Instructor',
+    role_stagiaire: 'Alumno',
+    role_examinateur: 'Examinador',
+    role_autre: 'Otro'
   }
 };
 let lang = 'fr';
@@ -1221,11 +1317,21 @@ function renderTimeline() {
         '</div>'
       : '';
 
+    // Participants display
+    let byLine = '';
+    if (Array.isArray(bk.participants) && bk.participants.length) {
+      byLine = '<div class="timeline-by">' + bk.participants.map(p =>
+        esc(p.name) + ' <span class="timeline-role">(' + esc(L('role_' + p.role) || p.role) + ')</span>'
+      ).join(', ') + '</div>';
+    } else if (bk.booked_by) {
+      byLine = '<div class="timeline-by">' + L('by') + ' ' + esc(bk.booked_by) + '</div>';
+    }
+
     return '<div class="' + cls + '">' +
       '<div class="timeline-time">' + timeLabel + '</div>' +
       '<div class="timeline-info">' +
         '<div class="timeline-title">' + esc(bk.title || '') + '</div>' +
-        (bk.booked_by ? '<div class="timeline-by">' + L('by') + ' ' + esc(bk.booked_by) + '</div>' : '') +
+        byLine +
       '</div>' +
       '<div class="timeline-source ' + srcClass + '">' + (bk.source || 'admin') + '</div>' +
       actions +
@@ -1323,6 +1429,22 @@ function selectDuration(mins) {
   });
 }
 
+function addQuickParticipant() {
+  const container = document.getElementById('quickParticipants');
+  const row = document.createElement('div');
+  row.className = 'quick-participant-row';
+  row.innerHTML =
+    '<input type="text" placeholder="' + (L('participantName') || 'Nom') + '" autocomplete="off">' +
+    '<select>' +
+      '<option value="instructeur">' + (L('role_instructeur') || 'Instructeur') + '</option>' +
+      '<option value="stagiaire" selected>' + (L('role_stagiaire') || 'Stagiaire') + '</option>' +
+      '<option value="examinateur">' + (L('role_examinateur') || 'Examinateur') + '</option>' +
+      '<option value="autre">' + (L('role_autre') || 'Autre') + '</option>' +
+    '</select>' +
+    '<button onclick="this.parentElement.remove()">&times;</button>';
+  container.appendChild(row);
+}
+
 async function submitQuickBooking() {
   const name = document.getElementById('quickName').value.trim();
   const title = document.getElementById('quickTitleInput').value.trim() || '';
@@ -1352,6 +1474,15 @@ async function submitQuickBooking() {
   errEl.style.display = 'none';
   document.getElementById('quickSubmit').disabled = true;
 
+  // Collect participants
+  const mainRole = document.getElementById('quickRole').value;
+  const participants = [{ name: name, role: mainRole }];
+  document.querySelectorAll('#quickParticipants .quick-participant-row').forEach(row => {
+    const pName = row.querySelector('input').value.trim();
+    const pRole = row.querySelector('select').value;
+    if (pName) participants.push({ name: pName, role: pRole });
+  });
+
   try {
     await createBooking({
       room_id: roomId,
@@ -1360,11 +1491,13 @@ async function submitQuickBooking() {
       end_time: endTime,
       title: title,
       booked_by: name,
+      participants: participants,
       source: 'tablet'
     });
 
     document.getElementById('quickName').value = '';
     document.getElementById('quickTitleInput').value = '';
+    document.getElementById('quickParticipants').innerHTML = '';
     await refreshData();
   } catch (err) {
     errEl.textContent = L('errorSave');

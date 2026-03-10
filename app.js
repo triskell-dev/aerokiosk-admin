@@ -333,6 +333,13 @@ const TRANSLATIONS = {
     'booking.errorEndBeforeStart': 'L\'heure de fin doit etre apres le debut.',
     'booking.errorOverlap': 'Ce creneau chevauche une reservation existante.',
     'booking.errorSave': 'Erreur lors de l\'enregistrement.',
+    'booking.participants': 'Participants',
+    'booking.addParticipant': '+ Ajouter un participant',
+    'booking.participantName': 'Nom',
+    'booking.roleInstructor': 'Instructeur',
+    'booking.roleStudent': 'Stagiaire',
+    'booking.roleExaminer': 'Examinateur',
+    'booking.roleOther': 'Autre',
     'rooms.tabFlights': 'Vols',
     'flights.add': 'Ajouter un vol',
     'flights.edit': 'Modifier le vol',
@@ -342,6 +349,9 @@ const TRANSLATIONS = {
     'flights.end': 'Fin',
     'flights.pilot': 'Pilote',
     'flights.instructor': 'Instructeur',
+    'flights.students': 'Stagiaires',
+    'flights.addStudent': '+ Ajouter un stagiaire',
+    'flights.studentName': 'Nom du stagiaire',
     'flights.type': 'Type de vol',
     'flights.confirmDelete': 'Supprimer ce vol ?',
     'flights.errorRequired': 'Immatriculation, horaires et pilote requis.',
@@ -675,6 +685,13 @@ const TRANSLATIONS = {
     'booking.errorEndBeforeStart': 'Die Endzeit muss nach der Startzeit liegen.',
     'booking.errorOverlap': 'Dieser Zeitraum überschneidet sich mit einer bestehenden Reservierung.',
     'booking.errorSave': 'Fehler beim Speichern.',
+    'booking.participants': 'Teilnehmer',
+    'booking.addParticipant': '+ Teilnehmer hinzufügen',
+    'booking.participantName': 'Name',
+    'booking.roleInstructor': 'Fluglehrer',
+    'booking.roleStudent': 'Flugschüler',
+    'booking.roleExaminer': 'Prüfer',
+    'booking.roleOther': 'Andere',
     'rooms.tabFlights': 'Flüge',
     'flights.add': 'Flug hinzufügen',
     'flights.edit': 'Flug bearbeiten',
@@ -684,6 +701,9 @@ const TRANSLATIONS = {
     'flights.end': 'Ende',
     'flights.pilot': 'Pilot',
     'flights.instructor': 'Fluglehrer',
+    'flights.students': 'Flugschüler',
+    'flights.addStudent': '+ Flugschüler hinzufügen',
+    'flights.studentName': 'Name des Flugschülers',
     'flights.type': 'Flugart',
     'flights.confirmDelete': 'Diesen Flug löschen?',
     'flights.errorRequired': 'Kennzeichen, Zeiten und Pilot sind erforderlich.',
@@ -1017,6 +1037,13 @@ const TRANSLATIONS = {
     'booking.errorEndBeforeStart': 'L\'orario di fine deve essere dopo l\'inizio.',
     'booking.errorOverlap': 'Questo orario si sovrappone a una prenotazione esistente.',
     'booking.errorSave': 'Errore durante il salvataggio.',
+    'booking.participants': 'Partecipanti',
+    'booking.addParticipant': '+ Aggiungi partecipante',
+    'booking.participantName': 'Nome',
+    'booking.roleInstructor': 'Istruttore',
+    'booking.roleStudent': 'Allievo',
+    'booking.roleExaminer': 'Esaminatore',
+    'booking.roleOther': 'Altro',
     'rooms.tabFlights': 'Voli',
     'flights.add': 'Aggiungi volo',
     'flights.edit': 'Modifica volo',
@@ -1026,6 +1053,9 @@ const TRANSLATIONS = {
     'flights.end': 'Fine',
     'flights.pilot': 'Pilota',
     'flights.instructor': 'Istruttore',
+    'flights.students': 'Allievi',
+    'flights.addStudent': '+ Aggiungi allievo',
+    'flights.studentName': 'Nome dell\'allievo',
     'flights.type': 'Tipo di volo',
     'flights.confirmDelete': 'Eliminare questo volo?',
     'flights.errorRequired': 'Immatricolazione, orari e pilota sono obbligatori.',
@@ -1359,6 +1389,13 @@ const TRANSLATIONS = {
     'booking.errorEndBeforeStart': 'La hora de fin debe ser posterior al inicio.',
     'booking.errorOverlap': 'Este horario se solapa con una reserva existente.',
     'booking.errorSave': 'Error al guardar.',
+    'booking.participants': 'Participantes',
+    'booking.addParticipant': '+ Añadir participante',
+    'booking.participantName': 'Nombre',
+    'booking.roleInstructor': 'Instructor',
+    'booking.roleStudent': 'Alumno',
+    'booking.roleExaminer': 'Examinador',
+    'booking.roleOther': 'Otro',
     'rooms.tabFlights': 'Vuelos',
     'flights.add': 'Añadir vuelo',
     'flights.edit': 'Modificar vuelo',
@@ -1368,6 +1405,9 @@ const TRANSLATIONS = {
     'flights.end': 'Fin',
     'flights.pilot': 'Piloto',
     'flights.instructor': 'Instructor',
+    'flights.students': 'Alumnos',
+    'flights.addStudent': '+ Añadir alumno',
+    'flights.studentName': 'Nombre del alumno',
     'flights.type': 'Tipo de vuelo',
     'flights.confirmDelete': '¿Eliminar este vuelo?',
     'flights.errorRequired': 'Matrícula, horarios y piloto son obligatorios.',
@@ -1701,6 +1741,13 @@ const TRANSLATIONS = {
     'booking.errorEndBeforeStart': 'End time must be after start time.',
     'booking.errorOverlap': 'This slot overlaps with an existing booking.',
     'booking.errorSave': 'Error saving booking.',
+    'booking.participants': 'Participants',
+    'booking.addParticipant': '+ Add participant',
+    'booking.participantName': 'Name',
+    'booking.roleInstructor': 'Instructor',
+    'booking.roleStudent': 'Student',
+    'booking.roleExaminer': 'Examiner',
+    'booking.roleOther': 'Other',
     'rooms.tabFlights': 'Flights',
     'flights.add': 'Add flight',
     'flights.edit': 'Edit flight',
@@ -1710,6 +1757,9 @@ const TRANSLATIONS = {
     'flights.end': 'End',
     'flights.pilot': 'Pilot',
     'flights.instructor': 'Instructor',
+    'flights.students': 'Students',
+    'flights.addStudent': '+ Add student',
+    'flights.studentName': 'Student name',
     'flights.type': 'Flight type',
     'flights.confirmDelete': 'Delete this flight?',
     'flights.errorRequired': 'Registration, times and pilot are required.',
@@ -3383,12 +3433,17 @@ function renderPlanning() {
       const leftPx = Math.max(0, (startMins / 15) * SLOT_WIDTH);
       const widthPx = ((endMins - Math.max(0, startMins)) / 15) * SLOT_WIDTH;
       const sourceClass = 'source-' + (bk.source || 'admin');
-      const titleAttr = escHtml(bk.title || '') + (bk.booked_by ? ' — ' + escHtml(bk.booked_by) : '');
-      const timeLabel = (bk.start_time || '').slice(0, 5) + '–' + (bk.end_time || '').slice(0, 5);
+      const partNames = Array.isArray(bk.participants) && bk.participants.length
+        ? bk.participants.map(p => p.name).join(', ')
+        : (bk.booked_by || '');
+      const titleAttr = escHtml(bk.title || '') + (partNames ? ' \u2014 ' + escHtml(partNames) : '');
+      const timeLabel = (bk.start_time || '').slice(0, 5) + '\u2013' + (bk.end_time || '').slice(0, 5);
 
       html += `<div class="planning-block ${sourceClass}" data-booking-id="${bk.id}" style="left:${leftPx}px;width:${widthPx}px;" title="${titleAttr}">`;
       html += `<span class="planning-block-time">${timeLabel}</span>`;
-      html += `<span class="planning-block-title">${escHtml(bk.title || '')}</span>`;
+      html += `<span class="planning-block-title">${escHtml(bk.title || '')}`;
+      if (partNames) html += ` <span style="opacity:0.6;font-size:10px;">${escHtml(partNames)}</span>`;
+      html += `</span>`;
       html += '</div>';
     });
 
@@ -3476,6 +3531,13 @@ function openBookingModal(booking, roomId, startTime) {
     document.getElementById('bookingBy').value = '';
   }
 
+  // Populate participants
+  const partContainer = document.getElementById('bookingParticipants');
+  partContainer.innerHTML = '';
+  if (booking && Array.isArray(booking.participants) && booking.participants.length) {
+    booking.participants.forEach(p => addParticipantRow(p.name, p.role));
+  }
+
   // Show/hide delete button
   document.getElementById('bookingDeleteBtn').style.display = booking ? '' : 'none';
 
@@ -3488,6 +3550,57 @@ function openBookingModal(booking, roomId, startTime) {
 function closeBookingModal() {
   document.getElementById('bookingModalOverlay').style.display = 'none';
   editingBookingId = null;
+}
+
+function addParticipantRow(name, role) {
+  const container = document.getElementById('bookingParticipants');
+  const row = document.createElement('div');
+  row.className = 'participant-row';
+  const roleOptions = [
+    { value: 'instructeur', label: t('booking.roleInstructor') || 'Instructeur' },
+    { value: 'stagiaire', label: t('booking.roleStudent') || 'Stagiaire' },
+    { value: 'examinateur', label: t('booking.roleExaminer') || 'Examinateur' },
+    { value: 'autre', label: t('booking.roleOther') || 'Autre' },
+  ];
+  const optionsHtml = roleOptions.map(o =>
+    `<option value="${o.value}"${(role || 'stagiaire') === o.value ? ' selected' : ''}>${escHtml(o.label)}</option>`
+  ).join('');
+  row.innerHTML =
+    `<input type="text" class="form-input" placeholder="${t('booking.participantName') || 'Nom'}" value="${escHtml(name || '')}">` +
+    `<select class="form-select">${optionsHtml}</select>` +
+    `<button type="button" class="participant-remove" onclick="this.parentElement.remove()">&times;</button>`;
+  container.appendChild(row);
+}
+
+function collectParticipants() {
+  const rows = document.querySelectorAll('#bookingParticipants .participant-row');
+  const participants = [];
+  rows.forEach(row => {
+    const name = row.querySelector('input').value.trim();
+    const role = row.querySelector('select').value;
+    if (name) participants.push({ name, role });
+  });
+  return participants;
+}
+
+function addStudentRow(name) {
+  const container = document.getElementById('flightStudents');
+  const row = document.createElement('div');
+  row.className = 'student-row';
+  row.innerHTML =
+    `<input type="text" class="form-input" placeholder="${t('flights.studentName') || 'Nom du stagiaire'}" value="${escHtml(name || '')}">` +
+    `<button type="button" class="participant-remove" onclick="this.parentElement.remove()">&times;</button>`;
+  container.appendChild(row);
+}
+
+function collectStudents() {
+  const rows = document.querySelectorAll('#flightStudents .student-row');
+  const students = [];
+  rows.forEach(row => {
+    const name = row.querySelector('input').value.trim();
+    if (name) students.push(name);
+  });
+  return students;
 }
 
 function checkBookingOverlap(roomId, startTime, endTime, excludeId) {
@@ -3537,6 +3650,7 @@ async function saveBooking() {
     end_time: endTime,
     title: title || (t('booking.defaultTitle') || 'Reservation'),
     booked_by: bookedBy,
+    participants: collectParticipants(),
     source: 'admin'
   };
 
@@ -3617,12 +3731,14 @@ function renderFlights() {
   empty.style.display = 'none';
 
   tbody.innerHTML = flightsList.map(f => {
+    const studentsStr = Array.isArray(f.students) && f.students.length ? f.students.join(', ') : '\u2014';
     return '<tr>'
       + '<td class="flight-reg">' + esc(f.aircraft_reg || '') + '</td>'
       + '<td class="flight-time">' + esc(f.start_time || '') + '</td>'
       + '<td class="flight-time">' + esc(f.end_time || '') + '</td>'
       + '<td>' + esc(f.pilot || '') + '</td>'
-      + '<td>' + esc(f.instructor || '—') + '</td>'
+      + '<td>' + esc(f.instructor || '\u2014') + '</td>'
+      + '<td>' + esc(studentsStr) + '</td>'
       + '<td><span class="flight-type-badge">' + esc(f.flight_type || '') + '</span></td>'
       + '<td class="flight-actions">'
       + '<button onclick="openFlightModal(\'' + f.id + '\')" title="Modifier">&#9998;</button>'
@@ -3654,6 +3770,12 @@ function openFlightModal(id) {
     document.getElementById('flightInstructor').value = f.instructor || '';
     document.getElementById('flightType').value = f.flight_type || 'local';
     deleteBtn.style.display = '';
+    // Populate students
+    const studContainer = document.getElementById('flightStudents');
+    studContainer.innerHTML = '';
+    if (Array.isArray(f.students) && f.students.length) {
+      f.students.forEach(s => addStudentRow(s));
+    }
   } else {
     title.textContent = t('flights.add') || 'Ajouter un vol';
     document.getElementById('flightAircraft').value = '';
@@ -3663,6 +3785,7 @@ function openFlightModal(id) {
     document.getElementById('flightInstructor').value = '';
     document.getElementById('flightType').value = 'local';
     deleteBtn.style.display = 'none';
+    document.getElementById('flightStudents').innerHTML = '';
   }
   document.getElementById('flightModalOverlay').style.display = 'flex';
 }
@@ -3700,6 +3823,7 @@ async function saveFlight() {
     end_time: end,
     pilot: pilot,
     instructor: instructor || null,
+    students: collectStudents(),
     flight_type: flightType,
     source: 'admin'
   };
