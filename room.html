@@ -491,6 +491,47 @@ html, body {
   letter-spacing: 0.3px;
 }
 
+/* Sunset warning banner */
+.sunset-banner {
+  display: none;
+  width: 100%;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: clamp(13px, 2.5vw, 16px);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+.sunset-banner.warning {
+  display: block;
+  background: rgba(245,158,11,0.15);
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+}
+.sunset-banner.critical {
+  display: block;
+  background: rgba(239,68,68,0.15);
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  animation: sunset-pulse 1.5s ease-in-out infinite;
+}
+@keyframes sunset-pulse {
+  0%, 100% { background: rgba(239,68,68,0.15); }
+  50% { background: rgba(239,68,68,0.35); }
+}
+:root.light .sunset-banner.warning {
+  background: rgba(245,158,11,0.1);
+  color: #b45309;
+  border-color: #d97706;
+}
+:root.light .sunset-banner.critical {
+  background: rgba(239,68,68,0.1);
+  color: #b91c1c;
+  border-color: #dc2626;
+}
+
 @media (orientation: landscape) {
   .room-page { padding: 12px 20px; gap: 8px; }
 }
@@ -520,6 +561,8 @@ html, body {
 </div>
 
 <div class="room-page" id="roomPage" style="display:none;">
+  <!-- Sunset warning banner -->
+  <div class="sunset-banner" id="sunsetBanner"></div>
   <!-- Header -->
   <div class="room-header">
     <div class="room-header-left">
@@ -625,6 +668,7 @@ let licenseKey = '';
 let pollTimer = null;
 let isKiosk = true;
 let editingBooking = null;
+let clubConfig = null; // full config from kiosk
 
 // ── i18n ──
 const LABELS = {
@@ -656,7 +700,9 @@ const LABELS = {
     confirmDelete: '\u00cates-vous s\u00fbr de vouloir supprimer cette r\u00e9servation ?',
     editErrorOverlap: 'Chevauchement avec une autre r\u00e9servation.',
     editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but.",
-    pwaHint: "Pour un mode kiosque, ajoutez cette page \u00e0 l'\u00e9cran d'accueil (Partager \u25b6 Sur l'\u00e9cran d'accueil)"
+    pwaHint: "Pour un mode kiosque, ajoutez cette page \u00e0 l'\u00e9cran d'accueil (Partager \u25b6 Sur l'\u00e9cran d'accueil)",
+    nightActive: 'NUIT A\u00c9RONAUTIQUE EN COURS',
+    nightWarning: 'NUIT A\u00c9RO DANS {0} MIN'
   },
   en: {
     libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
@@ -686,7 +732,9 @@ const LABELS = {
     confirmDelete: 'Are you sure you want to delete this booking?',
     editErrorOverlap: 'Overlaps with another booking.',
     editErrorTime: 'End time must be after start time.',
-    pwaHint: 'For kiosk mode, add this page to home screen (Share \u25b6 Add to Home Screen)'
+    pwaHint: 'For kiosk mode, add this page to home screen (Share \u25b6 Add to Home Screen)',
+    nightActive: 'AERONAUTICAL NIGHT ACTIVE',
+    nightWarning: 'AERO NIGHT IN {0} MIN'
   },
   de: {
     libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
@@ -716,7 +764,9 @@ const LABELS = {
     confirmDelete: 'M\u00f6chten Sie diese Reservierung wirklich l\u00f6schen?',
     editErrorOverlap: '\u00dcberschneidung mit einer anderen Reservierung.',
     editErrorTime: 'Endzeit muss nach Startzeit liegen.',
-    pwaHint: 'F\u00fcr Kiosk-Modus: Seite zum Startbildschirm hinzuf\u00fcgen (Teilen \u25b6 Zum Home-Bildschirm)'
+    pwaHint: 'F\u00fcr Kiosk-Modus: Seite zum Startbildschirm hinzuf\u00fcgen (Teilen \u25b6 Zum Home-Bildschirm)',
+    nightActive: 'LUFTFAHRT-NACHT AKTIV',
+    nightWarning: 'LUFTFAHRT-NACHT IN {0} MIN'
   },
   it: {
     libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
@@ -746,7 +796,9 @@ const LABELS = {
     confirmDelete: 'Sei sicuro di voler eliminare questa prenotazione?',
     editErrorOverlap: 'Sovrapposizione con un\'altra prenotazione.',
     editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio.",
-    pwaHint: "Per modalit\u00e0 kiosk, aggiungi alla schermata iniziale (Condividi \u25b6 Aggiungi alla Home)"
+    pwaHint: "Per modalit\u00e0 kiosk, aggiungi alla schermata iniziale (Condividi \u25b6 Aggiungi alla Home)",
+    nightActive: 'NOTTE AERONAUTICA IN CORSO',
+    nightWarning: 'NOTTE AERO TRA {0} MIN'
   },
   es: {
     libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
@@ -776,7 +828,9 @@ const LABELS = {
     confirmDelete: '\u00bfEst\u00e1 seguro de que desea eliminar esta reserva?',
     editErrorOverlap: 'Se superpone con otra reserva.',
     editErrorTime: 'La hora de fin debe ser posterior a la de inicio.',
-    pwaHint: 'Para modo kiosko, a\u00f1ade esta p\u00e1gina a la pantalla de inicio (Compartir \u25b6 A\u00f1adir a inicio)'
+    pwaHint: 'Para modo kiosko, a\u00f1ade esta p\u00e1gina a la pantalla de inicio (Compartir \u25b6 A\u00f1adir a inicio)',
+    nightActive: 'NOCHE AERON\u00c1UTICA EN CURSO',
+    nightWarning: 'NOCHE AERO EN {0} MIN'
   }
 };
 let lang = 'fr';
@@ -800,6 +854,7 @@ async function fetchClubConfig() {
       }
     }
     if (cfg) {
+      clubConfig = cfg;
       // Language
       if (cfg.language && LABELS[cfg.language]) lang = cfg.language;
       // Theme
@@ -808,6 +863,8 @@ async function fetchClubConfig() {
       } else {
         document.documentElement.classList.remove('light');
       }
+      // Start sunset warning ticker
+      startSunsetTicker();
     }
   } catch (e) { /* keep defaults */ }
 }
@@ -1316,6 +1373,70 @@ async function submitQuickBooking() {
   }
 
   document.getElementById('quickSubmit').disabled = false;
+}
+
+// ── SUNSET WARNING (miroir kiosque) ──
+function calcSun(date, lat, lon) {
+  const rad = Math.PI / 180;
+  const start = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const doy = Math.floor((date - start) / 86400000) + 1;
+  const g = (2 * Math.PI / 365) * (doy - 1);
+  const eqTime = 229.18 * (0.000075 + 0.001868*Math.cos(g) - 0.032077*Math.sin(g) - 0.014615*Math.cos(2*g) - 0.040849*Math.sin(2*g));
+  const decl = 0.006918 - 0.399912*Math.cos(g) + 0.070257*Math.sin(g) - 0.006758*Math.cos(2*g) + 0.000907*Math.sin(2*g) - 0.002697*Math.cos(3*g) + 0.00148*Math.sin(3*g);
+  function forAngle(zenith) {
+    const cosH = Math.cos(zenith*rad)/(Math.cos(lat*rad)*Math.cos(decl)) - Math.tan(lat*rad)*Math.tan(decl);
+    if (cosH > 1 || cosH < -1) return null;
+    const H = Math.acos(cosH) * 180 / Math.PI;
+    const noon = 720 - 4*lon - eqTime;
+    return { rise: noon - H*4, set: noon + H*4 };
+  }
+  const tzOffset = -date.getTimezoneOffset();
+  const sun = forAngle(90.833);
+  const mornOff = clubConfig?.aeroNight?.morningOffsetMin ?? -30;
+  const eveOff = clubConfig?.aeroNight?.eveningOffsetMin ?? 30;
+  return {
+    aeroEveMin: sun?.set != null ? sun.set + eveOff + tzOffset : null,
+    aeroMornMin: sun?.rise != null ? sun.rise + mornOff + tzOffset : null
+  };
+}
+
+let sunsetTickerInterval = null;
+function startSunsetTicker() {
+  if (sunsetTickerInterval) return;
+  if (!clubConfig?.station?.lat) return;
+  if (clubConfig.sections?.sunsetWarning === false) return;
+
+  const showMin = clubConfig?.thresholds?.sunsetWarning?.showMinutes ?? 60;
+  const critMin = clubConfig?.thresholds?.sunsetWarning?.criticalMinutes ?? 30;
+  const lat = clubConfig.station.lat;
+  const lon = clubConfig.station.lon;
+
+  function updateSunsetBanner() {
+    const banner = document.getElementById('sunsetBanner');
+    if (!banner) return;
+    const sun = calcSun(new Date(), lat, lon);
+    if (sun.aeroEveMin == null || sun.aeroMornMin == null) {
+      banner.className = 'sunset-banner';
+      return;
+    }
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const diffEve = sun.aeroEveMin - nowMin;
+    const isNight = nowMin >= sun.aeroEveMin || nowMin < sun.aeroMornMin;
+
+    if (isNight) {
+      banner.textContent = L('nightActive');
+      banner.className = 'sunset-banner critical';
+    } else if (diffEve > 0 && diffEve <= showMin) {
+      banner.textContent = L('nightWarning').replace('{0}', String(Math.floor(diffEve)));
+      banner.className = diffEve <= critMin ? 'sunset-banner critical' : 'sunset-banner warning';
+    } else {
+      banner.className = 'sunset-banner';
+    }
+  }
+
+  updateSunsetBanner();
+  sunsetTickerInterval = setInterval(updateSunsetBanner, 10000);
 }
 
 // ── UPDATE / DELETE BOOKING API ──
