@@ -282,14 +282,14 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Th\u00e8me de la page salle affich\u00e9e sur tablette.',
     'cfg.rooms.themeDark': 'Sombre',
     'cfg.rooms.themeLight': 'Clair',
-    'cfg.rooms.gearupTitle': 'Connecteur GearUp',
-    'cfg.rooms.gearupHint': 'Connecter AeroKiosk au logiciel de gestion ecole GearUp.',
-    'cfg.rooms.apiSource': 'Source des donnees',
-    'cfg.rooms.sourceNone': 'Aucune (saisie manuelle)',
-    'cfg.rooms.sourceGearup': 'GearUp',
-    'cfg.rooms.apiEndpoint': 'URL du serveur GearUp',
-    'cfg.rooms.apiKey': 'Cle API',
-    'cfg.rooms.pollInterval': 'Frequence de polling (secondes)',
+    'cfg.gearup.gearupTitle': 'Connecteur GearUp',
+    'cfg.gearup.gearupHint': 'Connecter AeroKiosk au logiciel de gestion ecole GearUp.',
+    'cfg.gearup.apiSource': 'Source des donnees',
+    'cfg.gearup.sourceNone': 'Aucune (saisie manuelle)',
+    'cfg.gearup.sourceGearup': 'GearUp',
+    'cfg.gearup.apiEndpoint': 'URL du serveur GearUp',
+    'cfg.gearup.apiKey': 'Cle API',
+    'cfg.gearup.pollInterval': 'Frequence de polling (secondes)',
     'cfg.rooms.briefingMinutes': 'Briefing par defaut (min)',
     'cfg.rooms.debriefingMinutes': 'Debriefing par defaut (min)',
     'rooms.add': 'Ajouter une salle',
@@ -651,14 +651,14 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Farbschema der Raumseite auf dem Tablet.',
     'cfg.rooms.themeDark': 'Dunkel',
     'cfg.rooms.themeLight': 'Hell',
-    'cfg.rooms.gearupTitle': 'GearUp-Verbindung',
-    'cfg.rooms.gearupHint': 'AeroKiosk mit der Flugschulverwaltung GearUp verbinden.',
-    'cfg.rooms.apiSource': 'Datenquelle',
-    'cfg.rooms.sourceNone': 'Keine (manuelle Eingabe)',
-    'cfg.rooms.sourceGearup': 'GearUp',
-    'cfg.rooms.apiEndpoint': 'GearUp-Server-URL',
-    'cfg.rooms.apiKey': 'API-Schlüssel',
-    'cfg.rooms.pollInterval': 'Abfrageintervall (Sekunden)',
+    'cfg.gearup.gearupTitle': 'GearUp-Verbindung',
+    'cfg.gearup.gearupHint': 'AeroKiosk mit der Flugschulverwaltung GearUp verbinden.',
+    'cfg.gearup.apiSource': 'Datenquelle',
+    'cfg.gearup.sourceNone': 'Keine (manuelle Eingabe)',
+    'cfg.gearup.sourceGearup': 'GearUp',
+    'cfg.gearup.apiEndpoint': 'GearUp-Server-URL',
+    'cfg.gearup.apiKey': 'API-Schlüssel',
+    'cfg.gearup.pollInterval': 'Abfrageintervall (Sekunden)',
     'cfg.rooms.briefingMinutes': 'Briefing Standard (Min)',
     'cfg.rooms.debriefingMinutes': 'Debriefing Standard (Min)',
     'rooms.add': 'Raum hinzufügen',
@@ -1013,14 +1013,14 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Tema della pagina sala visualizzata sul tablet.',
     'cfg.rooms.themeDark': 'Scuro',
     'cfg.rooms.themeLight': 'Chiaro',
-    'cfg.rooms.gearupTitle': 'Connettore GearUp',
-    'cfg.rooms.gearupHint': 'Collegare AeroKiosk al software di gestione scuola GearUp.',
-    'cfg.rooms.apiSource': 'Fonte dati',
-    'cfg.rooms.sourceNone': 'Nessuna (inserimento manuale)',
-    'cfg.rooms.sourceGearup': 'GearUp',
-    'cfg.rooms.apiEndpoint': 'URL server GearUp',
-    'cfg.rooms.apiKey': 'Chiave API',
-    'cfg.rooms.pollInterval': 'Intervallo di polling (secondi)',
+    'cfg.gearup.gearupTitle': 'Connettore GearUp',
+    'cfg.gearup.gearupHint': 'Collegare AeroKiosk al software di gestione scuola GearUp.',
+    'cfg.gearup.apiSource': 'Fonte dati',
+    'cfg.gearup.sourceNone': 'Nessuna (inserimento manuale)',
+    'cfg.gearup.sourceGearup': 'GearUp',
+    'cfg.gearup.apiEndpoint': 'URL server GearUp',
+    'cfg.gearup.apiKey': 'Chiave API',
+    'cfg.gearup.pollInterval': 'Intervallo di polling (secondi)',
     'cfg.rooms.briefingMinutes': 'Briefing predefinito (min)',
     'cfg.rooms.debriefingMinutes': 'Debriefing predefinito (min)',
     'rooms.add': 'Aggiungi sala',
@@ -1375,14 +1375,14 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Tema de la p\u00e1gina de sala en la tableta.',
     'cfg.rooms.themeDark': 'Oscuro',
     'cfg.rooms.themeLight': 'Claro',
-    'cfg.rooms.gearupTitle': 'Conector GearUp',
-    'cfg.rooms.gearupHint': 'Conectar AeroKiosk al software de gestión escuela GearUp.',
-    'cfg.rooms.apiSource': 'Fuente de datos',
-    'cfg.rooms.sourceNone': 'Ninguna (entrada manual)',
-    'cfg.rooms.sourceGearup': 'GearUp',
-    'cfg.rooms.apiEndpoint': 'URL servidor GearUp',
-    'cfg.rooms.apiKey': 'Clave API',
-    'cfg.rooms.pollInterval': 'Intervalo de sondeo (segundos)',
+    'cfg.gearup.gearupTitle': 'Conector GearUp',
+    'cfg.gearup.gearupHint': 'Conectar AeroKiosk al software de gestión escuela GearUp.',
+    'cfg.gearup.apiSource': 'Fuente de datos',
+    'cfg.gearup.sourceNone': 'Ninguna (entrada manual)',
+    'cfg.gearup.sourceGearup': 'GearUp',
+    'cfg.gearup.apiEndpoint': 'URL servidor GearUp',
+    'cfg.gearup.apiKey': 'Clave API',
+    'cfg.gearup.pollInterval': 'Intervalo de sondeo (segundos)',
     'cfg.rooms.briefingMinutes': 'Briefing por defecto (min)',
     'cfg.rooms.debriefingMinutes': 'Debriefing por defecto (min)',
     'rooms.add': 'Añadir sala',
@@ -1737,14 +1737,14 @@ const TRANSLATIONS = {
     'cfg.rooms.screenThemeHint': 'Theme of the room page displayed on tablet.',
     'cfg.rooms.themeDark': 'Dark',
     'cfg.rooms.themeLight': 'Light',
-    'cfg.rooms.gearupTitle': 'GearUp Connector',
-    'cfg.rooms.gearupHint': 'Connect AeroKiosk to GearUp flight school management software.',
-    'cfg.rooms.apiSource': 'Data source',
-    'cfg.rooms.sourceNone': 'None (manual entry)',
-    'cfg.rooms.sourceGearup': 'GearUp',
-    'cfg.rooms.apiEndpoint': 'GearUp server URL',
-    'cfg.rooms.apiKey': 'API key',
-    'cfg.rooms.pollInterval': 'Polling interval (seconds)',
+    'cfg.gearup.gearupTitle': 'GearUp Connector',
+    'cfg.gearup.gearupHint': 'Connect AeroKiosk to GearUp flight school management software.',
+    'cfg.gearup.apiSource': 'Data source',
+    'cfg.gearup.sourceNone': 'None (manual entry)',
+    'cfg.gearup.sourceGearup': 'GearUp',
+    'cfg.gearup.apiEndpoint': 'GearUp server URL',
+    'cfg.gearup.apiKey': 'API key',
+    'cfg.gearup.pollInterval': 'Polling interval (seconds)',
     'cfg.rooms.briefingMinutes': 'Default briefing (min)',
     'cfg.rooms.debriefingMinutes': 'Default debriefing (min)',
     'rooms.add': 'Add a room',
@@ -4101,10 +4101,10 @@ function populateConfigTabs() {
   document.getElementById('cfgRoomScreenTheme').value = c.rooms?.screenTheme || 'dark';
 
   // -- Connecteur GearUp --
-  document.getElementById('cfgRoomsApiSource').value = c.rooms?.apiSource || '';
-  document.getElementById('cfgRoomsApiEndpoint').value = c.rooms?.apiEndpoint || '';
-  document.getElementById('cfgRoomsApiKey').value = c.rooms?.apiKey || '';
-  document.getElementById('cfgRoomsPollSec').value = Math.round((c.rooms?.pollIntervalMs || 300000) / 1000);
+  document.getElementById('cfgGearupApiSource').value = c.gearup?.apiSource || '';
+  document.getElementById('cfgGearupApiEndpoint').value = c.gearup?.apiEndpoint || '';
+  document.getElementById('cfgGearupApiKey').value = c.gearup?.apiKey || '';
+  document.getElementById('cfgGearupPollSec').value = Math.round((c.gearup?.pollIntervalMs || 300000) / 1000);
   document.getElementById('cfgRoomsBriefMin').value = c.rooms?.defaultBriefingMinutes || 30;
   document.getElementById('cfgRoomsDebriefMin').value = c.rooms?.defaultDebriefingMinutes ?? 15;
   cfgUpdateGearUpVisibility();
@@ -4273,7 +4273,7 @@ async function cfgSaveAutoBookBrief() {
 
 // ── GEARUP VISIBILITY ──
 function cfgUpdateGearUpVisibility() {
-  const isGearUp = document.getElementById('cfgRoomsApiSource').value === 'gearup';
+  const isGearUp = document.getElementById('cfgGearupApiSource').value === 'gearup';
   document.getElementById('cfgGearUpGroup').style.display = isGearUp ? '' : 'none';
 }
 
@@ -4411,10 +4411,11 @@ function collectConfigValues() {
   if (!c.rooms) c.rooms = {};
   c.rooms.screenTheme = document.getElementById('cfgRoomScreenTheme').value || 'dark';
   c.rooms.autoBookBriefForSim = document.getElementById('cfgAutoBookBriefForSim').checked;
-  c.rooms.apiSource = document.getElementById('cfgRoomsApiSource').value || '';
-  c.rooms.apiEndpoint = document.getElementById('cfgRoomsApiEndpoint').value.trim();
-  c.rooms.apiKey = document.getElementById('cfgRoomsApiKey').value.trim();
-  c.rooms.pollIntervalMs = parseInt(document.getElementById('cfgRoomsPollSec').value) * 1000 || 300000;
+  if (!c.gearup) c.gearup = {};
+  c.gearup.apiSource = document.getElementById('cfgGearupApiSource').value || '';
+  c.gearup.apiEndpoint = document.getElementById('cfgGearupApiEndpoint').value.trim();
+  c.gearup.apiKey = document.getElementById('cfgGearupApiKey').value.trim();
+  c.gearup.pollIntervalMs = parseInt(document.getElementById('cfgGearupPollSec').value) * 1000 || 300000;
   c.rooms.defaultBriefingMinutes = parseInt(document.getElementById('cfgRoomsBriefMin').value) || 30;
   c.rooms.defaultDebriefingMinutes = parseInt(document.getElementById('cfgRoomsDebriefMin').value) ?? 15;
 
