@@ -395,7 +395,6 @@
       <div class="config-tabs" id="configTabs">
         <button class="config-tab active" data-ctab="aerodrome" onclick="switchConfigTab('aerodrome')" data-i18n="cfg.tabAerodrome">Aérodrome</button>
         <button class="config-tab" data-ctab="thresholds" onclick="switchConfigTab('thresholds')" data-i18n="cfg.tabThresholds">Seuils</button>
-        <button class="config-tab" data-ctab="units" onclick="switchConfigTab('units')" data-i18n="cfg.tabUnits">Unités</button>
         <button class="config-tab" data-ctab="maps" onclick="switchConfigTab('maps')" data-i18n="cfg.tabMaps">Carte</button>
         <button class="config-tab" data-ctab="traffic" onclick="switchConfigTab('traffic')" data-i18n="cfg.tabTraffic">Trafic</button>
         <button class="config-tab" data-ctab="sections" onclick="switchConfigTab('sections')" data-i18n="cfg.tabSections">Sections</button>
@@ -520,40 +519,7 @@
       </div>
 
       <!-- ======== PANNEAU : Unités ======== -->
-      <div class="config-panel" data-cpanel="units" id="cfgUnits">
-        <div class="form-row">
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.units.pressure">Pression</label>
-            <select class="form-input" id="cfgUnitPressure">
-              <option value="hPa">hPa</option>
-              <option value="inHg">inHg</option>
-            </select>
-          </div>
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.units.visibility">Visibilité</label>
-            <select class="form-input" id="cfgUnitVisibility">
-              <option value="metric" data-i18n="cfg.units.metric">Métrique (m/km)</option>
-              <option value="sm" data-i18n="cfg.units.statuteMiles">Statute Miles (SM)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.units.temperature">Température</label>
-            <select class="form-input" id="cfgUnitTemperature">
-              <option value="C">°C</option>
-              <option value="F">°F</option>
-            </select>
-          </div>
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.units.wind">Vent</label>
-            <select class="form-input" id="cfgUnitWind">
-              <option value="kt" data-i18n="cfg.units.knots">Nœuds (kt)</option>
-              <option value="kmh" data-i18n="cfg.units.kmh">km/h</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <!-- Unités déplacé dans Système -->
 
       <!-- ======== PANNEAU : Carte ======== -->
       <div class="config-panel" data-cpanel="maps" id="cfgMaps">
@@ -738,21 +704,45 @@
             <option value="left" data-i18n="cfg.sections.sidebarLeft">À gauche</option>
           </select>
         </div>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.gearup.gearupTitle">Connecteur GearUp</div>
+        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.gearup.gearupHint">Connecter AeroKiosk au logiciel de gestion école GearUp.</div>
+        <div class="form-group">
+          <label data-i18n="cfg.gearup.apiSource">Source des données</label>
+          <select class="form-select" id="cfgGearupApiSource" onchange="cfgUpdateGearUpVisibility()">
+            <option value="" data-i18n="cfg.gearup.sourceNone">Aucune (saisie manuelle)</option>
+            <option value="gearup" data-i18n="cfg.gearup.sourceGearup">GearUp</option>
+          </select>
+        </div>
+        <div id="cfgGearUpGroup" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="cfg.gearup.apiEndpoint">URL du serveur GearUp</label>
+            <input type="text" class="form-input" id="cfgGearupApiEndpoint" placeholder="https://gearup.example.com" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.gearup.apiKey">Clé API</label>
+            <input type="text" class="form-input" id="cfgGearupApiKey" autocomplete="off" style="font-family:monospace; font-size:12px;">
+          </div>
+          <div class="form-group">
+            <label data-i18n="cfg.gearup.pollInterval">Fréquence de polling (secondes)</label>
+            <input type="number" class="form-input" id="cfgGearupPollSec" min="30" max="600" step="30" value="300" style="width:120px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:12px;">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.rooms.briefingMinutes">Briefing par défaut (min)</label>
+            <input type="number" class="form-input" id="cfgRoomsBriefMin" min="5" max="60" step="5" value="30" style="width:80px;">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.rooms.debriefingMinutes">Débriefing par défaut (min)</label>
+            <input type="number" class="form-input" id="cfgRoomsDebriefMin" min="0" max="60" step="5" value="15" style="width:80px;">
+          </div>
+        </div>
       </div>
 
       <!-- ======== PANNEAU : Apparence ======== -->
       <div class="config-panel" data-cpanel="appearance" id="cfgAppearance">
-        <div class="section-title" data-i18n="cfg.system.languageTitle">Langue</div>
-        <div class="form-group">
-          <select class="form-select" id="cfgLanguage">
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="it">Italiano</option>
-            <option value="es">Español</option>
-          </select>
-        </div>
-        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.appearance.themeSection">Thème</div>
+        <div class="section-title" data-i18n="cfg.appearance.themeSection">Thème</div>
         <div class="form-group">
           <label data-i18n="cfg.appearance.mode">Mode</label>
           <div class="form-row" style="gap:16px;">
@@ -807,58 +797,6 @@
             <span class="cfg-hint" id="cfgLogoNightName">—</span>
           </div>
         </div>
-        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.screens.mainDisplay">Écran principal</div>
-        <div class="form-group">
-          <select class="form-select" id="cfgMainDisplay" style="max-width:320px;"></select>
-          <div class="cfg-hint" data-i18n="cfg.screens.mainHint">L'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).</div>
-        </div>
-        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.screens.title">Écrans supplémentaires</div>
-        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.screens.hint">Configurez l'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.</div>
-        <div id="cfgScreenList" style="display:flex; flex-direction:column; gap:8px;"></div>
-        <button class="btn-submit" style="margin-top:8px; font-size:12px; padding:6px 14px;" id="cfgBtnAddScreen" data-i18n="cfg.screens.add">Ajouter un écran</button>
-
-        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.rooms.screenThemeTitle">Écran salle (tablette)</div>
-        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.rooms.screenThemeHint">Thème de la page salle affichée sur tablette.</div>
-        <div class="form-group">
-          <select class="form-select" id="cfgRoomScreenTheme">
-            <option value="dark" data-i18n="cfg.rooms.themeDark">Sombre</option>
-            <option value="light" data-i18n="cfg.rooms.themeLight">Clair</option>
-          </select>
-        </div>
-
-        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.gearup.gearupTitle">Connecteur GearUp</div>
-        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.gearup.gearupHint">Connecter AeroKiosk au logiciel de gestion école GearUp.</div>
-        <div class="form-group">
-          <label data-i18n="cfg.gearup.apiSource">Source des données</label>
-          <select class="form-select" id="cfgGearupApiSource" onchange="cfgUpdateGearUpVisibility()">
-            <option value="" data-i18n="cfg.gearup.sourceNone">Aucune (saisie manuelle)</option>
-            <option value="gearup" data-i18n="cfg.gearup.sourceGearup">GearUp</option>
-          </select>
-        </div>
-        <div id="cfgGearUpGroup" style="display:none;">
-          <div class="form-group">
-            <label data-i18n="cfg.gearup.apiEndpoint">URL du serveur GearUp</label>
-            <input type="text" class="form-input" id="cfgGearupApiEndpoint" placeholder="https://gearup.example.com" style="font-family:monospace; font-size:12px;">
-          </div>
-          <div class="form-group">
-            <label data-i18n="cfg.gearup.apiKey">Clé API</label>
-            <input type="text" class="form-input" id="cfgGearupApiKey" autocomplete="off" style="font-family:monospace; font-size:12px;">
-          </div>
-          <div class="form-group">
-            <label data-i18n="cfg.gearup.pollInterval">Fréquence de polling (secondes)</label>
-            <input type="number" class="form-input" id="cfgGearupPollSec" min="30" max="600" step="30" value="300" style="width:120px;">
-          </div>
-        </div>
-        <div style="display:flex; gap:12px; margin-top:12px;">
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.rooms.briefingMinutes">Briefing par défaut (min)</label>
-            <input type="number" class="form-input" id="cfgRoomsBriefMin" min="5" max="60" step="5" value="30" style="width:80px;">
-          </div>
-          <div class="form-group" style="flex:1;">
-            <label data-i18n="cfg.rooms.debriefingMinutes">Débriefing par défaut (min)</label>
-            <input type="number" class="form-input" id="cfgRoomsDebriefMin" min="0" max="60" step="5" value="15" style="width:80px;">
-          </div>
-        </div>
       </div>
 
       <!-- ======== PANNEAU : Contenu club ======== -->
@@ -896,7 +834,71 @@
 
       <!-- ======== PANNEAU : Système ======== -->
       <div class="config-panel" data-cpanel="system" id="cfgSystem">
-        <div class="section-title" data-i18n="cfg.system.passwordTitle">Mot de passe admin</div>
+        <div class="section-title" data-i18n="cfg.system.languageTitle">Langue</div>
+        <div class="form-group">
+          <select class="form-select" id="cfgLanguage">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+          </select>
+        </div>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.units.title">Unités d'affichage</div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.pressure">Pression</label>
+            <select class="form-input" id="cfgUnitPressure">
+              <option value="hPa">hPa</option>
+              <option value="inHg">inHg</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.visibility">Visibilité</label>
+            <select class="form-input" id="cfgUnitVisibility">
+              <option value="metric" data-i18n="cfg.units.metric">Métrique (m/km)</option>
+              <option value="sm" data-i18n="cfg.units.statuteMiles">Statute Miles (SM)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.temperature">Température</label>
+            <select class="form-input" id="cfgUnitTemperature">
+              <option value="C">°C</option>
+              <option value="F">°F</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label data-i18n="cfg.units.wind">Vent</label>
+            <select class="form-input" id="cfgUnitWind">
+              <option value="kt" data-i18n="cfg.units.knots">Nœuds (kt)</option>
+              <option value="kmh" data-i18n="cfg.units.kmh">km/h</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.screens.mainDisplay">Écran principal</div>
+        <div class="form-group">
+          <select class="form-select" id="cfgMainDisplay" style="max-width:320px;"></select>
+          <div class="cfg-hint" data-i18n="cfg.screens.mainHint">L'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).</div>
+        </div>
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.screens.title">Écrans supplémentaires</div>
+        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.screens.hint">Configurez l'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.</div>
+        <div id="cfgScreenList" style="display:flex; flex-direction:column; gap:8px;"></div>
+        <button class="btn-submit" style="margin-top:8px; font-size:12px; padding:6px 14px;" id="cfgBtnAddScreen" data-i18n="cfg.screens.add">Ajouter un écran</button>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.rooms.screenThemeTitle">Écran salle (tablette)</div>
+        <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.rooms.screenThemeHint">Thème de la page salle affichée sur tablette.</div>
+        <div class="form-group">
+          <select class="form-select" id="cfgRoomScreenTheme">
+            <option value="dark" data-i18n="cfg.rooms.themeDark">Sombre</option>
+            <option value="light" data-i18n="cfg.rooms.themeLight">Clair</option>
+          </select>
+        </div>
+
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.system.passwordTitle">Mot de passe admin</div>
         <div id="cfgPasswordStatus" style="margin-bottom:12px;color:var(--text-dim);font-size:13px;"></div>
         <div id="cfgPasswordForm">
           <div class="form-group" id="cfgOldPasswordGroup">
