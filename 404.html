@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+// GitHub Pages SPA redirect: /room → room.html
+var path = window.location.pathname.replace(/\/$/, '');
+var last = path.split('/').pop();
+if (last && last !== 'index' && !last.includes('.')) {
+  window.location.replace(path + '.html' + window.location.search + window.location.hash);
+} else {
+  window.location.replace('/');
+}
+</script>
+</head>
+<body></body>
+</html>
