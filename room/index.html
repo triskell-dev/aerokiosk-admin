@@ -1525,22 +1525,24 @@ function calcSun(date, lat, lon) {
   }
   const tzOffset = -date.getTimezoneOffset();
   const sun = forAngle(90.833);
-  const mornOff = clubConfig?.aeroNight?.morningOffsetMin ?? -30;
-  const eveOff = clubConfig?.aeroNight?.eveningOffsetMin ?? 30;
+  var an = clubConfig && clubConfig.aeroNight ? clubConfig.aeroNight : {};
+  var mornOff = an.morningOffsetMin != null ? an.morningOffsetMin : -30;
+  var eveOff = an.eveningOffsetMin != null ? an.eveningOffsetMin : 30;
   return {
-    aeroEveMin: sun?.set != null ? sun.set + eveOff + tzOffset : null,
-    aeroMornMin: sun?.rise != null ? sun.rise + mornOff + tzOffset : null
+    aeroEveMin: sun && sun.set != null ? sun.set + eveOff + tzOffset : null,
+    aeroMornMin: sun && sun.rise != null ? sun.rise + mornOff + tzOffset : null
   };
 }
 
 let sunsetTickerInterval = null;
 function startSunsetTicker() {
   if (sunsetTickerInterval) return;
-  if (!clubConfig?.station?.lat) return;
-  if (clubConfig.sections?.sunsetWarning === false) return;
+  if (!clubConfig || !clubConfig.station || !clubConfig.station.lat) return;
+  if (clubConfig.sections && clubConfig.sections.sunsetWarning === false) return;
 
-  const showMin = clubConfig?.thresholds?.sunsetWarning?.showMinutes ?? 60;
-  const critMin = clubConfig?.thresholds?.sunsetWarning?.criticalMinutes ?? 30;
+  var sw = clubConfig.thresholds && clubConfig.thresholds.sunsetWarning ? clubConfig.thresholds.sunsetWarning : {};
+  var showMin = sw.showMinutes != null ? sw.showMinutes : 60;
+  var critMin = sw.criticalMinutes != null ? sw.criticalMinutes : 30;
   const lat = clubConfig.station.lat;
   const lon = clubConfig.station.lon;
 
