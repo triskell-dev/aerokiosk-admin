@@ -4824,7 +4824,7 @@ function cfgRenderSectionToggles() {
   container.innerHTML = Object.entries(labels).map(([key, label]) =>
     '<div class="cfg-toggle-row">'
     + '<span class="cfg-toggle-label">' + escapeHtml(label) + '</span>'
-    + '<label class="toggle-switch"><input type="checkbox" data-section-key="' + key + '"' + (sections[key] !== false ? ' checked' : '') + '><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
+    + '<label class="toggle-switch"><input type="checkbox" data-section-key="' + key + '"' + (key === 'ramadan' ? (sections[key] === true ? ' checked' : '') : (sections[key] !== false ? ' checked' : '')) + '><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
     + '</div>'
   ).join('');
 
