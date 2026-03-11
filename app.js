@@ -2252,8 +2252,7 @@ class ApiClient {
       });
       if (!resp.ok) {
         const errBody = await resp.text();
-        console.error('Supabase fleet create error:', resp.status, errBody);
-        throw new Error(t('error.saveFleet') + ' (' + resp.status + ')');
+        throw new Error(resp.status + ': ' + errBody);
       }
       const rows = await resp.json();
       return rows[0] || null;
