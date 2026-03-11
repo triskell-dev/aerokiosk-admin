@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>AeroKiosk — Salle</title>
+<style>
+:root {
+  --bg: #0a0e14;
+  --panel: #111820;
+  --border: #1e2a36;
+  --text: #e2e8f0;
+  --text-dim: #6b7f94;
+  --accent: #00d4ff;
+  --go: #22c55e;
+  --go-bg: rgba(34,197,94,0.12);
+  --nogo: #ef4444;
+  --nogo-bg: rgba(239,68,68,0.12);
+  --radius: 12px;
+}
+:root.light {
+  --bg: #f0f2f5;
+  --panel: #ffffff;
+  --border: #d1d5db;
+  --text: #1f2937;
+  --text-dim: #6b7280;
+  --accent: #0284c7;
+  --go: #16a34a;
+  --go-bg: rgba(22,163,74,0.1);
+  --nogo: #dc2626;
+  --nogo-bg: rgba(220,38,38,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%; width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+}
+
+/* ── LAYOUT ── */
+.room-page {
+  display: flex; flex-direction: column;
+  height: 100vh;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* ── HEADER ── */
+.room-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.room-header-left h1 {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.room-header-left .room-meta {
+  font-size: clamp(13px, 2.5vw, 18px);
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+.room-date {
+  font-size: clamp(16px, 3vw, 24px);
+  color: var(--text-dim);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── STATUS BANNER ── */
+.status-banner {
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  padding: clamp(14px, 3vw, 24px) clamp(16px, 3vw, 28px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.status-banner.libre {
+  background: var(--go-bg);
+  border: 2px solid var(--go);
+}
+.status-banner.occupe {
+  background: var(--nogo-bg);
+  border: 2px solid var(--nogo);
+}
+.status-label {
+  font-size: clamp(28px, 6vw, 56px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.status-banner.libre .status-label { color: var(--go); }
+.status-banner.occupe .status-label { color: var(--nogo); }
+.status-detail {
+  font-size: clamp(14px, 2.8vw, 22px);
+  color: var(--text);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ── TIMELINE ── */
+.timeline-section {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.timeline-header {
+  position: sticky; top: 0;
+  background: var(--panel);
+  padding: 10px 16px;
+  font-size: clamp(13px, 2.5vw, 18px);
+  font-weight: 700;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.timeline-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: clamp(14px, 2.5vw, 18px);
+}
+.timeline-item {
+  display: flex; align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+  transition: background 0.2s;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item.current {
+  background: rgba(0,212,255,0.08);
+  border-left: 4px solid var(--accent);
+}
+.timeline-item.past { opacity: 0.45; }
+.timeline-time {
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  white-space: nowrap;
+  min-width: 120px;
+}
+.timeline-info {
+  flex: 1;
+  min-width: 0;
+}
+.timeline-title {
+  font-size: clamp(15px, 2.8vw, 22px);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.timeline-by {
+  font-size: clamp(12px, 2.2vw, 16px);
+  color: var(--text-dim);
+}
+.timeline-role {
+  font-size: clamp(10px, 1.8vw, 13px);
+  opacity: 0.7;
+}
+.timeline-source {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.timeline-source.src-admin { background: rgba(0,212,255,0.15); color: var(--accent); }
+.timeline-source.src-tablet { background: rgba(148,163,184,0.15); color: #94a3b8; }
+.timeline-source.src-api { background: rgba(59,130,246,0.15); color: #93bbfd; }
+.timeline-source.src-auto { background: rgba(34,197,94,0.15); color: #4ade80; }
+.timeline-actions {
+  display: flex; gap: 6px; flex-shrink: 0; margin-left: 8px;
+}
+.timeline-actions button {
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-dim); padding: 4px 10px; font-size: 12px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.timeline-actions button:hover { color: var(--text); border-color: var(--text); }
+.timeline-actions .btn-cancel { color: var(--nogo); border-color: var(--nogo); }
+.timeline-actions .btn-cancel:hover { background: var(--nogo-bg); }
+.dur-alert {
+  color: var(--nogo); font-size: clamp(12px, 2.2vw, 15px); font-weight: 600;
+  margin-bottom: 10px; padding: 8px 12px;
+  background: var(--nogo-bg); border-radius: 8px;
+  display: none;
+}
+/* ── EDIT MODAL ── */
+.edit-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+}
+.edit-overlay.hidden { display: none; }
+.edit-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: clamp(16px, 3vw, 24px); width: min(90vw, 420px);
+}
+.edit-card h3 { margin: 0 0 16px; font-size: clamp(16px, 3vw, 22px); }
+.edit-card label { display: block; color: var(--text-dim); font-size: 13px; margin-bottom: 4px; }
+.edit-card input, .edit-card select {
+  width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit; margin-bottom: 12px; outline: none; box-sizing: border-box;
+}
+.edit-card input:focus { border-color: var(--accent); }
+.edit-card .edit-row { display: flex; gap: 8px; }
+.edit-card .edit-row > * { flex: 1; }
+.edit-actions { display: flex; gap: 8px; margin-top: 8px; }
+.edit-actions button {
+  flex: 1; padding: 12px; border: none; border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 18px); font-weight: 700; cursor: pointer;
+}
+.edit-actions .btn-save { background: var(--accent); color: #000; }
+.edit-actions .btn-delete { background: var(--nogo); color: #fff; }
+.edit-actions .btn-close { background: var(--border); color: var(--text); }
+
+/* ── QUICK BOOKING ── */
+.quick-booking {
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(12px, 2.5vw, 20px);
+  background: var(--panel);
+}
+.quick-start-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+.quick-start-label {
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 600;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.quick-start-select {
+  flex: 1;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+.quick-start-select:focus { border-color: var(--accent); }
+.quick-title {
+  font-size: clamp(15px, 2.8vw, 20px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.quick-durations {
+  display: flex; gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.dur-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: clamp(10px, 2vw, 16px) 8px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  text-align: center;
+}
+.dur-btn:hover, .dur-btn.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.quick-fields {
+  display: flex; gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.quick-fields input {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-fields input:focus, .quick-fields select:focus { border-color: var(--accent); }
+.quick-fields input::placeholder { color: var(--text-dim); }
+.quick-role-select {
+  width: 100%;
+  padding: clamp(10px, 2vw, 14px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participants {
+  margin-bottom: 8px;
+}
+.quick-participant-row {
+  display: flex; gap: 8px; margin-bottom: 6px;
+  align-items: center;
+}
+.quick-participant-row input {
+  flex: 1;
+  padding: clamp(8px, 1.5vw, 12px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(13px, 2vw, 16px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participant-row select {
+  width: 120px;
+  padding: clamp(8px, 1.5vw, 12px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: clamp(13px, 2vw, 16px);
+  font-family: inherit;
+  outline: none;
+}
+.quick-participant-row button {
+  background: none; border: none;
+  color: var(--text-dim); font-size: 20px;
+  cursor: pointer; padding: 4px;
+}
+.quick-participant-row button:hover { color: var(--nogo); }
+.quick-add-participant {
+  background: none; border: none;
+  color: var(--accent); font-size: clamp(13px, 2vw, 15px);
+  cursor: pointer; padding: 4px 0;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+.quick-add-participant:hover { text-decoration: underline; }
+.quick-error {
+  color: var(--nogo);
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: none;
+}
+.quick-submit {
+  width: 100%;
+  padding: clamp(12px, 2.5vw, 18px);
+  background: var(--go);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+.quick-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.quick-submit:not(:disabled):hover { opacity: 0.9; }
+
+/* ── KIOSK LOCK ── */
+.kiosk-unlock-btn {
+  position: fixed;
+  bottom: 8px; right: 8px;
+  width: 36px; height: 36px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.2;
+  font-size: 18px;
+  color: var(--text-dim);
+  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
+}
+.kiosk-unlock-btn:active { opacity: 0.5; }
+:root.light .kiosk-unlock-btn { color: #9ca3af; }
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.overlay.hidden { display: none; }
+.overlay-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 320px; max-width: 90vw;
+  text-align: center;
+}
+.overlay-card h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+.overlay-card input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 16px;
+  margin-bottom: 12px;
+  outline: none;
+}
+.overlay-card input:focus { border-color: var(--accent); }
+.overlay-actions {
+  display: flex; gap: 8px;
+}
+.overlay-actions button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--text);
+}
+.overlay-actions button.primary {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ── LOADING ── */
+.loading-screen {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh;
+  font-size: 20px;
+  color: var(--text-dim);
+}
+
+/* ── SETUP SCREEN ── */
+.setup-screen {
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+.setup-screen.hidden { display: none; }
+.setup-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  width: 100%; max-width: 440px;
+  text-align: center;
+}
+.setup-card h1 {
+  font-size: 22px; font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.setup-card .setup-subtitle {
+  font-size: 14px; color: var(--text-dim);
+  margin-bottom: 20px;
+}
+.setup-card input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.setup-card input:focus { border-color: var(--accent); }
+.setup-card .setup-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.setup-error {
+  color: var(--nogo);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.setup-rooms-list {
+  display: flex; flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.setup-room-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  text-align: left;
+}
+.setup-room-btn:hover { border-color: var(--accent); }
+.setup-room-type {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Sunset warning banner */
+.sunset-banner {
+  display: none;
+  width: 100%;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: clamp(13px, 2.5vw, 16px);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+.sunset-banner.warning {
+  display: block;
+  background: rgba(245,158,11,0.15);
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+}
+.sunset-banner.critical {
+  display: block;
+  background: rgba(239,68,68,0.15);
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  animation: sunset-pulse 1.5s ease-in-out infinite;
+}
+@keyframes sunset-pulse {
+  0%, 100% { background: rgba(239,68,68,0.15); }
+  50% { background: rgba(239,68,68,0.35); }
+}
+:root.light .sunset-banner.warning {
+  background: rgba(245,158,11,0.1);
+  color: #b45309;
+  border-color: #d97706;
+}
+:root.light .sunset-banner.critical {
+  background: rgba(239,68,68,0.1);
+  color: #b91c1c;
+  border-color: #dc2626;
+}
+
+@media (orientation: landscape) {
+  .room-page { padding: 12px 20px; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">Chargement...</div>
+
+<!-- Setup screen (choix de salle) -->
+<div class="setup-screen hidden" id="setupScreen">
+  <div class="setup-card">
+    <h1>AEROKIOSK</h1>
+    <p class="setup-subtitle" id="setupSubtitle">Configuration de la tablette</p>
+    <!-- Step 1: license key (cloud only) -->
+    <div id="setupKeyStep" style="display:none;">
+      <input type="text" id="setupKeyInput" placeholder="AERO-XXXX-XXXX-XXXX" autocomplete="off">
+      <div class="setup-error" id="setupKeyError" style="display:none;"></div>
+      <button class="setup-btn" onclick="setupLoadRooms()">Suivant</button>
+    </div>
+    <!-- Step 2: pick room -->
+    <div id="setupRoomStep" style="display:none;">
+      <p class="setup-subtitle" id="setupRoomLabel">Choisir la salle :</p>
+      <div class="setup-rooms-list" id="setupRoomsList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="room-page" id="roomPage" style="display:none;">
+  <!-- Sunset warning banner -->
+  <div class="sunset-banner" id="sunsetBanner"></div>
+  <!-- Header -->
+  <div class="room-header">
+    <div class="room-header-left">
+      <h1 id="roomName">—</h1>
+      <div class="room-meta" id="roomMeta"></div>
+    </div>
+    <div class="room-date" id="roomDate"></div>
+  </div>
+
+  <!-- Status banner -->
+  <div class="status-banner libre" id="statusBanner">
+    <div class="status-label" id="statusLabel">LIBRE</div>
+    <div class="status-detail" id="statusDetail"></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-section">
+    <div class="timeline-header" id="timelineHeader">Aujourd'hui</div>
+    <div id="timelineList"></div>
+  </div>
+
+  <!-- Quick booking -->
+  <div class="quick-booking" id="quickBooking">
+    <div class="quick-title" id="quickTitle">Réserver</div>
+    <div class="dur-alert" id="durAlert"></div>
+    <div class="quick-start-row">
+      <label class="quick-start-label" id="quickStartLabel">Début</label>
+      <select class="quick-start-select" id="quickStartTime" onchange="onStartTimeChange()"></select>
+    </div>
+    <div class="quick-durations" id="quickDurations">
+      <button class="dur-btn" data-dur="15" onclick="selectDuration(15)">15 min</button>
+      <button class="dur-btn selected" data-dur="30" onclick="selectDuration(30)">30 min</button>
+      <button class="dur-btn" data-dur="45" onclick="selectDuration(45)">45 min</button>
+      <button class="dur-btn" data-dur="60" onclick="selectDuration(60)">60 min</button>
+    </div>
+    <div class="quick-fields">
+      <input type="text" id="quickName" placeholder="Votre nom (obligatoire)" autocomplete="off">
+      <select id="quickRole" class="quick-role-select">
+        <option value="instructeur">Instructeur</option>
+        <option value="stagiaire" selected>Stagiaire</option>
+        <option value="examinateur">Examinateur</option>
+        <option value="autre">Autre</option>
+      </select>
+      <input type="text" id="quickTitleInput" placeholder="Titre (optionnel)">
+    </div>
+    <div id="quickParticipants" class="quick-participants"></div>
+    <button type="button" class="quick-add-participant" onclick="addQuickParticipant()">+ Participant</button>
+    <div class="quick-error" id="quickError"></div>
+    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Réserver</button>
+  </div>
+</div>
+
+<!-- Edit booking modal -->
+<div class="edit-overlay hidden" id="editOverlay">
+  <div class="edit-card">
+    <h3 id="editModalTitle">Modifier</h3>
+    <label id="editLabelTitle">Titre</label>
+    <input type="text" id="editTitle">
+    <label id="editLabelName">Nom</label>
+    <input type="text" id="editName">
+    <div class="edit-row">
+      <div>
+        <label id="editLabelStart">D\u00e9but</label>
+        <input type="time" id="editStart" step="900">
+      </div>
+      <div>
+        <label id="editLabelEnd">Fin</label>
+        <input type="time" id="editEnd" step="900">
+      </div>
+    </div>
+    <div class="quick-error" id="editError" style="display:none;"></div>
+    <div class="edit-actions">
+      <button class="btn-save" id="editSaveBtn" onclick="saveEditBooking()">Enregistrer</button>
+      <button class="btn-delete" id="editDeleteBtn" onclick="confirmDeleteBooking()">Supprimer</button>
+      <button class="btn-close" onclick="closeEditModal()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kiosk unlock button -->
+<button class="kiosk-unlock-btn" id="kioskUnlockBtn" onclick="showUnlockOverlay()">&#9881;</button>
+
+<!-- Unlock overlay -->
+<div class="overlay hidden" id="unlockOverlay">
+  <div class="overlay-card">
+    <h3 id="unlockTitle">Mode administrateur</h3>
+    <input type="password" id="unlockPassword" placeholder="Cl\u00e9 de licence AeroKiosk">
+    <div class="overlay-actions">
+      <button class="primary" onclick="tryUnlock()">OK</button>
+      <button onclick="hideUnlockOverlay()">Annuler</button>
+    </div>
+    <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+      <button style="width:100%; padding:10px; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text-dim); font-size:13px; cursor:pointer;" onclick="tryChangeRoom()">Changer de salle</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──
+const POLL_INTERVAL = 30000; // 30s
+const SUPABASE_URL = 'https://yfucrljbqdoiuqmgvrjx.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_85vUBMn6NPS6loJefBuZ8A_v7I_TakV';
+
+// ── STATE ──
+let roomId = null;
+let roomData = null;
+let bookings = [];
+let selectedDuration = 30;
+let mode = 'local'; // 'local' or 'cloud'
+let licenseKey = '';
+let pollTimer = null;
+let isKiosk = true;
+let editingBooking = null;
+let clubConfig = null; // full config from kiosk
+
+// ── i18n ──
+const LABELS = {
+  fr: {
+    libre: 'LIBRE', occupe: 'OCCUP\u00c9E', today: "Aujourd'hui",
+    nextAt: 'Prochaine r\u00e9sa \u00e0', until: 'jusqu\'\u00e0', by: 'par',
+    bookNow: 'R\u00e9server', yourName: 'Votre nom (obligatoire)',
+    titleOpt: 'Titre (optionnel)', book: 'R\u00e9server',
+    startTime: 'D\u00e9but',
+    noBookings: 'Aucune r\u00e9servation aujourd\'hui',
+    errorName: 'Le nom est obligatoire.',
+    errorOverlap: 'Chevauchement avec la r\u00e9servation suivante.',
+    errorSave: 'Erreur lors de l\'enregistrement.',
+    admin: 'Mode administrateur', password: 'Mot de passe admin',
+    ok: 'OK', cancel: 'Annuler', loading: 'Chargement...',
+    typeBriefing: 'Briefing', typeSimulateur: 'Simulateur', typeCours: 'Cours',
+    typeAutre: 'Autre',
+    setupTitle: 'Configuration de la tablette',
+    setupKey: 'Cl\u00e9 de licence',
+    setupNext: 'Suivant',
+    setupPickRoom: 'Choisir la salle :',
+    setupKeyError: 'Cl\u00e9 invalide ou aucune salle trouv\u00e9e.',
+    changeRoom: 'Changer de salle',
+    durAlert: 'Dur\u00e9e impossible : prochaine r\u00e9servation dans {0} min (max {1} min).',
+    durAlertOccupied: 'Salle actuellement occup\u00e9e.',
+    editBooking: 'Modifier la r\u00e9servation',
+    editTitle: 'Titre', editName: 'Nom', editStart: 'D\u00e9but', editEnd: 'Fin',
+    editSave: 'Enregistrer', editDelete: 'Supprimer',
+    confirmDelete: '\u00cates-vous s\u00fbr de vouloir supprimer cette r\u00e9servation ?',
+    editErrorOverlap: 'Chevauchement avec une autre r\u00e9servation.',
+    editErrorTime: "L'heure de fin doit \u00eatre apr\u00e8s l'heure de d\u00e9but.",
+    pwaHint: "Pour un mode kiosque, ajoutez cette page \u00e0 l'\u00e9cran d'accueil (Partager \u25b6 Sur l'\u00e9cran d'accueil)",
+    nightActive: 'NUIT A\u00c9RONAUTIQUE EN COURS',
+    nightWarning: 'NUIT A\u00c9RO DANS {0} MIN',
+    participantName: 'Nom',
+    addParticipant: '+ Participant',
+    role_instructeur: 'Instructeur',
+    role_stagiaire: 'Stagiaire',
+    role_examinateur: 'Examinateur',
+    role_autre: 'Autre'
+  },
+  en: {
+    libre: 'AVAILABLE', occupe: 'OCCUPIED', today: 'Today',
+    nextAt: 'Next booking at', until: 'until', by: 'by',
+    bookNow: 'Book', yourName: 'Your name (required)',
+    titleOpt: 'Title (optional)', book: 'Book',
+    startTime: 'Start',
+    noBookings: 'No bookings today',
+    errorName: 'Name is required.',
+    errorOverlap: 'Overlaps with the next booking.',
+    errorSave: 'Error saving booking.',
+    admin: 'Admin mode', password: 'Admin password',
+    ok: 'OK', cancel: 'Cancel', loading: 'Loading...',
+    typeBriefing: 'Briefing', typeSimulateur: 'Simulator', typeCours: 'Classroom',
+    typeAutre: 'Other',
+    setupTitle: 'Tablet setup',
+    setupKey: 'License key',
+    setupNext: 'Next',
+    setupPickRoom: 'Choose the room:',
+    setupKeyError: 'Invalid key or no rooms found.',
+    changeRoom: 'Change room',
+    durAlert: 'Duration not possible: next booking in {0} min (max {1} min).',
+    durAlertOccupied: 'Room currently occupied.',
+    editBooking: 'Edit booking',
+    editTitle: 'Title', editName: 'Name', editStart: 'Start', editEnd: 'End',
+    editSave: 'Save', editDelete: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this booking?',
+    editErrorOverlap: 'Overlaps with another booking.',
+    editErrorTime: 'End time must be after start time.',
+    pwaHint: 'For kiosk mode, add this page to home screen (Share \u25b6 Add to Home Screen)',
+    nightActive: 'AERONAUTICAL NIGHT IN PROGRESS',
+    nightWarning: 'AERO NIGHT IN {0} MIN',
+    participantName: 'Name',
+    addParticipant: '+ Participant',
+    role_instructeur: 'Instructor',
+    role_stagiaire: 'Student',
+    role_examinateur: 'Examiner',
+    role_autre: 'Other'
+  },
+  de: {
+    libre: 'FREI', occupe: 'BELEGT', today: 'Heute',
+    nextAt: 'Nachste Reservierung um', until: 'bis', by: 'von',
+    bookNow: 'Buchen', yourName: 'Ihr Name (Pflicht)',
+    titleOpt: 'Titel (optional)', book: 'Buchen',
+    startTime: 'Beginn',
+    noBookings: 'Keine Reservierungen heute',
+    errorName: 'Name ist Pflicht.',
+    errorOverlap: 'Uberschneidung mit der nachsten Reservierung.',
+    errorSave: 'Fehler beim Speichern.',
+    admin: 'Admin-Modus', password: 'Admin-Passwort',
+    ok: 'OK', cancel: 'Abbrechen', loading: 'Laden...',
+    typeBriefing: 'Briefing', typeSimulateur: 'Simulator', typeCours: 'Unterricht',
+    typeAutre: 'Sonstige',
+    setupTitle: 'Tablet einrichten',
+    setupKey: 'Lizenzschlussel',
+    setupNext: 'Weiter',
+    setupPickRoom: 'Raum wahlen:',
+    setupKeyError: 'Ungultiger Schlussel oder keine Raume gefunden.',
+    changeRoom: 'Raum wechseln',
+    durAlert: 'Dauer nicht m\u00f6glich: n\u00e4chste Reservierung in {0} Min (max {1} Min).',
+    durAlertOccupied: 'Raum derzeit belegt.',
+    editBooking: 'Reservierung bearbeiten',
+    editTitle: 'Titel', editName: 'Name', editStart: 'Beginn', editEnd: 'Ende',
+    editSave: 'Speichern', editDelete: 'L\u00f6schen',
+    confirmDelete: 'M\u00f6chten Sie diese Reservierung wirklich l\u00f6schen?',
+    editErrorOverlap: '\u00dcberschneidung mit einer anderen Reservierung.',
+    editErrorTime: 'Endzeit muss nach Startzeit liegen.',
+    pwaHint: 'F\u00fcr Kiosk-Modus: Seite zum Startbildschirm hinzuf\u00fcgen (Teilen \u25b6 Zum Home-Bildschirm)',
+    nightActive: 'LUFTFAHRT-NACHT AKTIV',
+    nightWarning: 'LUFTFAHRT-NACHT IN {0} MIN',
+    participantName: 'Name',
+    addParticipant: '+ Teilnehmer',
+    role_instructeur: 'Fluglehrer',
+    role_stagiaire: 'Flugsch\u00fcler',
+    role_examinateur: 'Pr\u00fcfer',
+    role_autre: 'Andere'
+  },
+  it: {
+    libre: 'LIBERA', occupe: 'OCCUPATA', today: 'Oggi',
+    nextAt: 'Prossima prenotazione alle', until: 'fino alle', by: 'da',
+    bookNow: 'Prenota', yourName: 'Il tuo nome (obbligatorio)',
+    titleOpt: 'Titolo (opzionale)', book: 'Prenota',
+    startTime: 'Inizio',
+    noBookings: 'Nessuna prenotazione oggi',
+    errorName: 'Il nome e obbligatorio.',
+    errorOverlap: 'Sovrapposizione con la prenotazione successiva.',
+    errorSave: 'Errore durante il salvataggio.',
+    admin: 'Modalita admin', password: 'Password admin',
+    ok: 'OK', cancel: 'Annulla', loading: 'Caricamento...',
+    typeBriefing: 'Briefing', typeSimulateur: 'Simulatore', typeCours: 'Corso',
+    typeAutre: 'Altro',
+    setupTitle: 'Configurazione tablet',
+    setupKey: 'Chiave di licenza',
+    setupNext: 'Avanti',
+    setupPickRoom: 'Scegli la sala:',
+    setupKeyError: 'Chiave non valida o nessuna sala trovata.',
+    changeRoom: 'Cambia sala',
+    durAlert: 'Durata non possibile: prossima prenotazione tra {0} min (max {1} min).',
+    durAlertOccupied: 'Sala attualmente occupata.',
+    editBooking: 'Modifica prenotazione',
+    editTitle: 'Titolo', editName: 'Nome', editStart: 'Inizio', editEnd: 'Fine',
+    editSave: 'Salva', editDelete: 'Elimina',
+    confirmDelete: 'Sei sicuro di voler eliminare questa prenotazione?',
+    editErrorOverlap: 'Sovrapposizione con un\'altra prenotazione.',
+    editErrorTime: "L'ora di fine deve essere dopo l'ora di inizio.",
+    pwaHint: "Per modalit\u00e0 kiosk, aggiungi alla schermata iniziale (Condividi \u25b6 Aggiungi alla Home)",
+    nightActive: 'NOTTE AERONAUTICA IN CORSO',
+    nightWarning: 'NOTTE AERO TRA {0} MIN',
+    participantName: 'Nome',
+    addParticipant: '+ Partecipante',
+    role_instructeur: 'Istruttore',
+    role_stagiaire: 'Allievo',
+    role_examinateur: 'Esaminatore',
+    role_autre: 'Altro'
+  },
+  es: {
+    libre: 'LIBRE', occupe: 'OCUPADA', today: 'Hoy',
+    nextAt: 'Proxima reserva a las', until: 'hasta', by: 'por',
+    bookNow: 'Reservar', yourName: 'Tu nombre (obligatorio)',
+    titleOpt: 'Titulo (opcional)', book: 'Reservar',
+    startTime: 'Inicio',
+    noBookings: 'Sin reservas hoy',
+    errorName: 'El nombre es obligatorio.',
+    errorOverlap: 'Solapa con la siguiente reserva.',
+    errorSave: 'Error al guardar.',
+    admin: 'Modo admin', password: 'Contrasena admin',
+    ok: 'OK', cancel: 'Cancelar', loading: 'Cargando...',
+    typeBriefing: 'Briefing', typeSimulateur: 'Simulador', typeCours: 'Clase',
+    typeAutre: 'Otro',
+    setupTitle: 'Configuracion de tableta',
+    setupKey: 'Clave de licencia',
+    setupNext: 'Siguiente',
+    setupPickRoom: 'Elegir la sala:',
+    setupKeyError: 'Clave invalida o sin salas.',
+    changeRoom: 'Cambiar de sala',
+    durAlert: 'Duraci\u00f3n no posible: pr\u00f3xima reserva en {0} min (m\u00e1x {1} min).',
+    durAlertOccupied: 'Sala actualmente ocupada.',
+    editBooking: 'Editar reserva',
+    editTitle: 'T\u00edtulo', editName: 'Nombre', editStart: 'Inicio', editEnd: 'Fin',
+    editSave: 'Guardar', editDelete: 'Eliminar',
+    confirmDelete: '\u00bfEst\u00e1 seguro de que desea eliminar esta reserva?',
+    editErrorOverlap: 'Se superpone con otra reserva.',
+    editErrorTime: 'La hora de fin debe ser posterior a la de inicio.',
+    pwaHint: 'Para modo kiosko, a\u00f1ade esta p\u00e1gina a la pantalla de inicio (Compartir \u25b6 A\u00f1adir a inicio)',
+    nightActive: 'NOCHE AERON\u00c1UTICA EN CURSO',
+    nightWarning: 'NOCHE AERO EN {0} MIN',
+    participantName: 'Nombre',
+    addParticipant: '+ Participante',
+    role_instructeur: 'Instructor',
+    role_stagiaire: 'Alumno',
+    role_examinateur: 'Examinador',
+    role_autre: 'Otro'
+  }
+};
+let lang = 'fr';
+function L(key) { return (LABELS[lang] || LABELS.fr)[key] || key; }
+
+// ── FETCH CLUB LANGUAGE ──
+async function fetchClubConfig() {
+  try {
+    let cfg = null;
+    if (mode === 'local') {
+      const resp = await fetch('/api/config');
+      if (resp.ok) cfg = await resp.json();
+    } else if (licenseKey) {
+      const resp = await fetch(
+        SUPABASE_URL + '/rest/v1/club_config?license_key=eq.' + encodeURIComponent(licenseKey) + '&select=config',
+        { headers: supabaseHeaders() }
+      );
+      if (resp.ok) {
+        const rows = await resp.json();
+        if (rows.length && rows[0].config) cfg = rows[0].config;
+      }
+    }
+    if (cfg) {
+      clubConfig = cfg;
+      // Language
+      if (cfg.language && LABELS[cfg.language]) lang = cfg.language;
+      // Theme
+      if (cfg.rooms && cfg.rooms.screenTheme === 'light') {
+        document.documentElement.classList.add('light');
+      } else {
+        document.documentElement.classList.remove('light');
+      }
+      // Start sunset warning ticker
+      startSunsetTicker();
+    }
+  } catch (e) { /* keep defaults */ }
+}
+
+// ── INIT ──
+async function init() {
+  // Language: default from URL or browser, overridden later by club config
+  const urlParams = new URLSearchParams(window.location.search);
+  lang = urlParams.get('lang') || navigator.language.slice(0, 2) || 'fr';
+  if (!LABELS[lang]) lang = 'fr';
+
+  // Detect mode: local if served from port 3000 / Electron, cloud otherwise
+  const isLocal = window.location.port === '3000' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  mode = isLocal ? 'local' : 'cloud';
+
+  // Check URL path for direct room ID: /room/<id>
+  const pathParts = window.location.pathname.split('/');
+  const roomIdx = pathParts.indexOf('room');
+  const pathRoomId = (roomIdx >= 0 && pathParts[roomIdx + 1]) ? pathParts[roomIdx + 1] : null;
+
+  // Check localStorage for saved config
+  const saved = loadSavedConfig();
+
+  if (pathRoomId) {
+    // Direct URL with room ID — use it
+    roomId = pathRoomId;
+    if (saved && saved.licenseKey) licenseKey = saved.licenseKey;
+  } else if (saved && saved.roomId) {
+    // Saved from previous setup
+    roomId = saved.roomId;
+    licenseKey = saved.licenseKey || '';
+  } else {
+    // No room ID — show setup screen
+    document.getElementById('loadingScreen').style.display = 'none';
+    await fetchClubConfig();
+    showSetupScreen();
+    return;
+  }
+
+  // Fetch club language before display
+  await fetchClubConfig();
+
+  await startRoomDisplay();
+}
+
+function loadSavedConfig() {
+  try {
+    const raw = localStorage.getItem('aerokiosk-room-config');
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function saveConfig(cfg) {
+  localStorage.setItem('aerokiosk-room-config', JSON.stringify(cfg));
+}
+
+function clearConfig() {
+  localStorage.removeItem('aerokiosk-room-config');
+}
+
+// ── SETUP SCREEN ──
+let setupRoomsList = [];
+
+function showSetupScreen() {
+  const screen = document.getElementById('setupScreen');
+  screen.classList.remove('hidden');
+  document.getElementById('setupSubtitle').textContent = L('setupTitle');
+  document.getElementById('setupRoomLabel').textContent = L('setupPickRoom');
+
+  if (mode === 'cloud') {
+    // Show license key step first
+    document.getElementById('setupKeyStep').style.display = '';
+    document.getElementById('setupRoomStep').style.display = 'none';
+    document.getElementById('setupKeyInput').placeholder = L('setupKey');
+    document.querySelector('#setupKeyStep .setup-btn').textContent = L('setupNext');
+  } else {
+    // Local: skip key, go directly to room list
+    document.getElementById('setupKeyStep').style.display = 'none';
+    document.getElementById('setupRoomStep').style.display = '';
+    loadSetupRooms();
+  }
+}
+
+async function setupLoadRooms() {
+  // Cloud: validate license key, then load rooms
+  licenseKey = document.getElementById('setupKeyInput').value.trim();
+  if (!licenseKey) return;
+
+  const errEl = document.getElementById('setupKeyError');
+  errEl.style.display = 'none';
+
+  try {
+    await fetchClubConfig();
+    const rooms = await fetchRooms();
+    if (!rooms || !rooms.length) {
+      errEl.textContent = L('setupKeyError');
+      errEl.style.display = '';
+      return;
+    }
+    setupRoomsList = rooms;
+    document.getElementById('setupKeyStep').style.display = 'none';
+    document.getElementById('setupRoomStep').style.display = '';
+    renderSetupRooms();
+  } catch (err) {
+    errEl.textContent = L('setupKeyError');
+    errEl.style.display = '';
+  }
+}
+
+async function loadSetupRooms() {
+  try {
+    setupRoomsList = await fetchRooms();
+    renderSetupRooms();
+  } catch (err) {
+    document.getElementById('setupRoomsList').innerHTML = '<p style="color:var(--nogo);">Error: ' + esc(err.message) + '</p>';
+  }
+}
+
+function renderSetupRooms() {
+  const container = document.getElementById('setupRoomsList');
+  if (!setupRoomsList.length) {
+    container.innerHTML = '<p style="color:var(--text-dim);">Aucune salle</p>';
+    return;
+  }
+  const sorted = [...setupRoomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  container.innerHTML = sorted.map(r => {
+    const typeKey = 'type' + r.type.charAt(0).toUpperCase() + r.type.slice(1);
+    return '<button class="setup-room-btn" onclick="pickRoom(\'' + r.id + '\')">' +
+      '<span>' + esc(r.name) + '</span>' +
+      '<span class="setup-room-type">' + L(typeKey) + '</span>' +
+    '</button>';
+  }).join('');
+}
+
+async function pickRoom(id) {
+  roomId = id;
+  saveConfig({ roomId: id, licenseKey: licenseKey, mode: mode });
+
+  // Hide setup, show room
+  document.getElementById('setupScreen').classList.add('hidden');
+  await startRoomDisplay();
+}
+
+// ── START ROOM DISPLAY ──
+async function startRoomDisplay() {
+  document.getElementById('loadingScreen').style.display = '';
+  document.getElementById('loadingScreen').textContent = L('loading');
+
+  try {
+    const rooms = await fetchRooms();
+    roomData = rooms.find(r => r.id === roomId);
+    if (!roomData) {
+      document.getElementById('loadingScreen').textContent = 'Room not found';
+      return;
+    }
+  } catch (err) {
+    document.getElementById('loadingScreen').textContent = 'Error: ' + err.message;
+    return;
+  }
+
+  document.getElementById('loadingScreen').style.display = 'none';
+  document.getElementById('roomPage').style.display = '';
+
+  applyLabels();
+  await refreshData();
+
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(refreshData, POLL_INTERVAL);
+
+  // PWA standalone hint: if not in standalone mode, show a hint
+  if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 20px;color:var(--text-dim);font-size:13px;z-index:500;text-align:center;max-width:80vw;';
+    hint.innerHTML = L('pwaHint') || 'Pour un mode kiosque plein \u00e9cran, ajoutez cette page \u00e0 l\'\u00e9cran d\'accueil (Partager \u25b6 Sur l\'\u00e9cran d\'accueil)';
+    document.body.appendChild(hint);
+    setTimeout(() => { hint.style.opacity = '0'; hint.style.transition = 'opacity 1s'; }, 8000);
+    setTimeout(() => hint.remove(), 9500);
+  }
+}
+
+// ── CHANGE ROOM (from unlock overlay) ──
+function tryChangeRoom() {
+  hideUnlockOverlay();
+  if (pollTimer) clearInterval(pollTimer);
+  clearConfig();
+  roomId = null;
+  roomData = null;
+  bookings = [];
+  document.getElementById('roomPage').style.display = 'none';
+  showSetupScreen();
+}
+
+function applyLabels() {
+  document.getElementById('roomName').textContent = roomData.name;
+  const typeKey = 'type' + roomData.type.charAt(0).toUpperCase() + roomData.type.slice(1);
+  const typeLabel = L(typeKey);
+  const capText = roomData.capacity ? ' — ' + roomData.capacity + ' places' : '';
+  document.getElementById('roomMeta').textContent = typeLabel + capText;
+  document.getElementById('timelineHeader').textContent = L('today');
+  document.getElementById('quickTitle').textContent = L('bookNow');
+  document.getElementById('quickStartLabel').textContent = L('startTime');
+  document.getElementById('quickName').placeholder = L('yourName');
+  document.getElementById('quickTitleInput').placeholder = L('titleOpt');
+  document.getElementById('quickSubmit').textContent = L('book');
+
+  // Date
+  const now = new Date();
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  document.getElementById('roomDate').textContent = now.toLocaleDateString(lang, opts);
+}
+
+// ── DATA FETCH ──
+async function fetchRooms() {
+  if (mode === 'local') {
+    const resp = await fetch('/api/rooms');
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/rooms?license_key=eq.' + encodeURIComponent(licenseKey) + '&order=display_order.asc',
+      { headers: supabaseHeaders() }
+    );
+    return resp.json();
+  }
+}
+
+async function fetchBookings(date) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings?date=' + date);
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?license_key=eq.' + encodeURIComponent(licenseKey) +
+      '&room_id=eq.' + encodeURIComponent(roomId) + '&date=eq.' + date + '&order=start_time.asc',
+      { headers: supabaseHeaders() }
+    );
+    return resp.json();
+  }
+}
+
+async function createBooking(data) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return resp.json();
+  } else {
+    const payload = { ...data, license_key: licenseKey };
+    const resp = await fetch(SUPABASE_URL + '/rest/v1/room_bookings', {
+      method: 'POST',
+      headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+      body: JSON.stringify(payload)
+    });
+    const rows = await resp.json();
+    return rows[0] || null;
+  }
+}
+
+function supabaseHeaders(extra) {
+  return {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json',
+    ...extra
+  };
+}
+
+// ── REFRESH ──
+async function refreshData() {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const all = await fetchBookings(today);
+    bookings = (all || []).filter(b => b.room_id === roomId);
+    bookings.sort((a, b) => (a.start_time || '').localeCompare(b.start_time || ''));
+  } catch (err) {
+    console.error('refreshData error:', err);
+  }
+  renderStatus();
+  renderTimeline();
+  renderQuickBooking();
+
+  // Update date
+  const now = new Date();
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  document.getElementById('roomDate').textContent = now.toLocaleDateString(lang, opts);
+}
+
+// ── RENDER STATUS ──
+function renderStatus() {
+  const banner = document.getElementById('statusBanner');
+  const label = document.getElementById('statusLabel');
+  const detail = document.getElementById('statusDetail');
+
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  // Find current booking
+  const current = bookings.find(b => {
+    const s = timeToMinutes(b.start_time);
+    const e = timeToMinutes(b.end_time);
+    return nowMins >= s && nowMins < e;
+  });
+
+  if (current) {
+    banner.className = 'status-banner occupe';
+    label.textContent = L('occupe');
+    const endLabel = (current.end_time || '').slice(0, 5);
+    const byLabel = current.booked_by ? ' — ' + current.booked_by : '';
+    detail.innerHTML = L('until') + ' <strong>' + endLabel + '</strong>' + byLabel;
+  } else {
+    banner.className = 'status-banner libre';
+    label.textContent = L('libre');
+    // Find next booking
+    const next = bookings.find(b => timeToMinutes(b.start_time) > nowMins);
+    if (next) {
+      const startLabel = (next.start_time || '').slice(0, 5);
+      detail.innerHTML = L('nextAt') + ' <strong>' + startLabel + '</strong>';
+    } else {
+      detail.textContent = '';
+    }
+  }
+}
+
+// ── RENDER TIMELINE ──
+function renderTimeline() {
+  const container = document.getElementById('timelineList');
+  if (!bookings.length) {
+    container.innerHTML = '<div class="timeline-empty">' + L('noBookings') + '</div>';
+    return;
+  }
+
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  container.innerHTML = bookings.map(bk => {
+    const s = timeToMinutes(bk.start_time);
+    const e = timeToMinutes(bk.end_time);
+    let cls = 'timeline-item';
+    const isCurrent = nowMins >= s && nowMins < e;
+    const isPast = nowMins >= e;
+    if (isCurrent) cls += ' current';
+    else if (isPast) cls += ' past';
+
+    const timeLabel = (bk.start_time || '').slice(0, 5) + ' \u2013 ' + (bk.end_time || '').slice(0, 5);
+    const srcClass = 'src-' + (bk.source || 'admin');
+
+    // Show edit/cancel buttons for non-past bookings (tablet or admin source)
+    const canEdit = !isPast && (bk.source === 'tablet' || bk.source === 'admin');
+    const actions = canEdit
+      ? '<div class="timeline-actions">' +
+          '<button onclick="openEditModal(\'' + bk.id + '\')">\u270f\ufe0f</button>' +
+          '<button class="btn-cancel" onclick="quickDelete(\'' + bk.id + '\')">\u2715</button>' +
+        '</div>'
+      : '';
+
+    // Participants display
+    let byLine = '';
+    if (Array.isArray(bk.participants) && bk.participants.length) {
+      byLine = '<div class="timeline-by">' + bk.participants.map(p =>
+        esc(p.name) + ' <span class="timeline-role">(' + esc(L('role_' + p.role) || p.role) + ')</span>'
+      ).join(', ') + '</div>';
+    } else if (bk.booked_by) {
+      byLine = '<div class="timeline-by">' + L('by') + ' ' + esc(bk.booked_by) + '</div>';
+    }
+
+    return '<div class="' + cls + '">' +
+      '<div class="timeline-time">' + timeLabel + '</div>' +
+      '<div class="timeline-info">' +
+        '<div class="timeline-title">' + esc(bk.title || '') + '</div>' +
+        byLine +
+      '</div>' +
+      '<div class="timeline-source ' + srcClass + '">' + (bk.source || 'admin') + '</div>' +
+      actions +
+    '</div>';
+  }).join('');
+}
+
+// ── RENDER QUICK BOOKING ──
+function renderQuickBooking() {
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  const firstSlot = Math.ceil(nowMins / 15) * 15; // prochain quart d'heure
+
+  // Build list of available start times (quarts d'heure de maintenant à 21h)
+  const sel = document.getElementById('quickStartTime');
+  const prevVal = sel.value;
+  sel.innerHTML = '';
+
+  let defaultSlot = null;
+  for (let m = firstSlot; m < 21 * 60; m += 15) {
+    // Check if this slot is inside an existing booking
+    const blocked = bookings.some(b => {
+      const s = timeToMinutes(b.start_time);
+      const e = timeToMinutes(b.end_time);
+      return m >= s && m < e;
+    });
+    if (blocked) continue;
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = minutesToTime(m);
+    sel.appendChild(opt);
+    if (!defaultSlot) defaultSlot = m;
+  }
+
+  // Restore previous selection if still available, otherwise first free slot
+  if (prevVal && sel.querySelector('option[value="' + prevVal + '"]')) {
+    sel.value = prevVal;
+  } else if (defaultSlot !== null) {
+    sel.value = defaultSlot;
+  }
+
+  updateDurationButtons();
+}
+
+function onStartTimeChange() {
+  updateDurationButtons();
+}
+
+function updateDurationButtons() {
+  const sel = document.getElementById('quickStartTime');
+  const startMins = parseInt(sel.value) || 0;
+  const alertEl = document.getElementById('durAlert');
+
+  if (!sel.options.length) {
+    alertEl.textContent = L('durAlertOccupied');
+    alertEl.style.display = '';
+    document.querySelectorAll('.dur-btn').forEach(btn => { btn.disabled = true; });
+    document.getElementById('quickSubmit').disabled = true;
+    return;
+  }
+
+  // Max duration = time until next booking after startMins
+  const next = bookings.find(b => timeToMinutes(b.start_time) > startMins);
+  const maxMins = next ? timeToMinutes(next.start_time) - startMins : 120;
+
+  const allDisabled = maxMins < 15;
+  if (allDisabled) {
+    alertEl.textContent = L('durAlertOccupied');
+    alertEl.style.display = '';
+  } else if (selectedDuration > maxMins) {
+    const msg = L('durAlert').replace('{0}', String(maxMins)).replace('{1}', String(maxMins));
+    alertEl.textContent = msg;
+    alertEl.style.display = '';
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    const dur = parseInt(btn.dataset.dur);
+    btn.disabled = dur > maxMins;
+    if (dur > maxMins && dur === selectedDuration) {
+      selectedDuration = [60, 45, 30, 15].find(d => d <= maxMins) || 15;
+    }
+  });
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.dur) === selectedDuration);
+  });
+  document.getElementById('quickSubmit').disabled = allDisabled;
+}
+
+function selectDuration(mins) {
+  selectedDuration = mins;
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.dur) === mins);
+  });
+}
+
+function addQuickParticipant() {
+  const container = document.getElementById('quickParticipants');
+  const row = document.createElement('div');
+  row.className = 'quick-participant-row';
+  row.innerHTML =
+    '<input type="text" placeholder="' + (L('participantName') || 'Nom') + '" autocomplete="off">' +
+    '<select>' +
+      '<option value="instructeur">' + (L('role_instructeur') || 'Instructeur') + '</option>' +
+      '<option value="stagiaire" selected>' + (L('role_stagiaire') || 'Stagiaire') + '</option>' +
+      '<option value="examinateur">' + (L('role_examinateur') || 'Examinateur') + '</option>' +
+      '<option value="autre">' + (L('role_autre') || 'Autre') + '</option>' +
+    '</select>' +
+    '<button onclick="this.parentElement.remove()">&times;</button>';
+  container.appendChild(row);
+}
+
+async function submitQuickBooking() {
+  const name = document.getElementById('quickName').value.trim();
+  const title = document.getElementById('quickTitleInput').value.trim() || '';
+  const errEl = document.getElementById('quickError');
+
+  if (!name) {
+    errEl.textContent = L('errorName');
+    errEl.style.display = '';
+    return;
+  }
+
+  const startMins = parseInt(document.getElementById('quickStartTime').value);
+  const endMins = startMins + selectedDuration;
+  const startTime = minutesToTime(startMins);
+  const endTime = minutesToTime(endMins);
+
+  // Overlap check
+  const overlap = bookings.find(b =>
+    timeToMinutes(b.start_time) < endMins && timeToMinutes(b.end_time) > startMins
+  );
+  if (overlap) {
+    errEl.textContent = L('errorOverlap');
+    errEl.style.display = '';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  document.getElementById('quickSubmit').disabled = true;
+
+  // Collect participants
+  const mainRole = document.getElementById('quickRole').value;
+  const participants = [{ name: name, role: mainRole }];
+  document.querySelectorAll('#quickParticipants .quick-participant-row').forEach(row => {
+    const pName = row.querySelector('input').value.trim();
+    const pRole = row.querySelector('select').value;
+    if (pName) participants.push({ name: pName, role: pRole });
+  });
+
+  try {
+    await createBooking({
+      room_id: roomId,
+      date: new Date().toISOString().slice(0, 10),
+      start_time: startTime,
+      end_time: endTime,
+      title: title,
+      booked_by: name,
+      participants: participants,
+      source: 'tablet'
+    });
+
+    document.getElementById('quickName').value = '';
+    document.getElementById('quickTitleInput').value = '';
+    document.getElementById('quickParticipants').innerHTML = '';
+    await refreshData();
+  } catch (err) {
+    errEl.textContent = L('errorSave');
+    errEl.style.display = '';
+    console.error('submitQuickBooking error:', err);
+  }
+
+  document.getElementById('quickSubmit').disabled = false;
+}
+
+// ── SUNSET WARNING (miroir kiosque) ──
+function calcSun(date, lat, lon) {
+  const rad = Math.PI / 180;
+  const start = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const doy = Math.floor((date - start) / 86400000) + 1;
+  const g = (2 * Math.PI / 365) * (doy - 1);
+  const eqTime = 229.18 * (0.000075 + 0.001868*Math.cos(g) - 0.032077*Math.sin(g) - 0.014615*Math.cos(2*g) - 0.040849*Math.sin(2*g));
+  const decl = 0.006918 - 0.399912*Math.cos(g) + 0.070257*Math.sin(g) - 0.006758*Math.cos(2*g) + 0.000907*Math.sin(2*g) - 0.002697*Math.cos(3*g) + 0.00148*Math.sin(3*g);
+  function forAngle(zenith) {
+    const cosH = Math.cos(zenith*rad)/(Math.cos(lat*rad)*Math.cos(decl)) - Math.tan(lat*rad)*Math.tan(decl);
+    if (cosH > 1 || cosH < -1) return null;
+    const H = Math.acos(cosH) * 180 / Math.PI;
+    const noon = 720 - 4*lon - eqTime;
+    return { rise: noon - H*4, set: noon + H*4 };
+  }
+  const tzOffset = -date.getTimezoneOffset();
+  const sun = forAngle(90.833);
+  const mornOff = clubConfig?.aeroNight?.morningOffsetMin ?? -30;
+  const eveOff = clubConfig?.aeroNight?.eveningOffsetMin ?? 30;
+  return {
+    aeroEveMin: sun?.set != null ? sun.set + eveOff + tzOffset : null,
+    aeroMornMin: sun?.rise != null ? sun.rise + mornOff + tzOffset : null
+  };
+}
+
+let sunsetTickerInterval = null;
+function startSunsetTicker() {
+  if (sunsetTickerInterval) return;
+  if (!clubConfig?.station?.lat) return;
+  if (clubConfig.sections?.sunsetWarning === false) return;
+
+  const showMin = clubConfig?.thresholds?.sunsetWarning?.showMinutes ?? 60;
+  const critMin = clubConfig?.thresholds?.sunsetWarning?.criticalMinutes ?? 30;
+  const lat = clubConfig.station.lat;
+  const lon = clubConfig.station.lon;
+
+  function updateSunsetBanner() {
+    const banner = document.getElementById('sunsetBanner');
+    if (!banner) return;
+    const sun = calcSun(new Date(), lat, lon);
+    if (sun.aeroEveMin == null || sun.aeroMornMin == null) {
+      banner.className = 'sunset-banner';
+      return;
+    }
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const diffEve = sun.aeroEveMin - nowMin;
+    const isNight = nowMin >= sun.aeroEveMin || nowMin < sun.aeroMornMin;
+
+    if (isNight) {
+      banner.textContent = L('nightActive');
+      banner.className = 'sunset-banner critical';
+    } else if (diffEve > 0 && diffEve <= showMin) {
+      banner.textContent = L('nightWarning').replace('{0}', String(Math.floor(diffEve)));
+      banner.className = diffEve <= critMin ? 'sunset-banner critical' : 'sunset-banner warning';
+    } else {
+      banner.className = 'sunset-banner';
+    }
+  }
+
+  updateSunsetBanner();
+  sunsetTickerInterval = setInterval(updateSunsetBanner, 10000);
+}
+
+// ── UPDATE / DELETE BOOKING API ──
+async function updateBooking(id, data) {
+  if (mode === 'local') {
+    const resp = await fetch('/api/room-bookings/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return resp.json();
+  } else {
+    const resp = await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+      {
+        method: 'PATCH',
+        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+      }
+    );
+    const rows = await resp.json();
+    return rows[0] || null;
+  }
+}
+
+async function deleteBooking(id) {
+  if (mode === 'local') {
+    await fetch('/api/room-bookings/' + id, { method: 'DELETE' });
+  } else {
+    await fetch(
+      SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
+      { method: 'DELETE', headers: supabaseHeaders() }
+    );
+  }
+}
+
+// ── EDIT MODAL ──
+function openEditModal(bookingId) {
+  const bk = bookings.find(b => b.id === bookingId);
+  if (!bk) return;
+  editingBooking = bk;
+
+  document.getElementById('editModalTitle').textContent = L('editBooking');
+  document.getElementById('editLabelTitle').textContent = L('editTitle');
+  document.getElementById('editLabelName').textContent = L('editName');
+  document.getElementById('editLabelStart').textContent = L('editStart');
+  document.getElementById('editLabelEnd').textContent = L('editEnd');
+  document.getElementById('editSaveBtn').textContent = L('editSave');
+  document.getElementById('editDeleteBtn').textContent = L('editDelete');
+
+  document.getElementById('editTitle').value = bk.title || '';
+  document.getElementById('editName').value = bk.booked_by || '';
+  document.getElementById('editStart').value = (bk.start_time || '').slice(0, 5);
+  document.getElementById('editEnd').value = (bk.end_time || '').slice(0, 5);
+  document.getElementById('editError').style.display = 'none';
+
+  document.getElementById('editOverlay').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('editOverlay').classList.add('hidden');
+  editingBooking = null;
+}
+
+async function saveEditBooking() {
+  if (!editingBooking) return;
+  const errEl = document.getElementById('editError');
+  errEl.style.display = 'none';
+
+  const title = document.getElementById('editTitle').value.trim();
+  const name = document.getElementById('editName').value.trim();
+  const startTime = document.getElementById('editStart').value + ':00';
+  const endTime = document.getElementById('editEnd').value + ':00';
+
+  const startMins = timeToMinutes(startTime);
+  const endMins = timeToMinutes(endTime);
+
+  if (endMins <= startMins) {
+    errEl.textContent = L('editErrorTime');
+    errEl.style.display = '';
+    return;
+  }
+
+  // Overlap check (exclude current booking)
+  const overlap = bookings.find(b =>
+    b.id !== editingBooking.id &&
+    timeToMinutes(b.start_time) < endMins &&
+    timeToMinutes(b.end_time) > startMins
+  );
+  if (overlap) {
+    errEl.textContent = L('editErrorOverlap');
+    errEl.style.display = '';
+    return;
+  }
+
+  try {
+    await updateBooking(editingBooking.id, {
+      title, booked_by: name, start_time: startTime, end_time: endTime
+    });
+    closeEditModal();
+    await refreshData();
+  } catch (err) {
+    errEl.textContent = L('errorSave');
+    errEl.style.display = '';
+  }
+}
+
+function confirmDeleteBooking() {
+  if (!editingBooking) return;
+  if (confirm(L('confirmDelete'))) {
+    doDeleteBooking(editingBooking.id);
+  }
+}
+
+function quickDelete(bookingId) {
+  if (confirm(L('confirmDelete'))) {
+    doDeleteBooking(bookingId);
+  }
+}
+
+async function doDeleteBooking(id) {
+  try {
+    await deleteBooking(id);
+    closeEditModal();
+    await refreshData();
+  } catch (err) {
+    console.error('deleteBooking error:', err);
+  }
+}
+
+// ── KIOSK UNLOCK ──
+function showUnlockOverlay() {
+  document.getElementById('unlockOverlay').classList.remove('hidden');
+  document.getElementById('unlockPassword').value = '';
+  document.getElementById('unlockPassword').focus();
+}
+
+function hideUnlockOverlay() {
+  document.getElementById('unlockOverlay').classList.add('hidden');
+}
+
+async function tryUnlock() {
+  const pw = document.getElementById('unlockPassword').value;
+  if (!pw) return;
+
+  // Unlock with license key
+  const ok = (pw === licenseKey);
+
+  if (ok) {
+    isKiosk = false;
+    hideUnlockOverlay();
+    // Show change room button + allow normal browsing
+    document.getElementById('kioskUnlockBtn').style.display = 'none';
+  } else {
+    document.getElementById('unlockPassword').value = '';
+    document.getElementById('unlockPassword').style.borderColor = 'var(--nogo)';
+    setTimeout(() => { document.getElementById('unlockPassword').style.borderColor = ''; }, 1500);
+  }
+}
+
+// Enter on password field
+document.getElementById('unlockPassword').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+// ── UTILS ──
+function timeToMinutes(str) {
+  if (!str) return 0;
+  const p = str.split(':');
+  return parseInt(p[0]) * 60 + parseInt(p[1] || 0);
+}
+
+function minutesToTime(mins) {
+  return String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+// ── START ──
+init();
+</script>
+</body>
+</html>
