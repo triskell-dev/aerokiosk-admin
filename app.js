@@ -2246,7 +2246,6 @@ class ApiClient {
           total_hours: data.total_hours || null,
           mel_items: data.mel_items || [],
           nogo_reason: data.nogo_reason || '',
-          maint_reason: data.maint_reason || '',
           sort_order: data.sort_order || 0
         })
       });
