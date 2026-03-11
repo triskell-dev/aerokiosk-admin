@@ -2246,10 +2246,15 @@ class ApiClient {
           total_hours: data.total_hours || null,
           mel_items: data.mel_items || [],
           nogo_reason: data.nogo_reason || '',
+          maint_reason: data.maint_reason || '',
           sort_order: data.sort_order || 0
         })
       });
-      if (!resp.ok) throw new Error(t('error.saveFleet'));
+      if (!resp.ok) {
+        const errBody = await resp.text();
+        console.error('Supabase fleet create error:', resp.status, errBody);
+        throw new Error(t('error.saveFleet') + ' (' + resp.status + ')');
+      }
       const rows = await resp.json();
       return rows[0] || null;
     }
@@ -2274,7 +2279,11 @@ class ApiClient {
           body: JSON.stringify(data)
         }
       );
-      if (!resp.ok) throw new Error(t('error.saveFleet'));
+      if (!resp.ok) {
+        const errBody = await resp.text();
+        console.error('Supabase fleet update error:', resp.status, errBody);
+        throw new Error(t('error.saveFleet') + ' (' + resp.status + ')');
+      }
       const rows = await resp.json();
       return rows[0] || null;
     }
@@ -3208,7 +3217,7 @@ fleetForm.addEventListener('submit', async (e) => {
     await refreshFleet();
   } catch (err) {
     console.error('Fleet save error:', err);
-    alert(t('error.saveFleet'));
+    alert(err.message || t('error.saveFleet'));
   }
   submitBtn.disabled = false;
 });
