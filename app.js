@@ -4370,10 +4370,6 @@ function cfgPopulateScreenList() {
     mainToggles.appendChild(fleetTgl0.wrap);
     mainToggles.appendChild(clubTgl0.wrap);
   }
-  if (mainLayersEl) {
-    cfgRenderScreenLayers(mainLayersEl, screens[0] || {}, 'cfg-main-screen-layer');
-  }
-
   // Écrans supplémentaires (screens[1+])
   var container = document.getElementById('cfgScreenList');
   container.innerHTML = '';
@@ -4556,12 +4552,6 @@ function cfgCollectScreens() {
     if (fleetCb) mainScreen.fleet = fleetCb.checked;
     if (clubCb) mainScreen.clubDisplay = clubCb.checked;
   }
-  var mainLayersEl = document.getElementById('cfgMainScreenLayers');
-  if (mainLayersEl) {
-    var ml = cfgCollectScreenLayers(mainLayersEl, 'cfg-main-screen-layer');
-    if (ml) mainScreen.layers = ml;
-  }
-
   // screens[1+] = écrans supplémentaires
   var additionalScreens = Array.from(document.getElementById('cfgScreenList').children).map(function(row) {
     var displayIndex = parseInt(row.querySelector('.cfg-screen-display').value) || 0;
