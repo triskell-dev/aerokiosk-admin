@@ -249,6 +249,10 @@ const TRANSLATIONS = {
     'cfg.sections.sidebarPosition': 'Position du panneau météo',
     'cfg.sections.sidebarRight': 'À droite',
     'cfg.sections.sidebarLeft': 'À gauche',
+    // ── Flotte ──
+    'cfg.fleet.title': 'Tableau flotte',
+    'cfg.fleet.showOverlay': 'Tableau flotte (carrousel)',
+    'cfg.fleet.showStatusBar': 'Rapport flotte (sidebar)',
     // ── Apparence ──
     'cfg.appearance.themeSection': 'Thème',
     'cfg.appearance.mode': 'Mode',
@@ -638,6 +642,9 @@ const TRANSLATIONS = {
     'cfg.sections.sidebarPosition': 'Position Wetterpanel',
     'cfg.sections.sidebarRight': 'Rechts',
     'cfg.sections.sidebarLeft': 'Links',
+    'cfg.fleet.title': 'Flottentabelle',
+    'cfg.fleet.showOverlay': 'Flottentabelle (Karussell)',
+    'cfg.fleet.showStatusBar': 'Flottenbericht (Sidebar)',
     'cfg.appearance.themeSection': 'Thema',
     'cfg.appearance.mode': 'Modus',
     'cfg.appearance.auto': 'Auto (Tag/Nacht)',
@@ -1016,6 +1023,9 @@ const TRANSLATIONS = {
     'cfg.sections.sidebarPosition': 'Posizione pannello meteo',
     'cfg.sections.sidebarRight': 'A destra',
     'cfg.sections.sidebarLeft': 'A sinistra',
+    'cfg.fleet.title': 'Tabella flotta',
+    'cfg.fleet.showOverlay': 'Tabella flotta (carosello)',
+    'cfg.fleet.showStatusBar': 'Rapporto flotta (sidebar)',
     'cfg.appearance.themeSection': 'Tema',
     'cfg.appearance.mode': 'Modalità',
     'cfg.appearance.auto': 'Auto (giorno/notte)',
@@ -1394,6 +1404,9 @@ const TRANSLATIONS = {
     'cfg.sections.sidebarPosition': 'Posición panel meteorológico',
     'cfg.sections.sidebarRight': 'A la derecha',
     'cfg.sections.sidebarLeft': 'A la izquierda',
+    'cfg.fleet.title': 'Tabla de flota',
+    'cfg.fleet.showOverlay': 'Tabla de flota (carrusel)',
+    'cfg.fleet.showStatusBar': 'Informe de flota (sidebar)',
     'cfg.appearance.themeSection': 'Tema',
     'cfg.appearance.mode': 'Modo',
     'cfg.appearance.auto': 'Auto (día/noche)',
@@ -1772,6 +1785,9 @@ const TRANSLATIONS = {
     'cfg.sections.sidebarPosition': 'Weather panel position',
     'cfg.sections.sidebarRight': 'Right',
     'cfg.sections.sidebarLeft': 'Left',
+    'cfg.fleet.title': 'Fleet table',
+    'cfg.fleet.showOverlay': 'Fleet table (carousel)',
+    'cfg.fleet.showStatusBar': 'Fleet status (sidebar)',
     'cfg.appearance.themeSection': 'Theme',
     'cfg.appearance.mode': 'Mode',
     'cfg.appearance.auto': 'Auto (day/night)',
@@ -4240,6 +4256,13 @@ function populateConfigTabs() {
   document.getElementById('cfgTafDisplay').value = c.tafDisplay || 'raw';
   document.getElementById('cfgSidebarPosition').value = c.sidebarPosition || 'right';
 
+  // -- Flotte --
+  const fl = c.fleet || {};
+  const overlayOn = fl.showOverlay !== undefined ? fl.showOverlay : (fl.enabled === true);
+  const statusBarOn = fl.showStatusBar !== undefined ? fl.showStatusBar : (fl.enabled === true);
+  document.getElementById('cfgFleetShowOverlay').checked = overlayOn;
+  document.getElementById('cfgFleetShowStatusBar').checked = statusBarOn;
+
   // -- Apparence --
   const isAuto = c.themeName === 'auto';
   document.querySelectorAll('input[name="cfgThemeMode"]').forEach(r => { r.checked = r.value === (isAuto ? 'auto' : 'fixed'); });
@@ -4651,6 +4674,12 @@ function collectConfigValues() {
   });
   c.tafDisplay = document.getElementById('cfgTafDisplay').value;
   c.sidebarPosition = document.getElementById('cfgSidebarPosition').value;
+
+  // Flotte
+  if (!c.fleet) c.fleet = {};
+  c.fleet.showOverlay = document.getElementById('cfgFleetShowOverlay').checked;
+  c.fleet.showStatusBar = document.getElementById('cfgFleetShowStatusBar').checked;
+  c.fleet.enabled = c.fleet.showOverlay || c.fleet.showStatusBar;
 
   // Apparence
   const themeMode = document.querySelector('input[name="cfgThemeMode"]:checked')?.value || 'auto';
