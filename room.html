@@ -59,8 +59,8 @@ html, body {
   flex-shrink: 0;
 }
 .room-header-left h1 {
-  font-size: 48px;
-  font-size: clamp(36px, 8vw, 64px);
+  font-size: 56px;
+  font-size: clamp(44px, 10vw, 72px);
   font-weight: 800;
   letter-spacing: 0.5px;
 }
@@ -242,7 +242,26 @@ html, body {
 .edit-actions .btn-delete { background: var(--nogo); color: #fff; }
 .edit-actions .btn-close { background: var(--border); color: var(--text); }
 
-/* ── QUICK BOOKING ── */
+/* ── BOOK BUTTON (visible by default) ── */
+.book-trigger {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 18px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #000;
+  font-size: 28px;
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.book-trigger:active { opacity: 0.85; }
+.book-trigger.hidden { display: none; }
+
+/* ── QUICK BOOKING (hidden by default) ── */
 .quick-booking {
   flex-shrink: 0;
   border: 2px solid var(--border);
@@ -250,7 +269,9 @@ html, body {
   padding: 16px;
   padding: clamp(12px, 2.5vw, 20px);
   background: var(--panel);
+  display: none;
 }
+.quick-booking.visible { display: block; }
 .quick-start-row {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 12px;
@@ -412,6 +433,21 @@ html, body {
 }
 .quick-submit:disabled { opacity: 0.4; cursor: not-allowed; }
 .quick-submit:not(:disabled):hover { opacity: 0.9; }
+.quick-cancel {
+  width: 100%;
+  padding: 14px;
+  padding: clamp(10px, 2vw, 14px);
+  background: transparent;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-size: 20px;
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.quick-cancel:active { opacity: 0.7; }
 
 /* ── KIOSK LOCK ── */
 .kiosk-unlock-btn {
@@ -670,7 +706,10 @@ html, body {
     <div id="timelineList"></div>
   </div>
 
-  <!-- Quick booking -->
+  <!-- Book trigger button -->
+  <button class="book-trigger" id="bookTrigger" onclick="showBookingForm()">Réserver</button>
+
+  <!-- Quick booking (hidden by default) -->
   <div class="quick-booking" id="quickBooking">
     <div class="quick-title" id="quickTitle">Réserver</div>
     <div class="dur-alert" id="durAlert"></div>
@@ -697,7 +736,8 @@ html, body {
     <div id="quickParticipants" class="quick-participants"></div>
     <button type="button" class="quick-add-participant" onclick="addQuickParticipant()">+ Participant</button>
     <div class="quick-error" id="quickError"></div>
-    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Réserver</button>
+    <button class="quick-submit" id="quickSubmit" onclick="submitQuickBooking()">Confirmer</button>
+    <button class="quick-cancel" onclick="hideBookingForm()">Annuler</button>
   </div>
 </div>
 
@@ -1473,6 +1513,21 @@ function addQuickParticipant() {
   container.appendChild(row);
 }
 
+function showBookingForm() {
+  document.getElementById('bookTrigger').classList.add('hidden');
+  document.getElementById('quickBooking').classList.add('visible');
+}
+
+function hideBookingForm() {
+  document.getElementById('quickBooking').classList.remove('visible');
+  document.getElementById('bookTrigger').classList.remove('hidden');
+  // Reset form
+  document.getElementById('quickName').value = '';
+  document.getElementById('quickTitleInput').value = '';
+  document.getElementById('quickParticipants').innerHTML = '';
+  document.getElementById('quickError').style.display = 'none';
+}
+
 async function submitQuickBooking() {
   const name = document.getElementById('quickName').value.trim();
   const title = document.getElementById('quickTitleInput').value.trim() || '';
@@ -1523,10 +1578,8 @@ async function submitQuickBooking() {
       source: 'tablet'
     });
 
-    document.getElementById('quickName').value = '';
-    document.getElementById('quickTitleInput').value = '';
-    document.getElementById('quickParticipants').innerHTML = '';
     await refreshData();
+    hideBookingForm();
   } catch (err) {
     errEl.textContent = L('errorSave');
     errEl.style.display = '';
