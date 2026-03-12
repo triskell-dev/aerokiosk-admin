@@ -4934,6 +4934,7 @@ function cfgUpdateThresholdState() {
 function cfgToggleBasemapAuto() {
   const auto = document.getElementById('cfgMapBasemapAuto').checked;
   document.getElementById('cfgBasemapAutoGroup').style.display = auto ? '' : 'none';
+  document.getElementById('cfgMapBasemap').disabled = auto;
 }
 
 // ── MAP LAYERS ──
