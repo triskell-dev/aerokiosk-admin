@@ -2036,12 +2036,14 @@ const SUPABASE_ANON_KEY = 'sb_publishable_85vUBMn6NPS6loJefBuZ8A_v7I_TakV';
 const STORAGE_BUCKET = 'club-slides';
 
 function supabaseHeaders(extra) {
-  return {
+  var headers = {
     'Content-Type': 'application/json',
     'apikey': SUPABASE_ANON_KEY,
-    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-    ...extra
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
   };
+  if (typeof api !== 'undefined' && api && api.licenseKey) headers['x-license-key'] = api.licenseKey;
+  if (extra) { for (var k in extra) { headers[k] = extra[k]; } }
+  return headers;
 }
 
 // ── API CLIENT ──
@@ -2117,7 +2119,7 @@ class ApiClient {
         }
       }
     } catch (e) {
-      // Pas grave si on ne récupère pas les infos
+      console.warn('[Auth] ICAO info fetch error:', e.message);
     }
 
     return { valid: true, station: this.station };
@@ -2432,10 +2434,10 @@ class ApiClient {
       });
       return resp.json();
     } else {
-      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const payload = Object.assign({}, data, { license_key: this.licenseKey, updated_at: new Date().toISOString() });
       const resp = await fetch(SUPABASE_URL + '/rest/v1/rooms', {
         method: 'POST',
-        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
         body: JSON.stringify(payload)
       });
       const rows = await resp.json();
@@ -2456,8 +2458,8 @@ class ApiClient {
         SUPABASE_URL + '/rest/v1/rooms?id=eq.' + encodeURIComponent(id),
         {
           method: 'PATCH',
-          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
-          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+          headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
+          body: JSON.stringify(Object.assign({}, data, { updated_at: new Date().toISOString() }))
         }
       );
       const rows = await resp.json();
@@ -2502,10 +2504,10 @@ class ApiClient {
       });
       return resp.json();
     } else {
-      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const payload = Object.assign({}, data, { license_key: this.licenseKey, updated_at: new Date().toISOString() });
       const resp = await fetch(SUPABASE_URL + '/rest/v1/room_bookings', {
         method: 'POST',
-        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
         body: JSON.stringify(payload)
       });
       const rows = await resp.json();
@@ -2526,8 +2528,8 @@ class ApiClient {
         SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
         {
           method: 'PATCH',
-          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
-          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+          headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
+          body: JSON.stringify(Object.assign({}, data, { updated_at: new Date().toISOString() }))
         }
       );
       const rows = await resp.json();
@@ -2572,10 +2574,10 @@ class ApiClient {
       });
       return resp.json();
     } else {
-      const payload = { ...data, license_key: this.licenseKey, updated_at: new Date().toISOString() };
+      const payload = Object.assign({}, data, { license_key: this.licenseKey, updated_at: new Date().toISOString() });
       const resp = await fetch(SUPABASE_URL + '/rest/v1/flight_bookings', {
         method: 'POST',
-        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+        headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
         body: JSON.stringify(payload)
       });
       const rows = await resp.json();
@@ -2596,8 +2598,8 @@ class ApiClient {
         SUPABASE_URL + '/rest/v1/flight_bookings?id=eq.' + encodeURIComponent(id),
         {
           method: 'PATCH',
-          headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
-          body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+          headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
+          body: JSON.stringify(Object.assign({}, data, { updated_at: new Date().toISOString() }))
         }
       );
       const rows = await resp.json();
@@ -2679,7 +2681,7 @@ class ApiClient {
       try {
         const resp = await this._fetchLocal('/api/update/status');
         return resp.json();
-      } catch (e) { return null; }
+      } catch (e) { console.warn('[Update] getUpdateStatus local error:', e.message); return null; }
     } else {
       // Mode distant : lire depuis club_config
       try {
@@ -2691,11 +2693,8 @@ class ApiClient {
         if (!resp.ok) return null;
         const rows = await resp.json();
         if (rows.length === 0) return null;
-        return {
-          appVersion: rows[0].app_version || '?',
-          ...(rows[0].update_status || { status: 'idle' })
-        };
-      } catch (e) { return null; }
+        return Object.assign({ appVersion: rows[0].app_version || '?' }, rows[0].update_status || { status: 'idle' });
+      } catch (e) { console.warn('[Update] getUpdateStatus remote error:', e.message); return null; }
     }
   }
 
@@ -2758,7 +2757,7 @@ class ApiClient {
         const resp = await this._fetchLocal('/api/airports/' + encodeURIComponent(id));
         if (!resp.ok) return null;
         return resp.json();
-      } catch (e) { return null; }
+      } catch (e) { console.warn('[API] getAirport error:', e.message); return null; }
     } else {
       return null;
     }
@@ -2811,7 +2810,7 @@ class ApiClient {
       var GODMODE_HASH = 'f3cb28c80264fbf20e2312a8f94db7ea15d3861096a811b22470c52dce92dfef';
       var encoder = new TextEncoder();
       var data = encoder.encode(password);
-      var buffer = await crypto.subtle.digest('SHA-256', data);
+      var buffer = await sha256Digest(data);
       var hashArray = Array.from(new Uint8Array(buffer));
       var hash = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
       return { ok: hash === GODMODE_HASH };
@@ -2843,9 +2842,9 @@ class ApiClient {
   // ── LOCAL FETCH HELPER ──
 
   async _fetchLocal(url, options = {}) {
-    const headers = { ...options.headers };
+    const headers = Object.assign({}, options.headers);
     if (this.token) headers['X-Session-Token'] = this.token;
-    const resp = await fetch(window.location.origin + url, { ...options, headers });
+    const resp = await fetch(window.location.origin + url, Object.assign({}, options, { headers: headers }));
     if (resp.status === 401) {
       this.logout();
       showLogin();
@@ -3057,8 +3056,8 @@ function renderSlides() {
       + '  <div class="slide-meta">' + meta + '</div>'
       + '</div>'
       + '<div class="slide-actions">'
-      + '  <label class="toggle-switch"><input type="checkbox" ' + checked + ' onchange="toggleSlide(\'' + s.id + '\', this.checked)"><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
-      + '  <button class="btn-delete" onclick="deleteSlide(\'' + s.id + '\')" title="' + t('slides.deleteTitle') + '">\u2715</button>'
+      + '  <label class="toggle-switch"><input type="checkbox" ' + checked + ' data-action="toggle-slide" data-id="' + escapeHtml(s.id) + '"><span class="toggle-track"></span><span class="toggle-knob"></span></label>'
+      + '  <button class="btn-delete" data-action="delete-slide" data-id="' + escapeHtml(s.id) + '" title="' + t('slides.deleteTitle') + '">\u2715</button>'
       + '</div>'
       + '</div>';
   }).join('');
@@ -3250,8 +3249,8 @@ function renderFleet() {
       + '  <div class="fleet-card-meta">' + escapeHtml(meta) + '</div>'
       + '</div>'
       + '<div class="fleet-card-actions">'
-      + '  <button class="btn-edit" onclick="editFleetItem(\'' + a.id + '\')" title="Edit">✎</button>'
-      + '  <button class="btn-delete" onclick="deleteFleetItem(\'' + a.id + '\')" title="' + t('fleet.deleteTitle') + '">✕</button>'
+      + '  <button class="btn-edit" data-action="edit-fleet" data-id="' + escapeHtml(a.id) + '" title="Edit">✎</button>'
+      + '  <button class="btn-delete" data-action="delete-fleet" data-id="' + escapeHtml(a.id) + '" title="' + t('fleet.deleteTitle') + '">✕</button>'
       + '</div>'
       + '</div>';
   }).join('');
@@ -3425,7 +3424,7 @@ function renderRoomsList() {
     return;
   }
   // Sort by display_order
-  const sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  const sorted = roomsList.slice().sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
   container.innerHTML = sorted.map(room => {
     const typeBadge = t('rooms.type' + room.type.charAt(0).toUpperCase() + room.type.slice(1)) || room.type;
     let detail = '';
@@ -3439,8 +3438,8 @@ function renderRoomsList() {
         <div class="fleet-type">${escHtml(typeBadge + detail)}${capText}</div>
       </div>
       <div class="fleet-card-actions">
-        <button class="btn-ghost" onclick="openRoomModal(roomsList.find(r=>r.id==='${room.id}'))">✏️</button>
-        <button class="btn-ghost" onclick="deleteRoom('${room.id}')" style="color:var(--danger);">🗑</button>
+        <button class="btn-ghost" data-action="edit-room" data-id="${escHtml(room.id)}">✏️</button>
+        <button class="btn-ghost" data-action="delete-room" data-id="${escHtml(room.id)}" style="color:var(--danger);">🗑</button>
       </div>
     </div>`;
   }).join('');
@@ -3584,7 +3583,7 @@ function renderPlanning() {
   const filterType = document.getElementById('planningFilterType').value;
   const filterSource = document.getElementById('planningFilterSource').value;
 
-  let sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  let sorted = roomsList.slice().sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
   if (filterType) sorted = sorted.filter(r => r.type === filterType);
 
   if (!sorted.length) {
@@ -3734,7 +3733,7 @@ function openBookingModal(booking, roomId, startTime) {
 
   // Populate room select
   const roomSelect = document.getElementById('bookingRoom');
-  const sorted = [...roomsList].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+  const sorted = roomsList.slice().sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
   roomSelect.innerHTML = sorted.map(r =>
     `<option value="${r.id}">${escHtml(r.name)}</option>`
   ).join('');
@@ -3966,8 +3965,8 @@ function renderFlights() {
       + '<td>' + esc(studentsStr) + '</td>'
       + '<td><span class="flight-type-badge">' + esc(f.flight_type || '') + '</span></td>'
       + '<td class="flight-actions">'
-      + '<button onclick="openFlightModal(\'' + f.id + '\')" title="Modifier">&#9998;</button>'
-      + '<button onclick="confirmDeleteFlight(\'' + f.id + '\')" title="Supprimer">&#10005;</button>'
+      + '<button data-action="edit-flight" data-id="' + esc(f.id) + '" title="Modifier">&#9998;</button>'
+      + '<button data-action="delete-flight" data-id="' + esc(f.id) + '" title="Supprimer">&#10005;</button>'
       + '</td>'
       + '</tr>';
   }).join('');
@@ -5201,6 +5200,28 @@ async function cfgUploadLogo(which) {
   }
 }
 
+// ── EVENT DELEGATION (actions data-action sur boutons dynamiques) ──
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  var action = btn.getAttribute('data-action');
+  var id = btn.getAttribute('data-id');
+  switch (action) {
+    case 'delete-slide': deleteSlide(id); break;
+    case 'edit-fleet': editFleetItem(id); break;
+    case 'delete-fleet': deleteFleetItem(id); break;
+    case 'edit-room': openRoomModal(roomsList.find(function(r) { return r.id === id; })); break;
+    case 'delete-room': deleteRoom(id); break;
+    case 'edit-flight': openFlightModal(id); break;
+    case 'delete-flight': confirmDeleteFlight(id); break;
+    case 'revoke-license': revokeLicenseGod(id); break;
+  }
+});
+document.addEventListener('change', function(e) {
+  var el = e.target.closest('[data-action="toggle-slide"]');
+  if (el) toggleSlide(el.getAttribute('data-id'), el.checked);
+});
+
 // ── EVENT BINDINGS (config) ──
 document.addEventListener('DOMContentLoaded', () => {
   // Slider bindings
@@ -5263,28 +5284,112 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// ── SHA-256 FALLBACK (Safari 12 n'a pas crypto.subtle) ──
+
+function sha256Fallback(buffer) {
+  // Pure-JS SHA-256 — used only when crypto.subtle is unavailable
+  function rightRotate(value, amount) { return (value >>> amount) | (value << (32 - amount)); }
+  var k = [
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+  ];
+  var h0=0x6a09e667, h1=0xbb67ae85, h2=0x3c6ef372, h3=0xa54ff53a;
+  var h4=0x510e527f, h5=0x9b05688c, h6=0x1f83d9ab, h7=0x5be0cd19;
+  var bytes = new Uint8Array(buffer);
+  var bitLen = bytes.length * 8;
+  // Padding
+  var padded = new Uint8Array(Math.ceil((bytes.length + 9) / 64) * 64);
+  padded.set(bytes);
+  padded[bytes.length] = 0x80;
+  var view = new DataView(padded.buffer);
+  view.setUint32(padded.length - 4, bitLen, false);
+  // Process blocks
+  for (var offset = 0; offset < padded.length; offset += 64) {
+    var w = new Array(64);
+    for (var i = 0; i < 16; i++) w[i] = view.getUint32(offset + i * 4, false);
+    for (var i = 16; i < 64; i++) {
+      var s0 = rightRotate(w[i-15],7) ^ rightRotate(w[i-15],18) ^ (w[i-15]>>>3);
+      var s1 = rightRotate(w[i-2],17) ^ rightRotate(w[i-2],19) ^ (w[i-2]>>>2);
+      w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
+    }
+    var a=h0, b=h1, c=h2, d=h3, e=h4, f=h5, g=h6, h=h7;
+    for (var i = 0; i < 64; i++) {
+      var S1 = rightRotate(e,6) ^ rightRotate(e,11) ^ rightRotate(e,25);
+      var ch = (e & f) ^ (~e & g);
+      var temp1 = (h + S1 + ch + k[i] + w[i]) | 0;
+      var S0 = rightRotate(a,2) ^ rightRotate(a,13) ^ rightRotate(a,22);
+      var maj = (a & b) ^ (a & c) ^ (b & c);
+      var temp2 = (S0 + maj) | 0;
+      h=g; g=f; f=e; e=(d+temp1)|0; d=c; c=b; b=a; a=(temp1+temp2)|0;
+    }
+    h0=(h0+a)|0; h1=(h1+b)|0; h2=(h2+c)|0; h3=(h3+d)|0;
+    h4=(h4+e)|0; h5=(h5+f)|0; h6=(h6+g)|0; h7=(h7+h)|0;
+  }
+  var result = new ArrayBuffer(32);
+  var dv = new DataView(result);
+  dv.setUint32(0,h0); dv.setUint32(4,h1); dv.setUint32(8,h2); dv.setUint32(12,h3);
+  dv.setUint32(16,h4); dv.setUint32(20,h5); dv.setUint32(24,h6); dv.setUint32(28,h7);
+  return result;
+}
+
+function sha256Digest(data) {
+  if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
+    return crypto.subtle.digest('SHA-256', data);
+  }
+  return Promise.resolve(sha256Fallback(data));
+}
+
 // ── GOD MODE ──
 
-// Hash SHA-256 côté client (pour mode cloud)
+// Hash mot de passe via le serveur local (scrypt) ou fallback SHA-256 côté client (mode cloud)
 async function hashPasswordClient(password) {
-  const salt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
-    .map(b => b.toString(16).padStart(2, '0')).join('');
-  const data = new TextEncoder().encode(salt + password);
-  const hashBuf = await crypto.subtle.digest('SHA-256', data);
-  const hash = Array.from(new Uint8Array(hashBuf))
-    .map(b => b.toString(16).padStart(2, '0')).join('');
-  return `sha256:${salt}:${hash}`;
+  // Mode local : hash scrypt côté serveur
+  if (api.mode === 'local') {
+    var resp = await api._fetchLocal('/api/hash-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password })
+    });
+    var data = await resp.json();
+    return data.hash;
+  }
+  // Mode cloud fallback : SHA-256 côté client
+  var salt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+    .map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  var encoded = new TextEncoder().encode(salt + password);
+  var hashBuf = await sha256Digest(encoded);
+  var hash = Array.from(new Uint8Array(hashBuf))
+    .map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  return 'sha256:' + salt + ':' + hash;
 }
 
 async function verifyHashClient(password, storedHash) {
   if (!storedHash) return false;
-  const parts = storedHash.split(':');
+  // Mode local : vérification scrypt côté serveur
+  if (api.mode === 'local') {
+    var resp = await api._fetchLocal('/api/verify-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password, storedHash: storedHash })
+    });
+    var data = await resp.json();
+    return data.ok;
+  }
+  // Mode cloud fallback : SHA-256 côté client
+  var parts = storedHash.split(':');
   if (parts.length !== 3) return false;
-  const [, salt, hash] = parts;
-  const data = new TextEncoder().encode(salt + password);
-  const hashBuf = await crypto.subtle.digest('SHA-256', data);
-  const computed = Array.from(new Uint8Array(hashBuf))
-    .map(b => b.toString(16).padStart(2, '0')).join('');
+  var salt = parts[1];
+  var hash = parts[2];
+  var encoded = new TextEncoder().encode(salt + password);
+  var hashBuf = await sha256Digest(encoded);
+  var computed = Array.from(new Uint8Array(hashBuf))
+    .map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
   return computed === hash;
 }
 
@@ -5480,7 +5585,7 @@ function copyLicenseKey() {
     const btn = event.target;
     btn.textContent = 'Copié !';
     setTimeout(() => { btn.textContent = 'Copier'; }, 1500);
-  }).catch(() => {});
+  }).catch((e) => { console.warn('[Clipboard] copy error:', e.message); });
 }
 
 async function loadLicenseList() {
@@ -5524,14 +5629,14 @@ async function loadLicenseList() {
       const expStr = exp.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
       html += '<tr style="border-bottom:1px solid #1e293b;">' +
-        '<td style="padding:6px 8px;"><code style="font-size:11px; letter-spacing:0.5px;">' + lic.key + '</code></td>' +
-        '<td style="padding:6px 8px; font-weight:600;">' + (lic.icao || '—') + '</td>' +
-        '<td style="padding:6px 8px; color:#94a3b8;">' + (lic.label || '—') + '</td>' +
+        '<td style="padding:6px 8px;"><code style="font-size:11px; letter-spacing:0.5px;">' + esc(lic.key) + '</code></td>' +
+        '<td style="padding:6px 8px; font-weight:600;">' + esc(lic.icao || '—') + '</td>' +
+        '<td style="padding:6px 8px; color:#94a3b8;">' + esc(lic.label || '—') + '</td>' +
         '<td style="padding:6px 8px;">' + expStr + '</td>' +
         '<td style="padding:6px 8px;">' + lic.device_count + '/' + lic.max_devices + '</td>' +
         '<td style="padding:6px 8px; color:' + statusColor + '; font-weight:600;">' + statusText + '</td>' +
         '<td style="padding:6px 8px;">' +
-          (isActive ? '<button class="btn-cancel" style="font-size:10px; padding:2px 8px;" onclick="revokeLicenseGod(\'' + lic.key + '\')">Révoquer</button>' : '') +
+          (isActive ? '<button class="btn-cancel" style="font-size:10px; padding:2px 8px;" data-action="revoke-license" data-id="' + esc(lic.key) + '">Révoquer</button>' : '') +
         '</td>' +
         '</tr>';
     }
@@ -5539,7 +5644,7 @@ async function loadLicenseList() {
     html += '</table>';
     container.innerHTML = html;
   } catch (e) {
-    container.innerHTML = '<div style="color:#f87171; font-size:12px;">Erreur : ' + e.message + '</div>';
+    container.innerHTML = '<div style="color:#f87171; font-size:12px;">Erreur : ' + esc(e.message) + '</div>';
   }
 }
 
