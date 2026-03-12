@@ -822,11 +822,7 @@
       <!-- ======== PANNEAU : Contenu club ======== -->
       <div class="config-panel" data-cpanel="clubdisplay" id="cfgClubDisplay">
         <div class="section-title" data-i18n="cfg.clubDisplay.title">Affichage club</div>
-        <div class="cfg-toggle-row">
-          <span class="cfg-toggle-label" data-i18n="cfg.clubDisplay.enabled">Activer l'affichage club</span>
-          <label class="toggle-switch"><input type="checkbox" id="cfgClubEnabled"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
-        </div>
-        <div class="cfg-hint" data-i18n="cfg.clubDisplay.enabledHint">Afficher du contenu personnalisé sur le kiosque en rotation avec la météo.</div>
+        <div class="cfg-hint" data-i18n="cfg.clubDisplay.enabledHint">Afficher du contenu personnalisé sur le kiosque en rotation avec la météo. L'activation par écran se fait dans le panneau Système.</div>
         <div id="cfgClubDisplayGroup" style="margin-top:16px;">
           <div class="cfg-toggle-row">
             <span class="cfg-toggle-label" data-i18n="cfg.clubDisplay.serverEnabled">Serveur local</span>
@@ -903,6 +899,8 @@
         <div class="form-group">
           <select class="form-select" id="cfgMainDisplay" style="max-width:320px;"></select>
           <div class="cfg-hint" data-i18n="cfg.screens.mainHint">L'écran principal utilise la configuration globale (sections, carte, sidebar, etc.).</div>
+          <div id="cfgMainScreenToggles" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top:8px;"></div>
+          <div id="cfgMainScreenLayers" style="margin-top:8px;"></div>
         </div>
         <div class="section-title" style="margin-top:24px;" data-i18n="cfg.screens.title">Écrans supplémentaires</div>
         <div class="cfg-hint" style="margin-bottom:12px;" data-i18n="cfg.screens.hint">Configurez l'affichage de chaque écran supplémentaire. Les options non personnalisées héritent de la configuration globale.</div>

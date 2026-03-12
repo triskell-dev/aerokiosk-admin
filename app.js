@@ -284,10 +284,10 @@ const TRANSLATIONS = {
     'cfg.screens.fleet': 'Flotte',
     'cfg.screens.clubDisplay': 'Contenu club',
     'cfg.screens.sectionsTitle': 'Sections sidebar',
+    'cfg.screens.layersTitle': 'Couches météo',
     // ── Contenu club ──
     'cfg.clubDisplay.title': 'Affichage club',
-    'cfg.clubDisplay.enabled': 'Activer l\'affichage club',
-    'cfg.clubDisplay.enabledHint': 'Afficher du contenu personnalisé sur le kiosque en rotation avec la météo.',
+    'cfg.clubDisplay.enabledHint': 'Afficher du contenu personnalisé sur le kiosque en rotation avec la météo. L\'activation par écran se fait dans le panneau Système.',
     'cfg.clubDisplay.serverEnabled': 'Serveur local',
     'cfg.clubDisplay.serverHint': 'Accéder à l\'admin depuis le WiFi, sans internet.',
     'cfg.clubDisplay.serverPort': 'Port',
@@ -676,9 +676,9 @@ const TRANSLATIONS = {
     'cfg.screens.fleet': 'Flotte',
     'cfg.screens.clubDisplay': 'Club-Inhalte',
     'cfg.screens.sectionsTitle': 'Sidebar-Bereiche',
+    'cfg.screens.layersTitle': 'Wetterschichten',
     'cfg.clubDisplay.title': 'Club-Anzeige',
-    'cfg.clubDisplay.enabled': 'Club-Anzeige aktivieren',
-    'cfg.clubDisplay.enabledHint': 'Eigene Inhalte im Wechsel mit Wetter auf dem Kiosk anzeigen.',
+    'cfg.clubDisplay.enabledHint': 'Eigene Inhalte im Wechsel mit Wetter auf dem Kiosk anzeigen. Aktivierung pro Bildschirm im System-Panel.',
     'cfg.clubDisplay.serverEnabled': 'Lokaler Server',
     'cfg.clubDisplay.serverHint': 'Admin-Zugriff über WLAN, ohne Internet.',
     'cfg.clubDisplay.serverPort': 'Port',
@@ -1059,9 +1059,9 @@ const TRANSLATIONS = {
     'cfg.screens.fleet': 'Flotta',
     'cfg.screens.clubDisplay': 'Contenuto club',
     'cfg.screens.sectionsTitle': 'Sezioni sidebar',
+    'cfg.screens.layersTitle': 'Strati meteo',
     'cfg.clubDisplay.title': 'Display club',
-    'cfg.clubDisplay.enabled': 'Attiva display club',
-    'cfg.clubDisplay.enabledHint': 'Mostra contenuti personalizzati sul chiosco in rotazione con il meteo.',
+    'cfg.clubDisplay.enabledHint': 'Mostra contenuti personalizzati sul chiosco in rotazione con il meteo. Attivazione per schermo nel pannello Sistema.',
     'cfg.clubDisplay.serverEnabled': 'Server locale',
     'cfg.clubDisplay.serverHint': 'Accesso admin via WiFi, senza internet.',
     'cfg.clubDisplay.serverPort': 'Porta',
@@ -1442,9 +1442,9 @@ const TRANSLATIONS = {
     'cfg.screens.fleet': 'Flota',
     'cfg.screens.clubDisplay': 'Contenido club',
     'cfg.screens.sectionsTitle': 'Secciones sidebar',
+    'cfg.screens.layersTitle': 'Capas meteorológicas',
     'cfg.clubDisplay.title': 'Pantalla del club',
-    'cfg.clubDisplay.enabled': 'Activar pantalla del club',
-    'cfg.clubDisplay.enabledHint': 'Mostrar contenido personalizado en el quiosco en rotación con el tiempo.',
+    'cfg.clubDisplay.enabledHint': 'Mostrar contenido personalizado en el quiosco en rotación con el tiempo. Activación por pantalla en el panel Sistema.',
     'cfg.clubDisplay.serverEnabled': 'Servidor local',
     'cfg.clubDisplay.serverHint': 'Acceso admin por WiFi, sin internet.',
     'cfg.clubDisplay.serverPort': 'Puerto',
@@ -1825,9 +1825,9 @@ const TRANSLATIONS = {
     'cfg.screens.fleet': 'Fleet',
     'cfg.screens.clubDisplay': 'Club content',
     'cfg.screens.sectionsTitle': 'Sidebar sections',
+    'cfg.screens.layersTitle': 'Weather layers',
     'cfg.clubDisplay.title': 'Club display',
-    'cfg.clubDisplay.enabled': 'Enable club display',
-    'cfg.clubDisplay.enabledHint': 'Show custom content on the kiosk rotating with weather.',
+    'cfg.clubDisplay.enabledHint': 'Show custom content on the kiosk rotating with weather. Per-screen activation in the System panel.',
     'cfg.clubDisplay.serverEnabled': 'Local server',
     'cfg.clubDisplay.serverHint': 'Admin access over WiFi, no internet needed.',
     'cfg.clubDisplay.serverPort': 'Port',
@@ -4294,7 +4294,6 @@ function populateConfigTabs() {
   cfgUpdateGearUpVisibility();
 
   // -- Contenu club --
-  document.getElementById('cfgClubEnabled').checked = c.clubDisplay?.enabled !== false;
   document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
   document.getElementById('cfgClubServerPort').value = c.clubDisplay?.serverPort || 3000;
   document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
@@ -4345,14 +4344,76 @@ function cfgPopulateScreenList() {
     }
   }
 
-  // Écrans supplémentaires (screens[1+])
-  const container = document.getElementById('cfgScreenList');
-  container.innerHTML = '';
-  screens.slice(1).forEach((scr, i) => cfgAddScreenRow(container, scr));
+  // ── Toggles écran principal (flotte, club, couches) ──
+  var mainToggles = document.getElementById('cfgMainScreenToggles');
+  var mainLayersEl = document.getElementById('cfgMainScreenLayers');
+  if (mainToggles) {
+    mainToggles.innerHTML = '';
+    var scr0 = screens[0] || {};
+    function cfgMakeMainToggle(labelText, checked, cls) {
+      var wrap = document.createElement('label');
+      wrap.style.cssText = 'display:flex; align-items:center; gap:4px; font-size:12px; cursor:pointer;';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = checked;
+      cb.className = cls;
+      var span = document.createElement('span');
+      span.textContent = labelText;
+      wrap.appendChild(cb);
+      wrap.appendChild(span);
+      return { wrap: wrap, cb: cb };
+    }
+    var fleetChecked0 = scr0.fleet !== undefined ? scr0.fleet : (c.fleet && c.fleet.showOverlay !== undefined ? c.fleet.showOverlay : (c.fleet && c.fleet.enabled || false));
+    var clubChecked0 = scr0.clubDisplay !== undefined ? scr0.clubDisplay : false;
+    var fleetTgl0 = cfgMakeMainToggle(t('cfg.screens.fleet') || 'Flotte', fleetChecked0, 'cfg-main-screen-fleet');
+    var clubTgl0 = cfgMakeMainToggle(t('cfg.screens.clubDisplay') || 'Contenu club', clubChecked0, 'cfg-main-screen-club');
+    mainToggles.appendChild(fleetTgl0.wrap);
+    mainToggles.appendChild(clubTgl0.wrap);
+  }
+  if (mainLayersEl) {
+    cfgRenderScreenLayers(mainLayersEl, screens[0] || {}, 'cfg-main-screen-layer');
+  }
 
-  document.getElementById('cfgBtnAddScreen').onclick = () => {
+  // Écrans supplémentaires (screens[1+])
+  var container = document.getElementById('cfgScreenList');
+  container.innerHTML = '';
+  screens.slice(1).forEach(function(scr, i) { cfgAddScreenRow(container, scr); });
+
+  document.getElementById('cfgBtnAddScreen').onclick = function() {
     cfgAddScreenRow(container, { displayIndex: container.children.length + 1, showMap: true, showSidebar: true });
   };
+}
+
+function cfgRenderScreenLayers(container, scr, classPrefix) {
+  var globalLayers = (fullConfig && fullConfig.maps && fullConfig.maps.layers) ? fullConfig.maps.layers : [];
+  if (globalLayers.length === 0) return;
+  var scrLayers = scr.layers || {};
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'padding:6px 8px; border:1px solid var(--border-color, #333); border-radius:4px; background:rgba(255,255,255,0.03);';
+  var title = document.createElement('div');
+  title.textContent = t('cfg.screens.layersTitle') || 'Couches météo';
+  title.style.cssText = 'font-size:11px; color:var(--text-dim); margin-bottom:6px; font-weight:600;';
+  wrap.appendChild(title);
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:2px 12px;';
+  globalLayers.forEach(function(layer) {
+    var checked = scrLayers[layer.id] !== undefined ? scrLayers[layer.id] : layer.enabled;
+    var lbl = document.createElement('label');
+    lbl.style.cssText = 'display:flex; align-items:center; gap:4px; font-size:11px; cursor:pointer;';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = checked;
+    cb.className = classPrefix;
+    cb.dataset.layerId = layer.id;
+    var span = document.createElement('span');
+    span.textContent = layer.label || layer.id;
+    lbl.appendChild(cb);
+    lbl.appendChild(span);
+    grid.appendChild(lbl);
+  });
+  wrap.appendChild(grid);
+  container.innerHTML = '';
+  container.appendChild(wrap);
 }
 
 function cfgAddScreenRow(container, scr) {
@@ -4409,7 +4470,7 @@ function cfgAddScreenRow(container, scr) {
   const planningChecked = scr.showPlanning === true;
   const sidebarChecked = scr.showSidebar !== false;
   const fleetChecked = scr.fleet !== undefined ? scr.fleet : (c.fleet?.enabled !== false);
-  const clubChecked = scr.clubDisplay !== undefined ? scr.clubDisplay : (c.clubDisplay?.enabled !== false);
+  const clubChecked = scr.clubDisplay !== undefined ? scr.clubDisplay : false;
 
   const mapTgl = makeToggle(t('cfg.screens.showMap') || 'Carte', mapChecked, 'cfg-screen-map');
   const planningTgl = makeToggle(t('cfg.screens.showPlanning') || 'Planning', planningChecked, 'cfg-screen-planning');
@@ -4452,50 +4513,84 @@ function cfgAddScreenRow(container, scr) {
     sectionsWrap.style.display = sidebarTgl.cb.checked ? '' : 'none';
   });
 
+  // ── Ligne 4 : couches météo (visible si carte activée) ──
+  const layersWrap = document.createElement('div');
+  layersWrap.className = 'cfg-screen-layers-wrap';
+  layersWrap.style.cssText = mapChecked ? 'margin-top:8px;' : 'margin-top:8px; display:none;';
+  cfgRenderScreenLayers(layersWrap, scr, 'cfg-screen-layer');
+  mapTgl.cb.addEventListener('change', () => {
+    layersWrap.style.display = mapTgl.cb.checked ? '' : 'none';
+  });
+
   row.appendChild(line1);
   row.appendChild(line2);
   row.appendChild(sectionsWrap);
+  row.appendChild(layersWrap);
   container.appendChild(row);
 }
 
-function cfgCollectScreens() {
-  const c = fullConfig;
-  const globalSections = c.sections || {};
-  const globalFleet = c.fleet?.enabled !== false;
-  const globalClub = c.clubDisplay?.enabled !== false;
+function cfgCollectScreenLayers(container, classPrefix) {
+  var globalLayers = (fullConfig && fullConfig.maps && fullConfig.maps.layers) ? fullConfig.maps.layers : [];
+  var layers = {};
+  var hasDiff = false;
+  container.querySelectorAll('.' + classPrefix + '[data-layer-id]').forEach(function(cb) {
+    var id = cb.dataset.layerId;
+    layers[id] = cb.checked;
+    var globalLayer = globalLayers.find(function(l) { return l.id === id; });
+    if (globalLayer && cb.checked !== !!globalLayer.enabled) hasDiff = true;
+  });
+  return hasDiff ? layers : null;
+}
 
-  // screens[0] = écran principal (juste displayIndex)
-  const mainSel = document.getElementById('cfgMainDisplay');
-  const mainScreen = { displayIndex: parseInt(mainSel?.value || 0) };
+function cfgCollectScreens() {
+  var c = fullConfig;
+  var globalSections = c.sections || {};
+
+  // screens[0] = écran principal (displayIndex + fleet + clubDisplay + layers)
+  var mainSel = document.getElementById('cfgMainDisplay');
+  var mainScreen = { displayIndex: parseInt(mainSel ? mainSel.value : 0) || 0 };
+  var mainToggles = document.getElementById('cfgMainScreenToggles');
+  if (mainToggles) {
+    var fleetCb = mainToggles.querySelector('.cfg-main-screen-fleet');
+    var clubCb = mainToggles.querySelector('.cfg-main-screen-club');
+    if (fleetCb) mainScreen.fleet = fleetCb.checked;
+    if (clubCb) mainScreen.clubDisplay = clubCb.checked;
+  }
+  var mainLayersEl = document.getElementById('cfgMainScreenLayers');
+  if (mainLayersEl) {
+    var ml = cfgCollectScreenLayers(mainLayersEl, 'cfg-main-screen-layer');
+    if (ml) mainScreen.layers = ml;
+  }
 
   // screens[1+] = écrans supplémentaires
-  const additionalScreens = Array.from(document.getElementById('cfgScreenList').children).map(row => {
-    const displayIndex = parseInt(row.querySelector('.cfg-screen-display').value) || 0;
-    const showMap = row.querySelector('.cfg-screen-map').checked;
-    const showPlanning = row.querySelector('.cfg-screen-planning').checked;
-    const showSidebar = row.querySelector('.cfg-screen-sidebar').checked;
-    const fleet = row.querySelector('.cfg-screen-fleet').checked;
-    const clubDisplay = row.querySelector('.cfg-screen-club').checked;
+  var additionalScreens = Array.from(document.getElementById('cfgScreenList').children).map(function(row) {
+    var displayIndex = parseInt(row.querySelector('.cfg-screen-display').value) || 0;
+    var showMap = row.querySelector('.cfg-screen-map').checked;
+    var showPlanning = row.querySelector('.cfg-screen-planning').checked;
+    var showSidebar = row.querySelector('.cfg-screen-sidebar').checked;
+    var fleet = row.querySelector('.cfg-screen-fleet').checked;
+    var clubDisplay = row.querySelector('.cfg-screen-club').checked;
 
-    const result = { displayIndex, showMap, showSidebar };
+    var result = { displayIndex: displayIndex, showMap: showMap, showSidebar: showSidebar, fleet: fleet, clubDisplay: clubDisplay };
 
     if (showPlanning) result.showPlanning = true;
-    if (fleet !== globalFleet) result.fleet = fleet;
-    if (clubDisplay !== globalClub) result.clubDisplay = clubDisplay;
 
-    const sections = {};
-    let hasDiff = false;
-    row.querySelectorAll('[data-screen-section]').forEach(cb => {
-      const key = cb.dataset.screenSection;
+    var sections = {};
+    var hasDiff = false;
+    row.querySelectorAll('[data-screen-section]').forEach(function(cb) {
+      var key = cb.dataset.screenSection;
       sections[key] = cb.checked;
       if (cb.checked !== (globalSections[key] !== false)) hasDiff = true;
     });
     if (hasDiff) result.sections = sections;
 
+    var layers = cfgCollectScreenLayers(row, 'cfg-screen-layer');
+    if (layers) result.layers = layers;
+
     return result;
   });
 
-  return [mainScreen, ...additionalScreens];
+  return [mainScreen].concat(additionalScreens);
 }
 
 // ── SYSTÈME : MOT DE PASSE ADMIN ──
@@ -4703,7 +4798,6 @@ function collectConfigValues() {
 
   // Contenu club
   if (!c.clubDisplay) c.clubDisplay = {};
-  c.clubDisplay.enabled = document.getElementById('cfgClubEnabled').checked;
   c.clubDisplay.serverEnabled = document.getElementById('cfgClubServerEnabled').checked;
   c.clubDisplay.serverPort = parseInt(document.getElementById('cfgClubServerPort').value) || 3000;
   c.clubDisplay.placement = document.getElementById('cfgClubPlacement').value;
@@ -4711,6 +4805,8 @@ function collectConfigValues() {
 
   // Écrans
   c.screens = cfgCollectScreens();
+  // Dériver clubDisplay.enabled depuis les écrans (pour le serveur)
+  c.clubDisplay.enabled = c.screens.some(function(s) { return s.clubDisplay === true; });
   if (!c.kiosk) c.kiosk = {};
   c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
   const s0 = c.screens[0];
@@ -5242,9 +5338,8 @@ async function submitGodModal() {
       showNedry();
     }
   } catch (e) {
-      errorEl.textContent = 'Erreur : ' + e.message;
-      errorEl.style.display = '';
-    }
+    errorEl.textContent = 'Erreur : ' + e.message;
+    errorEl.style.display = '';
   }
 }
 
