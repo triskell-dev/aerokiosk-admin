@@ -253,6 +253,8 @@ const TRANSLATIONS = {
     'cfg.fleet.title': 'Tableau flotte',
     'cfg.fleet.showOverlay': 'Tableau flotte (carrousel)',
     'cfg.fleet.showStatusBar': 'Rapport flotte (sidebar)',
+    'cfg.fleet.showGoSidebar': 'Afficher les avions GO',
+    'cfg.fleet.showMaintSidebar': 'Afficher les avions en maintenance',
     // ── Apparence ──
     'cfg.appearance.themeSection': 'Thème',
     'cfg.appearance.mode': 'Mode',
@@ -645,6 +647,8 @@ const TRANSLATIONS = {
     'cfg.fleet.title': 'Flottentabelle',
     'cfg.fleet.showOverlay': 'Flottentabelle (Karussell)',
     'cfg.fleet.showStatusBar': 'Flottenbericht (Sidebar)',
+    'cfg.fleet.showGoSidebar': 'GO-Flugzeuge anzeigen',
+    'cfg.fleet.showMaintSidebar': 'Wartungsflugzeuge anzeigen',
     'cfg.appearance.themeSection': 'Thema',
     'cfg.appearance.mode': 'Modus',
     'cfg.appearance.auto': 'Auto (Tag/Nacht)',
@@ -1026,6 +1030,8 @@ const TRANSLATIONS = {
     'cfg.fleet.title': 'Tabella flotta',
     'cfg.fleet.showOverlay': 'Tabella flotta (carosello)',
     'cfg.fleet.showStatusBar': 'Rapporto flotta (sidebar)',
+    'cfg.fleet.showGoSidebar': 'Mostra aeromobili GO',
+    'cfg.fleet.showMaintSidebar': 'Mostra aeromobili in manutenzione',
     'cfg.appearance.themeSection': 'Tema',
     'cfg.appearance.mode': 'Modalità',
     'cfg.appearance.auto': 'Auto (giorno/notte)',
@@ -1407,6 +1413,8 @@ const TRANSLATIONS = {
     'cfg.fleet.title': 'Tabla de flota',
     'cfg.fleet.showOverlay': 'Tabla de flota (carrusel)',
     'cfg.fleet.showStatusBar': 'Informe de flota (sidebar)',
+    'cfg.fleet.showGoSidebar': 'Mostrar aeronaves GO',
+    'cfg.fleet.showMaintSidebar': 'Mostrar aeronaves en mantenimiento',
     'cfg.appearance.themeSection': 'Tema',
     'cfg.appearance.mode': 'Modo',
     'cfg.appearance.auto': 'Auto (día/noche)',
@@ -1788,6 +1796,8 @@ const TRANSLATIONS = {
     'cfg.fleet.title': 'Fleet table',
     'cfg.fleet.showOverlay': 'Fleet table (carousel)',
     'cfg.fleet.showStatusBar': 'Fleet status (sidebar)',
+    'cfg.fleet.showGoSidebar': 'Show GO aircraft',
+    'cfg.fleet.showMaintSidebar': 'Show aircraft in maintenance',
     'cfg.appearance.themeSection': 'Theme',
     'cfg.appearance.mode': 'Mode',
     'cfg.appearance.auto': 'Auto (day/night)',
@@ -4262,6 +4272,12 @@ function populateConfigTabs() {
   const statusBarOn = fl.showStatusBar !== undefined ? fl.showStatusBar : (fl.enabled === true);
   document.getElementById('cfgFleetShowOverlay').checked = overlayOn;
   document.getElementById('cfgFleetShowStatusBar').checked = statusBarOn;
+  document.getElementById('cfgFleetShowGo').checked = fl.showGoSidebar === true;
+  document.getElementById('cfgFleetShowMaint').checked = fl.showMaintSidebar !== false;
+  document.getElementById('cfgFleetSidebarOptions').style.display = statusBarOn ? '' : 'none';
+  document.getElementById('cfgFleetShowStatusBar').addEventListener('change', function() {
+    document.getElementById('cfgFleetSidebarOptions').style.display = this.checked ? '' : 'none';
+  });
 
   // -- Apparence --
   const isAuto = c.themeName === 'auto';
@@ -4679,6 +4695,8 @@ function collectConfigValues() {
   if (!c.fleet) c.fleet = {};
   c.fleet.showOverlay = document.getElementById('cfgFleetShowOverlay').checked;
   c.fleet.showStatusBar = document.getElementById('cfgFleetShowStatusBar').checked;
+  c.fleet.showGoSidebar = document.getElementById('cfgFleetShowGo').checked;
+  c.fleet.showMaintSidebar = document.getElementById('cfgFleetShowMaint').checked;
   c.fleet.enabled = c.fleet.showOverlay || c.fleet.showStatusBar;
 
   // Apparence
