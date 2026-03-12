@@ -535,6 +535,7 @@ body {
   transition: border-color 0.2s;
 }
 .form-select:focus { border-color: var(--accent); }
+.form-select:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 .form-select option { background: var(--bg); color: var(--text); }
 
 /* ── FORM INPUT (config panels) ── */
