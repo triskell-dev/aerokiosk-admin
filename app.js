@@ -388,6 +388,7 @@ const TRANSLATIONS = {
     'fleet.regPlaceholder': 'F-GXYZ',
     'fleet.type': 'Type d\'aéronef',
     'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.simulator': 'Simulateur',
     'fleet.hours': 'Heures totales',
     'fleet.status': 'Statut',
     'fleet.melItems': 'Items MEL',
@@ -765,6 +766,7 @@ const TRANSLATIONS = {
     'fleet.regPlaceholder': 'D-EABC',
     'fleet.type': 'Flugzeugtyp',
     'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.simulator': 'Simulator',
     'fleet.hours': 'Gesamtstunden',
     'fleet.status': 'Status',
     'fleet.melItems': 'MEL-Einträge',
@@ -1142,6 +1144,7 @@ const TRANSLATIONS = {
     'fleet.regPlaceholder': 'I-ABCD',
     'fleet.type': 'Tipo di aeromobile',
     'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.simulator': 'Simulatore',
     'fleet.hours': 'Ore totali',
     'fleet.status': 'Stato',
     'fleet.melItems': 'Voci MEL',
@@ -1519,6 +1522,7 @@ const TRANSLATIONS = {
     'fleet.regPlaceholder': 'EC-ABC',
     'fleet.type': 'Tipo de aeronave',
     'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.simulator': 'Simulador',
     'fleet.hours': 'Horas totales',
     'fleet.status': 'Estado',
     'fleet.melItems': 'Elementos MEL',
@@ -1896,6 +1900,7 @@ const TRANSLATIONS = {
     'fleet.regPlaceholder': 'N12345',
     'fleet.type': 'Aircraft type',
     'fleet.typePlaceholder': 'Cessna 172S',
+    'fleet.simulator': 'Simulator',
     'fleet.hours': 'Total hours',
     'fleet.status': 'Status',
     'fleet.melItems': 'MEL items',
@@ -3206,6 +3211,7 @@ function renderFleet() {
     const statusLabels = { go: 'GO', mel: 'MEL', nogo: 'NO GO', maint: 'MAINT' };
     const statusLabel = statusLabels[a.status] || a.status.toUpperCase();
     let meta = a.type || '';
+    if (a.is_simulator) meta += (meta ? ' · ' : '') + 'SIM';
     if (a.total_hours != null) meta += (meta ? ' · ' : '') + a.total_hours + ' h';
     if (a.status === 'mel' && Array.isArray(a.mel_items) && a.mel_items.length > 0) {
       meta += ' · ' + a.mel_items.length + ' MEL';
@@ -3247,6 +3253,7 @@ function openFleetModal(item) {
   document.getElementById('fleetHours').value = item ? (item.total_hours || '') : '';
   document.getElementById('fleetNogoReason').value = item ? (item.nogo_reason || '') : '';
   document.getElementById('fleetMaintReason').value = item ? (item.maint_reason || '') : '';
+  document.getElementById('fleetSimulator').checked = item ? (item.is_simulator === true) : false;
 
   // Status radios
   const status = item ? item.status : 'go';
@@ -3330,6 +3337,7 @@ fleetForm.addEventListener('submit', async (e) => {
   const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
   const nogo_reason = document.getElementById('fleetNogoReason').value.trim();
   const maint_reason = document.getElementById('fleetMaintReason').value.trim();
+  const is_simulator = document.getElementById('fleetSimulator').checked;
   const mel_items = status === 'mel' ? collectMelItems() : [];
 
   const data = {
@@ -3339,7 +3347,8 @@ fleetForm.addEventListener('submit', async (e) => {
     total_hours: totalHours ? parseFloat(totalHours) : null,
     mel_items,
     nogo_reason: status === 'nogo' ? nogo_reason : '',
-    maint_reason: status === 'maint' ? maint_reason : ''
+    maint_reason: status === 'maint' ? maint_reason : '',
+    is_simulator
   };
 
   try {
