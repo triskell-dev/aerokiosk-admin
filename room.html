@@ -59,16 +59,19 @@ html, body {
   flex-shrink: 0;
 }
 .room-header-left h1 {
+  font-size: 48px;
   font-size: clamp(36px, 8vw, 64px);
   font-weight: 800;
   letter-spacing: 0.5px;
 }
 .room-header-left .room-meta {
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
   color: var(--text-dim);
   margin-top: 2px;
 }
 .room-date {
+  font-size: 24px;
   font-size: clamp(22px, 4.5vw, 32px);
   color: var(--text-dim);
   font-weight: 600;
@@ -79,6 +82,7 @@ html, body {
 .status-banner {
   flex-shrink: 0;
   border-radius: var(--radius);
+  padding: 18px 20px;
   padding: clamp(14px, 3vw, 24px) clamp(16px, 3vw, 28px);
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px;
@@ -93,6 +97,7 @@ html, body {
   border: 2px solid var(--nogo);
 }
 .status-label {
+  font-size: 40px;
   font-size: clamp(28px, 6vw, 56px);
   font-weight: 900;
   letter-spacing: 2px;
@@ -101,6 +106,7 @@ html, body {
 .status-banner.libre .status-label { color: var(--go); }
 .status-banner.occupe .status-label { color: var(--nogo); }
 .status-detail {
+  font-size: 24px;
   font-size: clamp(20px, 4vw, 30px);
   color: var(--text);
   text-align: right;
@@ -119,6 +125,7 @@ html, body {
   position: sticky; top: 0;
   background: var(--panel);
   padding: 10px 16px;
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
   font-weight: 700;
   color: var(--text-dim);
@@ -130,6 +137,7 @@ html, body {
   padding: 24px;
   text-align: center;
   color: var(--text-dim);
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
 }
 .timeline-item {
@@ -146,6 +154,7 @@ html, body {
 }
 .timeline-item.past { opacity: 0.45; }
 .timeline-time {
+  font-size: 24px;
   font-size: clamp(22px, 4.5vw, 32px);
   font-weight: 700;
   font-family: 'JetBrains Mono', 'SF Mono', monospace;
@@ -157,16 +166,19 @@ html, body {
   min-width: 0;
 }
 .timeline-title {
+  font-size: 24px;
   font-size: clamp(20px, 4vw, 30px);
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden; text-overflow: ellipsis;
 }
 .timeline-by {
+  font-size: 18px;
   font-size: clamp(16px, 3vw, 22px);
   color: var(--text-dim);
 }
 .timeline-role {
+  font-size: 16px;
   font-size: clamp(14px, 2.5vw, 18px);
   opacity: 0.7;
 }
@@ -195,7 +207,7 @@ html, body {
 .timeline-actions .btn-cancel { color: var(--nogo); border-color: var(--nogo); }
 .timeline-actions .btn-cancel:hover { background: var(--nogo-bg); }
 .dur-alert {
-  color: var(--nogo); font-size: clamp(16px, 3vw, 20px); font-weight: 600;
+  color: var(--nogo); font-size: 18px; font-size: clamp(16px, 3vw, 20px); font-weight: 600;
   margin-bottom: 10px; padding: 8px 12px;
   background: var(--nogo-bg); border-radius: 8px;
   display: none;
@@ -209,13 +221,13 @@ html, body {
 .edit-overlay.hidden { display: none; }
 .edit-card {
   background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: clamp(16px, 3vw, 24px); width: min(90vw, 420px);
+  padding: 20px; padding: clamp(16px, 3vw, 24px); width: 90vw; width: min(90vw, 420px);
 }
-.edit-card h3 { margin: 0 0 16px; font-size: clamp(22px, 4.5vw, 30px); }
+.edit-card h3 { margin: 0 0 16px; font-size: 24px; font-size: clamp(22px, 4.5vw, 30px); }
 .edit-card label { display: block; color: var(--text-dim); font-size: 18px; margin-bottom: 4px; }
 .edit-card input, .edit-card select {
   width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; color: var(--text); font-size: clamp(18px, 3.5vw, 26px);
+  border-radius: 8px; color: var(--text); font-size: 20px; font-size: clamp(18px, 3.5vw, 26px);
   font-family: inherit; margin-bottom: 12px; outline: none; box-sizing: border-box;
 }
 .edit-card input:focus { border-color: var(--accent); }
@@ -224,7 +236,7 @@ html, body {
 .edit-actions { display: flex; gap: 8px; margin-top: 8px; }
 .edit-actions button {
   flex: 1; padding: 12px; border: none; border-radius: 8px;
-  font-size: clamp(18px, 3.5vw, 26px); font-weight: 700; cursor: pointer;
+  font-size: 20px; font-size: clamp(18px, 3.5vw, 26px); font-weight: 700; cursor: pointer;
 }
 .edit-actions .btn-save { background: var(--accent); color: #000; }
 .edit-actions .btn-delete { background: var(--nogo); color: #fff; }
@@ -235,6 +247,7 @@ html, body {
   flex-shrink: 0;
   border: 2px solid var(--border);
   border-radius: var(--radius);
+  padding: 16px;
   padding: clamp(12px, 2.5vw, 20px);
   background: var(--panel);
 }
@@ -243,6 +256,7 @@ html, body {
   margin-bottom: 12px;
 }
 .quick-start-label {
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
   font-weight: 600;
   color: var(--text-dim);
@@ -255,6 +269,7 @@ html, body {
   border: 2px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 24px;
   font-size: clamp(22px, 4.5vw, 30px);
   font-weight: 700;
   font-family: inherit;
@@ -263,6 +278,7 @@ html, body {
 }
 .quick-start-select:focus { border-color: var(--accent); }
 .quick-title {
+  font-size: 22px;
   font-size: clamp(20px, 4vw, 28px);
   font-weight: 700;
   margin-bottom: 12px;
@@ -275,11 +291,13 @@ html, body {
 .dur-btn {
   flex: 1;
   min-width: 60px;
+  padding: 12px 8px;
   padding: clamp(10px, 2vw, 16px) 8px;
   background: var(--bg);
   border: 2px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 24px;
   font-size: clamp(22px, 4.5vw, 32px);
   font-weight: 700;
   cursor: pointer;
@@ -303,6 +321,7 @@ html, body {
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
   font-family: inherit;
   outline: none;
@@ -311,11 +330,13 @@ html, body {
 .quick-fields input::placeholder { color: var(--text-dim); }
 .quick-role-select {
   width: 100%;
+  padding: 12px;
   padding: clamp(10px, 2vw, 14px);
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 26px);
   font-family: inherit;
   outline: none;
@@ -329,22 +350,26 @@ html, body {
 }
 .quick-participant-row input {
   flex: 1;
+  padding: 12px;
   padding: clamp(10px, 2vw, 14px);
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 20px;
   font-size: clamp(18px, 3vw, 22px);
   font-family: inherit;
   outline: none;
 }
 .quick-participant-row select {
   width: 140px;
+  padding: 12px;
   padding: clamp(10px, 2vw, 14px);
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
+  font-size: 20px;
   font-size: clamp(18px, 3vw, 22px);
   font-family: inherit;
   outline: none;
@@ -357,7 +382,7 @@ html, body {
 .quick-participant-row button:hover { color: var(--nogo); }
 .quick-add-participant {
   background: none; border: none;
-  color: var(--accent); font-size: clamp(16px, 3vw, 20px);
+  color: var(--accent); font-size: 18px; font-size: clamp(16px, 3vw, 20px);
   cursor: pointer; padding: 4px 0;
   margin-bottom: 8px;
   font-family: inherit;
@@ -371,11 +396,13 @@ html, body {
 }
 .quick-submit {
   width: 100%;
+  padding: 14px;
   padding: clamp(12px, 2.5vw, 18px);
   background: var(--go);
   border: none;
   border-radius: 8px;
   color: #fff;
+  font-size: 24px;
   font-size: clamp(22px, 4.5vw, 30px);
   font-weight: 800;
   cursor: pointer;
@@ -555,6 +582,7 @@ html, body {
   width: 100%;
   padding: 8px 16px;
   font-family: inherit;
+  font-size: 20px;
   font-size: clamp(18px, 3.5vw, 22px);
   font-weight: 700;
   text-align: center;
