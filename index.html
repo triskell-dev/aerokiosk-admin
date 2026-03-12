@@ -898,6 +898,20 @@
           </select>
         </div>
 
+        <div class="section-title" style="margin-top:24px;" data-i18n="cfg.update.title">Mise à jour kiosque</div>
+        <div id="cfgUpdateSection" style="margin-bottom:24px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <span style="color:var(--text-dim);font-size:13px;" data-i18n="cfg.update.version">Version :</span>
+            <span id="cfgAppVersion" style="font-weight:600;font-family:monospace;font-size:14px;">—</span>
+            <span id="cfgUpdateBadge" style="display:none;font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600;"></span>
+          </div>
+          <div id="cfgUpdateStatus" style="color:var(--text-dim);font-size:13px;margin-bottom:12px;"></div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-submit" id="cfgBtnCheckUpdate" onclick="cfgCheckUpdate()" style="font-size:12px;padding:6px 14px;" data-i18n="cfg.update.check">Vérifier les mises à jour</button>
+            <button class="btn-submit" id="cfgBtnInstallUpdate" onclick="cfgInstallUpdate()" style="font-size:12px;padding:6px 14px;background:linear-gradient(135deg,#22c55e,#16a34a);display:none;" data-i18n="cfg.update.install">Installer et redémarrer</button>
+          </div>
+        </div>
+
         <div class="section-title" style="margin-top:24px;" data-i18n="cfg.system.passwordTitle">Mot de passe admin</div>
         <div id="cfgPasswordStatus" style="margin-bottom:12px;color:var(--text-dim);font-size:13px;"></div>
         <div id="cfgPasswordForm">

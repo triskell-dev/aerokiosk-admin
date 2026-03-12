@@ -89,6 +89,20 @@ const TRANSLATIONS = {
     'cfg.tabClubDisplay': 'Contenu club',
     'cfg.tabSystem': 'Système',
     'cfg.system.languageTitle': 'Langue',
+    'cfg.update.title': 'Mise à jour kiosque',
+    'cfg.update.version': 'Version :',
+    'cfg.update.check': 'Vérifier les mises à jour',
+    'cfg.update.install': 'Installer et redémarrer',
+    'cfg.update.checking': 'Vérification en cours...',
+    'cfg.update.upToDate': 'Le kiosque est à jour.',
+    'cfg.update.available': 'Mise à jour disponible : v{{version}}',
+    'cfg.update.downloading': 'Téléchargement en cours ({{progress}}%)...',
+    'cfg.update.downloaded': 'Mise à jour v{{version}} prête à installer.',
+    'cfg.update.error': 'Erreur : {{error}}',
+    'cfg.update.installConfirm': 'Le kiosque va redémarrer pour installer la mise à jour. Continuer ?',
+    'cfg.update.remoteQueued': 'Commande envoyée. Le kiosque l\'exécutera sous 2 minutes.',
+    'cfg.update.badgeReady': 'MAJ prête',
+    'cfg.update.badgeUpToDate': 'À jour',
     'cfg.system.passwordTitle': 'Mot de passe admin',
     'cfg.system.currentPassword': 'Mot de passe actuel',
     'cfg.system.newPassword': 'Nouveau mot de passe',
@@ -468,6 +482,20 @@ const TRANSLATIONS = {
     'cfg.tabClubDisplay': 'Club-Inhalte',
     'cfg.tabSystem': 'System',
     'cfg.system.languageTitle': 'Sprache',
+    'cfg.update.title': 'Kiosk-Update',
+    'cfg.update.version': 'Version:',
+    'cfg.update.check': 'Nach Updates suchen',
+    'cfg.update.install': 'Installieren und neu starten',
+    'cfg.update.checking': 'Überprüfung läuft...',
+    'cfg.update.upToDate': 'Der Kiosk ist auf dem neuesten Stand.',
+    'cfg.update.available': 'Update verfügbar: v{{version}}',
+    'cfg.update.downloading': 'Download läuft ({{progress}}%)...',
+    'cfg.update.downloaded': 'Update v{{version}} bereit zur Installation.',
+    'cfg.update.error': 'Fehler: {{error}}',
+    'cfg.update.installConfirm': 'Der Kiosk wird neu gestartet, um das Update zu installieren. Fortfahren?',
+    'cfg.update.remoteQueued': 'Befehl gesendet. Der Kiosk führt ihn innerhalb von 2 Minuten aus.',
+    'cfg.update.badgeReady': 'Update bereit',
+    'cfg.update.badgeUpToDate': 'Aktuell',
     'cfg.system.passwordTitle': 'Admin-Passwort',
     'cfg.system.currentPassword': 'Aktuelles Passwort',
     'cfg.system.newPassword': 'Neues Passwort',
@@ -831,6 +859,20 @@ const TRANSLATIONS = {
     'cfg.tabClubDisplay': 'Contenuto club',
     'cfg.tabSystem': 'Sistema',
     'cfg.system.languageTitle': 'Lingua',
+    'cfg.update.title': 'Aggiornamento kiosk',
+    'cfg.update.version': 'Versione:',
+    'cfg.update.check': 'Verifica aggiornamenti',
+    'cfg.update.install': 'Installa e riavvia',
+    'cfg.update.checking': 'Verifica in corso...',
+    'cfg.update.upToDate': 'Il kiosk è aggiornato.',
+    'cfg.update.available': 'Aggiornamento disponibile: v{{version}}',
+    'cfg.update.downloading': 'Download in corso ({{progress}}%)...',
+    'cfg.update.downloaded': 'Aggiornamento v{{version}} pronto per l\'installazione.',
+    'cfg.update.error': 'Errore: {{error}}',
+    'cfg.update.installConfirm': 'Il kiosk verrà riavviato per installare l\'aggiornamento. Continuare?',
+    'cfg.update.remoteQueued': 'Comando inviato. Il kiosk lo eseguirà entro 2 minuti.',
+    'cfg.update.badgeReady': 'Aggiorn. pronto',
+    'cfg.update.badgeUpToDate': 'Aggiornato',
     'cfg.system.passwordTitle': 'Password admin',
     'cfg.system.currentPassword': 'Password attuale',
     'cfg.system.newPassword': 'Nuova password',
@@ -1194,6 +1236,20 @@ const TRANSLATIONS = {
     'cfg.tabClubDisplay': 'Contenido club',
     'cfg.tabSystem': 'Sistema',
     'cfg.system.languageTitle': 'Idioma',
+    'cfg.update.title': 'Actualización del kiosco',
+    'cfg.update.version': 'Versión:',
+    'cfg.update.check': 'Buscar actualizaciones',
+    'cfg.update.install': 'Instalar y reiniciar',
+    'cfg.update.checking': 'Verificando...',
+    'cfg.update.upToDate': 'El kiosco está actualizado.',
+    'cfg.update.available': 'Actualización disponible: v{{version}}',
+    'cfg.update.downloading': 'Descargando ({{progress}}%)...',
+    'cfg.update.downloaded': 'Actualización v{{version}} lista para instalar.',
+    'cfg.update.error': 'Error: {{error}}',
+    'cfg.update.installConfirm': 'El kiosco se reiniciará para instalar la actualización. ¿Continuar?',
+    'cfg.update.remoteQueued': 'Comando enviado. El kiosco lo ejecutará en 2 minutos.',
+    'cfg.update.badgeReady': 'Actualiz. lista',
+    'cfg.update.badgeUpToDate': 'Actualizado',
     'cfg.system.passwordTitle': 'Contraseña admin',
     'cfg.system.currentPassword': 'Contraseña actual',
     'cfg.system.newPassword': 'Nueva contraseña',
@@ -1557,6 +1613,20 @@ const TRANSLATIONS = {
     'cfg.tabClubDisplay': 'Club content',
     'cfg.tabSystem': 'System',
     'cfg.system.languageTitle': 'Language',
+    'cfg.update.title': 'Kiosk update',
+    'cfg.update.version': 'Version:',
+    'cfg.update.check': 'Check for updates',
+    'cfg.update.install': 'Install and restart',
+    'cfg.update.checking': 'Checking...',
+    'cfg.update.upToDate': 'The kiosk is up to date.',
+    'cfg.update.available': 'Update available: v{{version}}',
+    'cfg.update.downloading': 'Downloading ({{progress}}%)...',
+    'cfg.update.downloaded': 'Update v{{version}} ready to install.',
+    'cfg.update.error': 'Error: {{error}}',
+    'cfg.update.installConfirm': 'The kiosk will restart to install the update. Continue?',
+    'cfg.update.remoteQueued': 'Command sent. The kiosk will execute it within 2 minutes.',
+    'cfg.update.badgeReady': 'Update ready',
+    'cfg.update.badgeUpToDate': 'Up to date',
     'cfg.system.passwordTitle': 'Admin password',
     'cfg.system.currentPassword': 'Current password',
     'cfg.system.newPassword': 'New password',
@@ -2563,6 +2633,73 @@ class ApiClient {
       });
       if (!resp.ok) throw new Error('Failed to save config');
       return { success: true };
+    }
+  }
+
+  // ── UPDATE MANAGEMENT ──
+
+  async getUpdateStatus() {
+    if (this.mode === 'local') {
+      try {
+        const resp = await this._fetchLocal('/api/update/status');
+        return resp.json();
+      } catch (e) { return null; }
+    } else {
+      // Mode distant : lire depuis club_config
+      try {
+        const resp = await fetch(
+          SUPABASE_URL + '/rest/v1/club_config?license_key=eq.' + encodeURIComponent(this.licenseKey)
+            + '&select=app_version,update_status',
+          { headers: supabaseHeaders() }
+        );
+        if (!resp.ok) return null;
+        const rows = await resp.json();
+        if (rows.length === 0) return null;
+        return {
+          appVersion: rows[0].app_version || '?',
+          ...(rows[0].update_status || { status: 'idle' })
+        };
+      } catch (e) { return null; }
+    }
+  }
+
+  async checkUpdate() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/update/check', { method: 'POST' });
+      return resp.json();
+    } else {
+      // Mode distant : insérer une commande dans device_commands
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/device_commands', {
+        method: 'POST',
+        headers: supabaseHeaders({ 'Prefer': 'return=representation' }),
+        body: JSON.stringify({
+          license_key: this.licenseKey,
+          command: 'check-update',
+          status: 'pending'
+        })
+      });
+      if (!resp.ok) throw new Error('Failed to send command');
+      return { ok: true, remote: true };
+    }
+  }
+
+  async installUpdate() {
+    if (this.mode === 'local') {
+      const resp = await this._fetchLocal('/api/update/install', { method: 'POST' });
+      return resp.json();
+    } else {
+      // Mode distant : insérer une commande
+      const resp = await fetch(SUPABASE_URL + '/rest/v1/device_commands', {
+        method: 'POST',
+        headers: supabaseHeaders({ 'Prefer': 'return=representation' }),
+        body: JSON.stringify({
+          license_key: this.licenseKey,
+          command: 'install-update',
+          status: 'pending'
+        })
+      });
+      if (!resp.ok) throw new Error('Failed to send command');
+      return { ok: true, remote: true };
     }
   }
 
@@ -3958,6 +4095,8 @@ function switchConfigTab(tab) {
     t.classList.toggle('active', t.dataset.ctab === tab));
   document.querySelectorAll('.config-panel').forEach(p =>
     p.classList.toggle('active', p.dataset.cpanel === tab));
+  // Charger le statut update quand on ouvre l'onglet système
+  if (tab === 'system') cfgLoadUpdateStatus();
 }
 
 // ── LOAD CONFIG ──
@@ -5339,6 +5478,93 @@ async function revokeLicenseGod(key) {
     loadLicenseList();
   } catch (e) {
     alert('Erreur révocation : ' + e.message);
+  }
+}
+
+// ── UPDATE MANAGEMENT UI ──
+
+let updatePollTimer = null;
+
+async function cfgLoadUpdateStatus() {
+  try {
+    const info = await api.getUpdateStatus();
+    if (!info) return;
+    const versionEl = document.getElementById('cfgAppVersion');
+    const statusEl = document.getElementById('cfgUpdateStatus');
+    const badgeEl = document.getElementById('cfgUpdateBadge');
+    const installBtn = document.getElementById('cfgBtnInstallUpdate');
+    if (versionEl) versionEl.textContent = 'v' + (info.appVersion || '?');
+    if (!statusEl) return;
+
+    const s = info.status || 'idle';
+    if (s === 'idle') {
+      statusEl.textContent = t('cfg.update.upToDate');
+      if (badgeEl) { badgeEl.style.display = 'inline'; badgeEl.textContent = t('cfg.update.badgeUpToDate'); badgeEl.style.background = 'rgba(34,197,94,0.15)'; badgeEl.style.color = '#22c55e'; }
+      if (installBtn) installBtn.style.display = 'none';
+    } else if (s === 'checking') {
+      statusEl.textContent = t('cfg.update.checking');
+      if (badgeEl) badgeEl.style.display = 'none';
+      if (installBtn) installBtn.style.display = 'none';
+    } else if (s === 'available' || s === 'downloading') {
+      const msg = s === 'downloading'
+        ? t('cfg.update.downloading').replace('{{progress}}', info.progress || 0)
+        : t('cfg.update.available').replace('{{version}}', info.version || '?');
+      statusEl.textContent = msg;
+      if (badgeEl) badgeEl.style.display = 'none';
+      if (installBtn) installBtn.style.display = 'none';
+    } else if (s === 'downloaded') {
+      statusEl.textContent = t('cfg.update.downloaded').replace('{{version}}', info.version || '?');
+      if (badgeEl) { badgeEl.style.display = 'inline'; badgeEl.textContent = t('cfg.update.badgeReady'); badgeEl.style.background = 'rgba(34,197,94,0.15)'; badgeEl.style.color = '#22c55e'; }
+      if (installBtn) installBtn.style.display = 'inline-block';
+    } else if (s === 'error') {
+      statusEl.textContent = t('cfg.update.error').replace('{{error}}', info.error || '');
+      if (badgeEl) badgeEl.style.display = 'none';
+      if (installBtn) installBtn.style.display = 'none';
+    }
+  } catch (e) {
+    console.error('[Update] Status load error:', e);
+  }
+}
+
+async function cfgCheckUpdate() {
+  const btn = document.getElementById('cfgBtnCheckUpdate');
+  const statusEl = document.getElementById('cfgUpdateStatus');
+  if (btn) btn.disabled = true;
+  if (statusEl) statusEl.textContent = t('cfg.update.checking');
+
+  try {
+    const result = await api.checkUpdate();
+    if (result.remote) {
+      if (statusEl) statusEl.textContent = t('cfg.update.remoteQueued');
+      // Polling toutes les 15s pendant 3 min pour voir le résultat
+      let polls = 0;
+      if (updatePollTimer) clearInterval(updatePollTimer);
+      updatePollTimer = setInterval(async () => {
+        polls++;
+        await cfgLoadUpdateStatus();
+        if (polls >= 12) clearInterval(updatePollTimer);
+      }, 15000);
+    } else {
+      // Mode local — le résultat est immédiat
+      await cfgLoadUpdateStatus();
+    }
+  } catch (e) {
+    if (statusEl) statusEl.textContent = t('cfg.update.error').replace('{{error}}', e.message);
+  }
+  if (btn) btn.disabled = false;
+}
+
+async function cfgInstallUpdate() {
+  if (!confirm(t('cfg.update.installConfirm'))) return;
+  try {
+    const result = await api.installUpdate();
+    if (result.remote) {
+      const statusEl = document.getElementById('cfgUpdateStatus');
+      if (statusEl) statusEl.textContent = t('cfg.update.remoteQueued');
+    }
+    // En mode local, le kiosque va redémarrer — pas de feedback nécessaire
+  } catch (e) {
+    alert(t('cfg.update.error').replace('{{error}}', e.message));
   }
 }
 
