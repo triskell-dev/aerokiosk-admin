@@ -1277,10 +1277,10 @@ async function createBooking(data) {
     });
     return resp.json();
   } else {
-    const payload = { ...data, license_key: licenseKey };
+    var payload = Object.assign({}, data, { license_key: licenseKey });
     const resp = await fetch(SUPABASE_URL + '/rest/v1/room_bookings', {
       method: 'POST',
-      headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
+      headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
       body: JSON.stringify(payload)
     });
     const rows = await resp.json();
@@ -1289,12 +1289,12 @@ async function createBooking(data) {
 }
 
 function supabaseHeaders(extra) {
-  return {
+  var base = {
     'apikey': SUPABASE_ANON_KEY,
     'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-    'Content-Type': 'application/json',
-    ...extra
+    'Content-Type': 'application/json'
   };
+  return extra ? Object.assign(base, extra) : base;
 }
 
 // ── REFRESH ──
@@ -1669,8 +1669,8 @@ async function updateBooking(id, data) {
       SUPABASE_URL + '/rest/v1/room_bookings?id=eq.' + encodeURIComponent(id),
       {
         method: 'PATCH',
-        headers: { ...supabaseHeaders(), 'Prefer': 'return=representation' },
-        body: JSON.stringify({ ...data, updated_at: new Date().toISOString() })
+        headers: Object.assign({}, supabaseHeaders(), { 'Prefer': 'return=representation' }),
+        body: JSON.stringify(Object.assign({}, data, { updated_at: new Date().toISOString() }))
       }
     );
     const rows = await resp.json();
