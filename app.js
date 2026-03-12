@@ -2802,28 +2802,14 @@ class ApiClient {
       });
       return resp.json();
     } else {
-      // Mode cloud : vérification côté client
-      if (!fullConfig || !fullConfig.godMode?.passwordHash) return { ok: false, needsSetup: true };
-      const ok = await verifyHashClient(password, fullConfig.godMode.passwordHash);
-      return { ok };
-    }
-  }
-
-  async godModeSetup(password) {
-    if (this.mode === 'local') {
-      const resp = await this._fetchLocal('/api/godmode-setup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-      });
-      return resp.json();
-    } else {
-      // Mode cloud : hash côté client et sauvegarder dans config
-      const hash = await hashPasswordClient(password);
-      if (!fullConfig.godMode) fullConfig.godMode = {};
-      fullConfig.godMode.passwordHash = hash;
-      await this.saveFullConfig(fullConfig);
-      return { ok: true };
+      // Mode cloud : hash hardcodé, vérification côté client
+      var GODMODE_HASH = 'f3cb28c80264fbf20e2312a8f94db7ea15d3861096a811b22470c52dce92dfef';
+      var encoder = new TextEncoder();
+      var data = encoder.encode(password);
+      var buffer = await crypto.subtle.digest('SHA-256', data);
+      var hashArray = Array.from(new Uint8Array(buffer));
+      var hash = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+      return { ok: hash === GODMODE_HASH };
     }
   }
 
@@ -4105,7 +4091,6 @@ let fullConfig = null;
 let originalFullConfig = null;
 let cfgSearchTimeout = null;
 let godModeActive = false;
-let godModalMode = 'unlock'; // 'unlock' ou 'setup'
 
 // ── VIEW / TAB SWITCHING ──
 function switchView(view) {
@@ -5212,60 +5197,26 @@ async function verifyHashClient(password, storedHash) {
 
 async function triggerGodMode() {
   if (!fullConfig) return;
-  // Vérifier si un mot de passe god mode est déjà défini
-  if (api.mode === 'local') {
-    try {
-      const result = await api.godModeUnlock('__check__');
-      if (result.needsSetup) {
-        showGodModal('setup');
-      } else {
-        showGodModal('unlock');
-      }
-    } catch (e) {
-      showGodModal('unlock');
-    }
-  } else {
-    // Mode cloud : vérifier dans la config chargée
-    if (!fullConfig.godMode?.passwordHash) {
-      showGodModal('setup');
-    } else {
-      showGodModal('unlock');
-    }
-  }
+  showGodModal('unlock');
 }
 
-function showGodModal(mode) {
-  godModalMode = mode;
-  const overlay = document.getElementById('godModeOverlay');
-  const title = document.getElementById('godModalTitle');
-  const desc = document.getElementById('godModalDesc');
-  const pwdInput = document.getElementById('godModalPassword');
-  const confirmInput = document.getElementById('godModalConfirm');
-  const submitBtn = document.getElementById('godModalSubmit');
-  const errorEl = document.getElementById('godModalError');
+function showGodModal() {
+  var overlay = document.getElementById('godModeOverlay');
+  var pwdInput = document.getElementById('godModalPassword');
+  var confirmInput = document.getElementById('godModalConfirm');
+  var errorEl = document.getElementById('godModalError');
 
+  document.getElementById('godModalTitle').textContent = 'Accès avancé';
+  document.getElementById('godModalDesc').textContent = 'Entrez le mot de passe pour activer le mode avancé.';
+  document.getElementById('godModalSubmit').textContent = 'Déverrouiller';
   errorEl.style.display = 'none';
   pwdInput.value = '';
-  confirmInput.value = '';
-
-  if (mode === 'setup') {
-    title.textContent = 'Créer accès avancé';
-    desc.textContent = 'Définissez un mot de passe pour le mode avancé. Ce mot de passe est distinct du mot de passe admin.';
-    confirmInput.style.display = '';
-    submitBtn.textContent = 'Créer';
-  } else {
-    title.textContent = 'Accès avancé';
-    desc.textContent = 'Entrez le mot de passe pour activer le mode avancé.';
-    confirmInput.style.display = 'none';
-    submitBtn.textContent = 'Déverrouiller';
-  }
+  confirmInput.style.display = 'none';
 
   overlay.style.display = 'flex';
-  setTimeout(() => pwdInput.focus(), 100);
+  setTimeout(function() { pwdInput.focus(); }, 100);
 
-  // Enter key handler
-  pwdInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); if (mode === 'setup') confirmInput.focus(); else submitGodModal(); } };
-  confirmInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); submitGodModal(); } };
+  pwdInput.onkeydown = function(e) { if (e.key === 'Enter') { e.preventDefault(); submitGodModal(); } };
 }
 
 function closeGodModal() {
@@ -5273,9 +5224,8 @@ function closeGodModal() {
 }
 
 async function submitGodModal() {
-  const pwd = document.getElementById('godModalPassword').value;
-  const confirm = document.getElementById('godModalConfirm').value;
-  const errorEl = document.getElementById('godModalError');
+  var pwd = document.getElementById('godModalPassword').value;
+  var errorEl = document.getElementById('godModalError');
 
   if (!pwd) {
     errorEl.textContent = 'Mot de passe requis';
@@ -5283,35 +5233,15 @@ async function submitGodModal() {
     return;
   }
 
-  if (godModalMode === 'setup') {
-    if (pwd.length < 4) {
-      errorEl.textContent = 'Minimum 4 caractères';
-      errorEl.style.display = '';
-      return;
-    }
-    if (pwd !== confirm) {
-      errorEl.textContent = 'Les mots de passe ne correspondent pas';
-      errorEl.style.display = '';
-      return;
-    }
-    try {
-      await api.godModeSetup(pwd);
+  try {
+    var result = await api.godModeUnlock(pwd);
+    if (result.ok) {
       closeGodModal();
       activateGodMode();
-    } catch (e) {
-      errorEl.textContent = 'Erreur : ' + e.message;
-      errorEl.style.display = '';
+    } else {
+      showNedry();
     }
-  } else {
-    try {
-      const result = await api.godModeUnlock(pwd);
-      if (result.ok) {
-        closeGodModal();
-        activateGodMode();
-      } else {
-        showNedry();
-      }
-    } catch (e) {
+  } catch (e) {
       errorEl.textContent = 'Erreur : ' + e.message;
       errorEl.style.display = '';
     }
