@@ -4357,7 +4357,7 @@ function cfgPopulateScreenList() {
     var scr0 = screens[0] || {};
     function cfgMakeMainToggle(labelText, checked, cls) {
       var wrap = document.createElement('label');
-      wrap.style.cssText = 'display:flex; align-items:center; gap:4px; font-size:12px; cursor:pointer;';
+      wrap.style.cssText = 'display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; cursor:pointer; color:var(--text-dim);';
       var cb = document.createElement('input');
       cb.type = 'checkbox';
       cb.checked = checked;
