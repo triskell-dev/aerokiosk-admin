@@ -114,6 +114,9 @@ const TRANSLATIONS = {
     'cfg.system.passwordOldIncorrect': 'Mot de passe actuel incorrect.',
     'cfg.system.passwordNewRequired': 'Entrez un nouveau mot de passe.',
     'cfg.system.passwordMismatch': 'Les mots de passe ne correspondent pas.',
+    'cfg.system.kioskModeTitle': 'Mode kiosque Android',
+    'cfg.system.kioskMode': 'Activer le mode kiosque',
+    'cfg.system.kioskModeHint': 'Quand activé, le bouton Home de la télécommande revient sur AeroKiosk. L\'utilisateur ne peut plus quitter l\'app.',
     'cfg.system.roomsTitle': 'Planification',
     // ── Aérodrome ──
     'cfg.station.icaoLabel': 'Code OACI ou nom',
@@ -515,6 +518,9 @@ const TRANSLATIONS = {
     'cfg.system.passwordOldIncorrect': 'Aktuelles Passwort falsch.',
     'cfg.system.passwordNewRequired': 'Bitte neues Passwort eingeben.',
     'cfg.system.passwordMismatch': 'Passwörter stimmen nicht überein.',
+    'cfg.system.kioskModeTitle': 'Android-Kioskmodus',
+    'cfg.system.kioskMode': 'Kioskmodus aktivieren',
+    'cfg.system.kioskModeHint': 'Wenn aktiviert, kehrt die Home-Taste der Fernbedienung zu AeroKiosk zurück. Der Benutzer kann die App nicht verlassen.',
     'cfg.system.roomsTitle': 'Planung',
     'cfg.station.icaoLabel': 'ICAO-Code oder Name',
     'cfg.station.searchPlaceholder': 'Flugplatz suchen...',
@@ -899,6 +905,9 @@ const TRANSLATIONS = {
     'cfg.system.passwordOldIncorrect': 'Password attuale errata.',
     'cfg.system.passwordNewRequired': 'Inserire una nuova password.',
     'cfg.system.passwordMismatch': 'Le password non corrispondono.',
+    'cfg.system.kioskModeTitle': 'Modalità kiosk Android',
+    'cfg.system.kioskMode': 'Attiva modalità kiosk',
+    'cfg.system.kioskModeHint': 'Quando attivato, il tasto Home del telecomando torna ad AeroKiosk. L\'utente non può uscire dall\'app.',
     'cfg.system.roomsTitle': 'Pianificazione',
     'cfg.station.icaoLabel': 'Codice ICAO o nome',
     'cfg.station.searchPlaceholder': 'Cerca un aeroporto...',
@@ -1283,6 +1292,9 @@ const TRANSLATIONS = {
     'cfg.system.passwordOldIncorrect': 'Contraseña actual incorrecta.',
     'cfg.system.passwordNewRequired': 'Introduzca una nueva contraseña.',
     'cfg.system.passwordMismatch': 'Las contraseñas no coinciden.',
+    'cfg.system.kioskModeTitle': 'Modo kiosco Android',
+    'cfg.system.kioskMode': 'Activar modo kiosco',
+    'cfg.system.kioskModeHint': 'Cuando está activado, el botón Home del mando vuelve a AeroKiosk. El usuario no puede salir de la app.',
     'cfg.system.roomsTitle': 'Planificación',
     'cfg.station.icaoLabel': 'Código OACI o nombre',
     'cfg.station.searchPlaceholder': 'Buscar un aeródromo...',
@@ -1667,6 +1679,9 @@ const TRANSLATIONS = {
     'cfg.system.passwordOldIncorrect': 'Current password incorrect.',
     'cfg.system.passwordNewRequired': 'Enter a new password.',
     'cfg.system.passwordMismatch': 'Passwords do not match.',
+    'cfg.system.kioskModeTitle': 'Android kiosk mode',
+    'cfg.system.kioskMode': 'Enable kiosk mode',
+    'cfg.system.kioskModeHint': 'When enabled, the Home button on the remote returns to AeroKiosk. The user cannot exit the app.',
     'cfg.system.roomsTitle': 'Planning',
     'cfg.station.icaoLabel': 'ICAO code or name',
     'cfg.station.searchPlaceholder': 'Search an aerodrome...',
@@ -3202,8 +3217,8 @@ async function refreshFleet() {
     // Sort: nogo first, maint, mel, go, then by registration
     const statusOrder = { nogo: 0, maint: 1, mel: 2, go: 3 };
     fleetItems.sort((a, b) => {
-      const sa = statusOrder[a.status] ?? 2;
-      const sb = statusOrder[b.status] ?? 2;
+      const sa = (statusOrder[a.status] != null ? statusOrder[a.status] : 2);
+      const sb = (statusOrder[b.status] != null ? statusOrder[b.status] : 2);
       if (sa !== sb) return sa - sb;
       return (a.registration || '').localeCompare(b.registration || '');
     });
@@ -3292,7 +3307,8 @@ function closeFleetModal() {
 }
 
 function updateFleetStatusUI() {
-  const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
+  var _fleetStatusEl = document.querySelector('input[name="fleetStatus"]:checked');
+  const status = (_fleetStatusEl ? _fleetStatusEl.value : '') || 'go';
   document.getElementById('fleetMelSection').style.display = status === 'mel' ? '' : 'none';
   document.getElementById('fleetNogoSection').style.display = status === 'nogo' ? '' : 'none';
   document.getElementById('fleetMaintSection').style.display = status === 'maint' ? '' : 'none';
@@ -3350,7 +3366,8 @@ fleetForm.addEventListener('submit', async (e) => {
   const registration = document.getElementById('fleetReg').value.trim().toUpperCase();
   const type = document.getElementById('fleetType').value.trim();
   const totalHours = document.getElementById('fleetHours').value;
-  const status = document.querySelector('input[name="fleetStatus"]:checked')?.value || 'go';
+  var _fleetStatusEl2 = document.querySelector('input[name="fleetStatus"]:checked');
+  const status = (_fleetStatusEl2 ? _fleetStatusEl2.value : '') || 'go';
   const nogo_reason = document.getElementById('fleetNogoReason').value.trim();
   const maint_reason = document.getElementById('fleetMaintReason').value.trim();
   const is_simulator = document.getElementById('fleetSimulator').checked;
@@ -4166,13 +4183,13 @@ function populateConfigTabs() {
   const c = fullConfig;
 
   // -- Aérodrome --
-  document.getElementById('cfgStationSearch').value = c.station?.icao || '';
-  document.getElementById('cfgDisplayName').value = c.station?.displayName || '';
-  document.getElementById('cfgLat').value = c.station?.lat || '';
-  document.getElementById('cfgLon').value = c.station?.lon || '';
-  document.getElementById('cfgFir').value = (c.station?.firs || []).join(', ');
-  document.getElementById('cfgFirName').value = c.station?.firName || '';
-  document.getElementById('cfgSigmetRegion').value = c.station?.sigmetRegion || 'eur';
+  document.getElementById('cfgStationSearch').value = (c.station && c.station.icao) || '';
+  document.getElementById('cfgDisplayName').value = (c.station && c.station.displayName) || '';
+  document.getElementById('cfgLat').value = (c.station && c.station.lat) || '';
+  document.getElementById('cfgLon').value = (c.station && c.station.lon) || '';
+  document.getElementById('cfgFir').value = ((c.station && c.station.firs) || []).join(', ');
+  document.getElementById('cfgFirName').value = (c.station && c.station.firName) || '';
+  document.getElementById('cfgSigmetRegion').value = (c.station && c.station.sigmetRegion) || 'eur';
   cfgRenderRunways();
 
   // Cloud mode: show hint, disable search
@@ -4185,26 +4202,26 @@ function populateConfigTabs() {
   }
 
   // -- Seuils --
-  let profile = c.thresholds?.profile || 'easa';
+  let profile = (c.thresholds && c.thresholds.profile) || 'easa';
   if (profile === 'dgac') profile = 'easa'; // rétro-compat
   document.getElementById('cfgThresholdProfile').value = profile;
-  document.getElementById('cfgThrVfrVis').value = c.thresholds?.vfr?.visibility ?? 5000;
-  document.getElementById('cfgThrVfrCeil').value = c.thresholds?.vfr?.ceiling ?? 1500;
-  document.getElementById('cfgThrSpecVis').value = c.thresholds?.vfrSpecial?.visibility ?? 1500;
-  document.getElementById('cfgThrSpecCeil').value = c.thresholds?.vfrSpecial?.ceiling ?? 600;
-  document.getElementById('cfgThrGreenVis').value = c.thresholds?.green?.visibility ?? 9999;
-  document.getElementById('cfgThrGreenCeil').value = c.thresholds?.green?.ceiling ?? 5000;
-  document.getElementById('cfgThrXwindDgr').value = c.thresholds?.wind?.crosswindDanger ?? 25;
-  document.getElementById('cfgThrXwindWrn').value = c.thresholds?.wind?.crosswindWarning ?? 17;
-  document.getElementById('cfgThrTailDgr').value = c.thresholds?.wind?.tailwindDanger ?? 11;
-  document.getElementById('cfgThrTailWrn').value = c.thresholds?.wind?.tailwindWarning ?? 6;
-  document.getElementById('cfgThrFogDgr').value = c.thresholds?.fog?.danger ?? 1;
-  document.getElementById('cfgThrFogWrn').value = c.thresholds?.fog?.warning ?? 2;
-  document.getElementById('cfgThrFogWatch').value = c.thresholds?.fog?.watch ?? 4;
-  document.getElementById('cfgThrMetarDgr').value = c.thresholds?.metarAge?.danger ?? 60;
-  document.getElementById('cfgThrMetarWrn').value = c.thresholds?.metarAge?.warning ?? 45;
-  document.getElementById('cfgThrSunsetShow').value = c.thresholds?.sunsetWarning?.showMinutes ?? 30;
-  document.getElementById('cfgThrSunsetCrit').value = c.thresholds?.sunsetWarning?.criticalMinutes ?? 15;
+  document.getElementById('cfgThrVfrVis').value = (c.thresholds && c.thresholds.vfr && c.thresholds.vfr.visibility != null ? c.thresholds.vfr.visibility : 5000);
+  document.getElementById('cfgThrVfrCeil').value = (c.thresholds && c.thresholds.vfr && c.thresholds.vfr.ceiling != null ? c.thresholds.vfr.ceiling : 1500);
+  document.getElementById('cfgThrSpecVis').value = (c.thresholds && c.thresholds.vfrSpecial && c.thresholds.vfrSpecial.visibility != null ? c.thresholds.vfrSpecial.visibility : 1500);
+  document.getElementById('cfgThrSpecCeil').value = (c.thresholds && c.thresholds.vfrSpecial && c.thresholds.vfrSpecial.ceiling != null ? c.thresholds.vfrSpecial.ceiling : 600);
+  document.getElementById('cfgThrGreenVis').value = (c.thresholds && c.thresholds.green && c.thresholds.green.visibility != null ? c.thresholds.green.visibility : 9999);
+  document.getElementById('cfgThrGreenCeil').value = (c.thresholds && c.thresholds.green && c.thresholds.green.ceiling != null ? c.thresholds.green.ceiling : 5000);
+  document.getElementById('cfgThrXwindDgr').value = (c.thresholds && c.thresholds.wind && c.thresholds.wind.crosswindDanger != null ? c.thresholds.wind.crosswindDanger : 25);
+  document.getElementById('cfgThrXwindWrn').value = (c.thresholds && c.thresholds.wind && c.thresholds.wind.crosswindWarning != null ? c.thresholds.wind.crosswindWarning : 17);
+  document.getElementById('cfgThrTailDgr').value = (c.thresholds && c.thresholds.wind && c.thresholds.wind.tailwindDanger != null ? c.thresholds.wind.tailwindDanger : 11);
+  document.getElementById('cfgThrTailWrn').value = (c.thresholds && c.thresholds.wind && c.thresholds.wind.tailwindWarning != null ? c.thresholds.wind.tailwindWarning : 6);
+  document.getElementById('cfgThrFogDgr').value = (c.thresholds && c.thresholds.fog && c.thresholds.fog.danger != null ? c.thresholds.fog.danger : 1);
+  document.getElementById('cfgThrFogWrn').value = (c.thresholds && c.thresholds.fog && c.thresholds.fog.warning != null ? c.thresholds.fog.warning : 2);
+  document.getElementById('cfgThrFogWatch').value = (c.thresholds && c.thresholds.fog && c.thresholds.fog.watch != null ? c.thresholds.fog.watch : 4);
+  document.getElementById('cfgThrMetarDgr').value = (c.thresholds && c.thresholds.metarAge && c.thresholds.metarAge.danger != null ? c.thresholds.metarAge.danger : 60);
+  document.getElementById('cfgThrMetarWrn').value = (c.thresholds && c.thresholds.metarAge && c.thresholds.metarAge.warning != null ? c.thresholds.metarAge.warning : 45);
+  document.getElementById('cfgThrSunsetShow').value = (c.thresholds && c.thresholds.sunsetWarning && c.thresholds.sunsetWarning.showMinutes != null ? c.thresholds.sunsetWarning.showMinutes : 30);
+  document.getElementById('cfgThrSunsetCrit').value = (c.thresholds && c.thresholds.sunsetWarning && c.thresholds.sunsetWarning.criticalMinutes != null ? c.thresholds.sunsetWarning.criticalMinutes : 15);
   cfgUpdateThresholdState();
 
   // -- Unités --
@@ -4215,38 +4232,38 @@ function populateConfigTabs() {
   document.getElementById('cfgUnitWind').value = units.wind || 'kt';
 
   // -- Carte --
-  document.getElementById('cfgMapBasemap').value = c.maps?.basemap || 'voyager';
-  document.getElementById('cfgMapBasemapAuto').checked = c.maps?.basemapAuto === true;
-  document.getElementById('cfgMapBasemapDay').value = c.maps?.basemapDay || 'voyager';
-  document.getElementById('cfgMapBasemapNight').value = c.maps?.basemapNight || 'dark';
+  document.getElementById('cfgMapBasemap').value = (c.maps && c.maps.basemap) || 'voyager';
+  document.getElementById('cfgMapBasemapAuto').checked = (c.maps && c.maps.basemapAuto) === true;
+  document.getElementById('cfgMapBasemapDay').value = (c.maps && c.maps.basemapDay) || 'voyager';
+  document.getElementById('cfgMapBasemapNight').value = (c.maps && c.maps.basemapNight) || 'dark';
   cfgToggleBasemapAuto();
-  document.getElementById('cfgMapAirports').value = c.maps?.airportDisplay || 'none';
-  cfgSetSlider('cfgMapBrightnessDay', 'cfgMapBrightnessDayVal', c.maps?.basemapBrightnessDay ?? c.maps?.basemapBrightness ?? 52);
-  cfgSetSlider('cfgMapBrightnessNight', 'cfgMapBrightnessNightVal', c.maps?.basemapBrightnessNight ?? 37);
-  cfgSetSlider('cfgWeatherDark', 'cfgWeatherDarkVal', c.maps?.weatherIntensityDark ?? 250);
-  cfgSetSlider('cfgWeatherLight', 'cfgWeatherLightVal', c.maps?.weatherIntensityLight ?? 90);
-  cfgSetSlider('cfgMapZoom', 'cfgMapZoomVal', c.maps?.zoom ?? 7);
-  cfgSetSlider('cfgMapOffLat', 'cfgMapOffLatVal', c.maps?.offsetLat ?? 0);
-  cfgSetSlider('cfgMapOffLon', 'cfgMapOffLonVal', c.maps?.offsetLon ?? 0);
-  cfgSetSlider('cfgRotation', 'cfgRotationVal', c.maps?.rotationSeconds ?? 20);
+  document.getElementById('cfgMapAirports').value = (c.maps && c.maps.airportDisplay) || 'none';
+  cfgSetSlider('cfgMapBrightnessDay', 'cfgMapBrightnessDayVal', (c.maps && c.maps.basemapBrightnessDay != null ? c.maps.basemapBrightnessDay : (c.maps && c.maps.basemapBrightness != null ? c.maps.basemapBrightness : 52)));
+  cfgSetSlider('cfgMapBrightnessNight', 'cfgMapBrightnessNightVal', (c.maps && c.maps.basemapBrightnessNight != null ? c.maps.basemapBrightnessNight : 37));
+  cfgSetSlider('cfgWeatherDark', 'cfgWeatherDarkVal', (c.maps && c.maps.weatherIntensityDark != null ? c.maps.weatherIntensityDark : 250));
+  cfgSetSlider('cfgWeatherLight', 'cfgWeatherLightVal', (c.maps && c.maps.weatherIntensityLight != null ? c.maps.weatherIntensityLight : 90));
+  cfgSetSlider('cfgMapZoom', 'cfgMapZoomVal', (c.maps && c.maps.zoom != null ? c.maps.zoom : 7));
+  cfgSetSlider('cfgMapOffLat', 'cfgMapOffLatVal', (c.maps && c.maps.offsetLat != null ? c.maps.offsetLat : 0));
+  cfgSetSlider('cfgMapOffLon', 'cfgMapOffLonVal', (c.maps && c.maps.offsetLon != null ? c.maps.offsetLon : 0));
+  cfgSetSlider('cfgRotation', 'cfgRotationVal', (c.maps && c.maps.rotationSeconds != null ? c.maps.rotationSeconds : 20));
   cfgRenderMapLayers();
 
   // -- Trafic --
-  document.getElementById('cfgTrafficEnabled').checked = c.traffic?.enabled !== false;
-  document.getElementById('cfgTrafficDetail').value = c.traffic?.detail || 'icon';
-  cfgSetSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal', c.traffic?.refreshSeconds ?? 10);
-  cfgSetSlider('cfgTrafficRadius', 'cfgTrafficRadiusVal', c.traffic?.radiusNm ?? 135);
-  cfgSetSlider('cfgTrafficAlt', 'cfgTrafficAltVal', c.traffic?.maxAltitude ?? 10000);
-  document.getElementById('cfgTrafficWatchlist').value = (c.traffic?.watchlist || []).join(', ');
-  document.getElementById('cfgTrafficWatchMode').value = c.traffic?.watchMode || 'highlight';
+  document.getElementById('cfgTrafficEnabled').checked = (c.traffic && c.traffic.enabled) !== false;
+  document.getElementById('cfgTrafficDetail').value = (c.traffic && c.traffic.detail) || 'icon';
+  cfgSetSlider('cfgTrafficRefresh', 'cfgTrafficRefreshVal', (c.traffic && c.traffic.refreshSeconds != null ? c.traffic.refreshSeconds : 10));
+  cfgSetSlider('cfgTrafficRadius', 'cfgTrafficRadiusVal', (c.traffic && c.traffic.radiusNm != null ? c.traffic.radiusNm : 135));
+  cfgSetSlider('cfgTrafficAlt', 'cfgTrafficAltVal', (c.traffic && c.traffic.maxAltitude != null ? c.traffic.maxAltitude : 10000));
+  document.getElementById('cfgTrafficWatchlist').value = ((c.traffic && c.traffic.watchlist) || []).join(', ');
+  document.getElementById('cfgTrafficWatchMode').value = (c.traffic && c.traffic.watchMode) || 'highlight';
   cfgToggleTraffic();
-  document.getElementById('cfgOgnEnabled').checked = c.traffic?.ognEnabled === true;
-  cfgSetSlider('cfgOgnRadius', 'cfgOgnRadiusVal', c.traffic?.ognRadiusKm ?? 250);
+  document.getElementById('cfgOgnEnabled').checked = (c.traffic && c.traffic.ognEnabled) === true;
+  cfgSetSlider('cfgOgnRadius', 'cfgOgnRadiusVal', (c.traffic && c.traffic.ognRadiusKm != null ? c.traffic.ognRadiusKm : 250));
   cfgToggleOgn();
 
   // -- FlightRadar24 (API officielle) --
-  document.getElementById('cfgFr24OfficialEnabled').checked = c.traffic?.fr24Enabled === true;
-  document.getElementById('cfgFr24ApiKey').value = c.traffic?.fr24ApiKey || '';
+  document.getElementById('cfgFr24OfficialEnabled').checked = (c.traffic && c.traffic.fr24Enabled) === true;
+  document.getElementById('cfgFr24ApiKey').value = (c.traffic && c.traffic.fr24ApiKey) || '';
   cfgToggleFr24Official();
 
   // -- Sections --
@@ -4275,40 +4292,43 @@ function populateConfigTabs() {
   cfgToggleThemeMode();
   cfgRenderThemeGrids();
 
-  document.getElementById('cfgAppTitle').value = c.branding?.appTitle || '';
-  document.getElementById('cfgClubName').value = c.branding?.clubName || '';
-  document.getElementById('cfgLogoDayName').textContent = c.branding?.logoDay || '—';
-  document.getElementById('cfgLogoNightName').textContent = c.branding?.logoNight || '—';
+  document.getElementById('cfgAppTitle').value = (c.branding && c.branding.appTitle) || '';
+  document.getElementById('cfgClubName').value = (c.branding && c.branding.clubName) || '';
+  document.getElementById('cfgLogoDayName').textContent = (c.branding && c.branding.logoDay) || '\u2014';
+  document.getElementById('cfgLogoNightName').textContent = (c.branding && c.branding.logoNight) || '\u2014';
 
   // -- Langue (dans Apparence) --
   document.getElementById('cfgLanguage').value = c.language || 'fr';
+
+  // -- Mode kiosque Android --
+  document.getElementById('cfgKioskMode').checked = c.kioskMode === true;
 
   // -- Écrans --
   cfgPopulateScreenList();
 
   // -- Thème écran salle --
-  document.getElementById('cfgRoomScreenTheme').value = c.rooms?.screenTheme || 'dark';
+  document.getElementById('cfgRoomScreenTheme').value = (c.rooms && c.rooms.screenTheme) || 'dark';
 
   // -- Connecteur GearUp --
-  document.getElementById('cfgGearupApiSource').value = c.gearup?.apiSource || '';
-  document.getElementById('cfgGearupApiEndpoint').value = c.gearup?.apiEndpoint || '';
-  document.getElementById('cfgGearupApiKey').value = c.gearup?.apiKey || '';
-  document.getElementById('cfgGearupPollSec').value = Math.round((c.gearup?.pollIntervalMs || 300000) / 1000);
-  document.getElementById('cfgRoomsBriefMin').value = c.rooms?.defaultBriefingMinutes || 30;
-  document.getElementById('cfgRoomsDebriefMin').value = c.rooms?.defaultDebriefingMinutes ?? 15;
+  document.getElementById('cfgGearupApiSource').value = (c.gearup && c.gearup.apiSource) || '';
+  document.getElementById('cfgGearupApiEndpoint').value = (c.gearup && c.gearup.apiEndpoint) || '';
+  document.getElementById('cfgGearupApiKey').value = (c.gearup && c.gearup.apiKey) || '';
+  document.getElementById('cfgGearupPollSec').value = Math.round(((c.gearup && c.gearup.pollIntervalMs) || 300000) / 1000);
+  document.getElementById('cfgRoomsBriefMin').value = (c.rooms && c.rooms.defaultBriefingMinutes) || 30;
+  document.getElementById('cfgRoomsDebriefMin').value = (c.rooms && c.rooms.defaultDebriefingMinutes != null ? c.rooms.defaultDebriefingMinutes : 15);
   cfgUpdateGearUpVisibility();
 
   // -- Contenu club --
-  document.getElementById('cfgClubServerEnabled').checked = c.clubDisplay?.serverEnabled !== false;
-  document.getElementById('cfgClubServerPort').value = c.clubDisplay?.serverPort || 3000;
-  document.getElementById('cfgClubPlacement').value = c.clubDisplay?.placement || 'after';
-  cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', c.clubDisplay?.defaultDuration ?? 15);
+  document.getElementById('cfgClubServerEnabled').checked = (c.clubDisplay && c.clubDisplay.serverEnabled) !== false;
+  document.getElementById('cfgClubServerPort').value = (c.clubDisplay && c.clubDisplay.serverPort) || 3000;
+  document.getElementById('cfgClubPlacement').value = (c.clubDisplay && c.clubDisplay.placement) || 'after';
+  cfgSetSlider('cfgClubDuration', 'cfgClubDurationVal', (c.clubDisplay && c.clubDisplay.defaultDuration != null ? c.clubDisplay.defaultDuration : 15));
 
   // -- Système (mot de passe) --
   cfgPopulatePasswordStatus();
 
   // -- Brief auto simu (dans Planification) --
-  document.getElementById('cfgAutoBookBriefForSim').checked = c.rooms?.autoBookBriefForSim !== false;
+  document.getElementById('cfgAutoBookBriefForSim').checked = (c.rooms && c.rooms.autoBookBriefForSim) !== false;
 
   // -- God mode (si actif) --
   if (godModeActive) populateGodModeTab();
@@ -4334,7 +4354,7 @@ function cfgGetSectionLabels() {
 
 function cfgPopulateScreenList() {
   const c = fullConfig;
-  const screens = c.screens || [{ displayIndex: c.kiosk?.displayIndex || 0 }];
+  const screens = c.screens || [{ displayIndex: (c.kiosk && c.kiosk.displayIndex) || 0 }];
 
   // Sélecteur écran principal (screens[0])
   const mainSel = document.getElementById('cfgMainDisplay');
@@ -4344,7 +4364,7 @@ function cfgPopulateScreenList() {
       const opt = document.createElement('option');
       opt.value = i;
       opt.textContent = `${t('cfg.screens.screen') || 'Écran'} ${i + 1}`;
-      if (i === (screens[0]?.displayIndex || 0)) opt.selected = true;
+      if (i === ((screens[0] && screens[0].displayIndex) || 0)) opt.selected = true;
       mainSel.appendChild(opt);
     }
   }
@@ -4470,7 +4490,7 @@ function cfgAddScreenRow(container, scr) {
   const mapChecked = scr.showMap !== false;
   const planningChecked = scr.showPlanning === true;
   const sidebarChecked = scr.showSidebar !== false;
-  const fleetChecked = scr.fleet !== undefined ? scr.fleet : (c.fleet?.enabled !== false);
+  const fleetChecked = scr.fleet !== undefined ? scr.fleet : ((c.fleet && c.fleet.enabled) !== false);
   const clubChecked = scr.clubDisplay !== undefined ? scr.clubDisplay : false;
 
   const mapTgl = makeToggle(t('cfg.screens.showMap') || 'Carte', mapChecked, 'cfg-screen-map');
@@ -4590,7 +4610,7 @@ function cfgCollectScreens() {
 
 // ── SYSTÈME : MOT DE PASSE ADMIN ──
 function cfgPopulatePasswordStatus() {
-  const hasPassword = !!fullConfig?.admin?.passwordHash;
+  const hasPassword = !!(fullConfig && fullConfig.admin && fullConfig.admin.passwordHash);
   const statusEl = document.getElementById('cfgPasswordStatus');
   statusEl.textContent = hasPassword
     ? (t('cfg.system.passwordStatusSet') || 'Un mot de passe admin est défini.')
@@ -4606,7 +4626,7 @@ function cfgPopulatePasswordStatus() {
 async function cfgSavePassword() {
   const errEl = document.getElementById('cfgPasswordError');
   errEl.style.display = 'none';
-  const hasPassword = !!fullConfig?.admin?.passwordHash;
+  const hasPassword = !!(fullConfig && fullConfig.admin && fullConfig.admin.passwordHash);
   const oldPw = document.getElementById('cfgOldPassword').value;
   const newPw = document.getElementById('cfgNewPassword').value;
   const confirmPw = document.getElementById('cfgConfirmPassword').value;
@@ -4640,7 +4660,7 @@ async function cfgRemovePassword() {
   const errEl = document.getElementById('cfgPasswordError');
   errEl.style.display = 'none';
   const oldPw = document.getElementById('cfgOldPassword').value;
-  if (fullConfig?.admin?.passwordHash) {
+  if (fullConfig && fullConfig.admin && fullConfig.admin.passwordHash) {
     const ok = await verifyHashClient(oldPw, fullConfig.admin.passwordHash);
     if (!ok) {
       errEl.textContent = t('cfg.system.passwordOldIncorrect') || 'Mot de passe actuel incorrect.';
@@ -4776,7 +4796,8 @@ function collectConfigValues() {
   c.fleet.enabled = c.fleet.showOverlay || c.fleet.showStatusBar;
 
   // Apparence
-  const themeMode = document.querySelector('input[name="cfgThemeMode"]:checked')?.value || 'auto';
+  var _themeModeEl = document.querySelector('input[name="cfgThemeMode"]:checked');
+  const themeMode = (_themeModeEl ? _themeModeEl.value : '') || 'auto';
   if (themeMode === 'auto') {
     c.themeName = 'auto';
     if (!c.themeAuto) c.themeAuto = {};
@@ -4804,9 +4825,9 @@ function collectConfigValues() {
   // Dériver clubDisplay.enabled depuis les écrans (pour le serveur)
   c.clubDisplay.enabled = c.screens.some(function(s) { return s.clubDisplay === true; });
   if (!c.kiosk) c.kiosk = {};
-  c.kiosk.displayIndex = c.screens[0]?.displayIndex || 0;
+  c.kiosk.displayIndex = (c.screens[0] && c.screens[0].displayIndex) || 0;
   const s0 = c.screens[0];
-  c.layout = (s0?.showMap && s0?.showSidebar === false) ? 'mapOnly' : 'full';
+  c.layout = ((s0 && s0.showMap) && (s0 && s0.showSidebar === false)) ? 'mapOnly' : 'full';
 
   // Thème écran salle + connecteur GearUp
   if (!c.rooms) c.rooms = {};
@@ -4818,10 +4839,14 @@ function collectConfigValues() {
   c.gearup.apiKey = document.getElementById('cfgGearupApiKey').value.trim();
   c.gearup.pollIntervalMs = parseInt(document.getElementById('cfgGearupPollSec').value) * 1000 || 300000;
   c.rooms.defaultBriefingMinutes = parseInt(document.getElementById('cfgRoomsBriefMin').value) || 30;
-  c.rooms.defaultDebriefingMinutes = parseInt(document.getElementById('cfgRoomsDebriefMin').value) ?? 15;
+  var _debriefVal = parseInt(document.getElementById('cfgRoomsDebriefMin').value);
+  c.rooms.defaultDebriefingMinutes = (_debriefVal != null ? _debriefVal : 15);
 
   // Langue
   c.language = document.getElementById('cfgLanguage').value || 'fr';
+
+  // Mode kiosque Android
+  c.kioskMode = document.getElementById('cfgKioskMode').checked;
 
   // God mode
   if (godModeActive) collectGodModeValues();
@@ -4919,7 +4944,7 @@ async function cfgSelectAirport(icao) {
 // ── RUNWAYS ──
 function cfgRenderRunways() {
   const container = document.getElementById('cfgRunwayList');
-  const rwys = fullConfig?.runways || [];
+  const rwys = (fullConfig && fullConfig.runways) || [];
   if (rwys.length === 0) {
     container.innerHTML = '<div class="cfg-hint">' + t('cfg.runways.noRunway') + '</div>';
     return;
@@ -4945,7 +4970,7 @@ function cfgAddRunway() {
 }
 
 function cfgDeleteRunway(index) {
-  if (fullConfig?.runways) {
+  if (fullConfig && fullConfig.runways) {
     fullConfig.runways.splice(index, 1);
     cfgRenderRunways();
   }
@@ -5017,7 +5042,7 @@ function cfgToggleBasemapAuto() {
 // ── MAP LAYERS ──
 function cfgRenderMapLayers() {
   const container = document.getElementById('cfgMapLayers');
-  const layers = fullConfig?.maps?.layers || [];
+  const layers = (fullConfig && fullConfig.maps && fullConfig.maps.layers) || [];
   container.innerHTML = layers.map((l, i) =>
     '<div class="cfg-toggle-row">'
     + '<span class="cfg-toggle-label">' + escapeHtml(l.label || l.id) + (l.dayOnly ? ' ☀' : '') + '</span>'
@@ -5078,7 +5103,7 @@ function cfgApplyActivityProfile(profileId) {
   // Layers
   document.querySelectorAll('#cfgMapLayers input[data-layer-idx]').forEach(cb => {
     const idx = parseInt(cb.dataset.layerIdx);
-    const layer = fullConfig?.maps?.layers?.[idx];
+    const layer = (fullConfig && fullConfig.maps && fullConfig.maps.layers && fullConfig.maps.layers[idx]);
     if (layer && profile.layers[layer.id] !== undefined) cb.checked = profile.layers[layer.id];
   });
 }
@@ -5086,7 +5111,7 @@ function cfgApplyActivityProfile(profileId) {
 // ── SECTION TOGGLES ──
 function cfgRenderSectionToggles() {
   const container = document.getElementById('cfgSectionToggles');
-  const sections = fullConfig?.sections || {};
+  const sections = (fullConfig && fullConfig.sections) || {};
   const labels = {
     sunTimes: t('cfg.sections.sunTimes'),
     conditions: t('cfg.sections.conditions'),
@@ -5125,10 +5150,10 @@ function cfgRenderSectionToggles() {
 const THEME_NAMES = { cockpit: 'Cockpit', ocean: 'Ocean', aeroclub: 'Aéroclub', daylight: 'Daylight' };
 
 function cfgRenderThemeGrids() {
-  const themes = fullConfig?.themes || {};
-  const dayTheme = fullConfig?.themeAuto?.day || 'cockpit';
-  const nightTheme = fullConfig?.themeAuto?.night || 'cockpit';
-  const fixedTheme = fullConfig?.themeName !== 'auto' ? fullConfig?.themeName : 'cockpit';
+  const themes = (fullConfig && fullConfig.themes) || {};
+  const dayTheme = (fullConfig && fullConfig.themeAuto && fullConfig.themeAuto.day) || 'cockpit';
+  const nightTheme = (fullConfig && fullConfig.themeAuto && fullConfig.themeAuto.night) || 'cockpit';
+  const fixedTheme = (fullConfig && fullConfig.themeName) !== 'auto' ? (fullConfig && fullConfig.themeName) : 'cockpit';
 
   cfgBuildThemeGrid('cfgThemeDayGrid', themes, dayTheme);
   cfgBuildThemeGrid('cfgThemeNightGrid', themes, nightTheme);
@@ -5159,7 +5184,8 @@ function cfgBuildThemeGrid(containerId, themes, selectedTheme) {
 }
 
 function cfgToggleThemeMode() {
-  const mode = document.querySelector('input[name="cfgThemeMode"]:checked')?.value;
+  var _themeCheckEl = document.querySelector('input[name="cfgThemeMode"]:checked');
+  const mode = _themeCheckEl ? _themeCheckEl.value : undefined;
   document.getElementById('cfgThemeAutoConfig').style.display = mode === 'auto' ? '' : 'none';
   document.getElementById('cfgThemeFixedConfig').style.display = mode === 'fixed' ? '' : 'none';
 }
